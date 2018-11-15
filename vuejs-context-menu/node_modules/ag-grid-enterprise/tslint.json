@@ -1,0 +1,12 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+  ],
+  "jsRules": {},
+  "rules": {
+    "incorrect-ag-community-import": true
+  },
+  "rulesDirectory": [
+    "./ts-lint-rules/dist"
+  ]
+}
