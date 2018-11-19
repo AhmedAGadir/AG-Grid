@@ -2,7 +2,7 @@ var columnDefs = [
     // group cell renderer needed for expand / collapse icons
     {
         field: 'rowNumber',
-        // cellRenderer: 'agGroupCellRenderer',
+        cellRenderer: 'agGroupCellRenderer',
         rowSpan: (({
             node
         }) => {
@@ -48,6 +48,7 @@ var columnDefs = [
 
 var gridOptions = {
     suppressRowTransform: true, // For row spanning to work
+    columnDefs: columnDefs,
     masterDetail: true,
     detailCellRendererParams: {
         detailGridOptions: {
@@ -68,18 +69,23 @@ var gridOptions = {
                     field: 'switchCode'
                 }
             ],
-            getDetailRowData: function (params) {
-                params.successCallback(params.data.callRecords);
-            },
+            onFirstDataRendered(params) {
+                params.api.sizeColumnsToFit();
+            }
+        },
+        getDetailRowData: function (params) {
+            params.successCallback(params.data.callRecords);
         }
     },
-    columnDefs: columnDefs,
+    onFirstDataRendered(params) {
+        params.api.sizeColumnsToFit();
+    }
+}
 
-};
 
 function toggle(params) {
-    console.log(params.node.expanded);
-    params.node.expanded = !params.node.expanded
+    let fifthRow = params.api.getRowNode('4')
+    fifthRow.setExpanded(!fifthRow.expanded)
 }
 
 document.addEventListener('DOMContentLoaded', function () {
