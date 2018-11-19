@@ -1,12 +1,15 @@
 var columnDefs = [{
         field: 'name',
-        rowSpan: params => params.node.rowIndex === 0 ? 5 : null,
+        rowSpan: params => {
+            console.log(params.node.rowIndex % 5)
+            return params.node.rowIndex % 5 === 0 ? 5 : null
+        },
         cellClassRules: {
-            "cell-span-red": params => params.node.rowIndex < 5,
-            "center-button": params => params.node.rowIndex < 5
+            "cell-span-red": "true",
+            "center-button": "true"
         },
         cellRenderer: params => {
-            if (params.node.rowIndex == 0) {
+            if (params.node.rowIndex % 5 == 0) {
                 let button = document.createElement('button')
                 button.textContent = 'Toggle Master/Detail'
                 button.addEventListener('click', () => toggle(params));
@@ -17,12 +20,12 @@ var columnDefs = [{
     },
     {
         field: 'account',
-        colSpan: params => params.node.rowIndex < 5 ? 2 : 1,
-        rowSpan: params => params.node.rowIndex === 0 ? 5 : null,
+        colSpan: params => 2,
+        rowSpan: params => params.node.rowIndex % 5 === 0 ? 5 : null,
         cellClassRules: {
-            "cell-span-blue": params => params.node.rowIndex < 5
+            "cell-span-blue": "true"
         },
-        valueFormatter: params => params.node.rowIndex < 5 ? '' : null,
+        valueFormatter: () => '',
     },
     {
         field: 'calls'
@@ -71,7 +74,9 @@ var gridOptions = {
 
 
 function toggle(params) {
-    let fifthRow = params.api.getRowNode('4')
+    // must specifify which row you would like to open the detail for
+    let nodeId = params.node.rowIndex + 4
+    let fifthRow = params.api.getRowNode(nodeId)
     fifthRow.setExpanded(!fifthRow.expanded)
 }
 
