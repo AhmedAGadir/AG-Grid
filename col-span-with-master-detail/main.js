@@ -1,22 +1,28 @@
-var columnDefs = [{
-        headerName: "a",
-        field: "a",
-        rowSpan: ({
+var columnDefs = [
+    // group cell renderer needed for expand / collapse icons
+    {
+        field: 'rowNumber',
+        // cellRenderer: 'agGroupCellRenderer',
+        rowSpan: (({
             node
         }) => {
             let rowIndex = node.rowIndex;
             return rowIndex == 0 ? 5 : false;
-        },
+        }),
         cellClassRules: {
             "cell-span-red": "true",
             "center-button": "true"
         },
-        cellRenderer: () => '<button onclick="toggle(event)">Toggle Master/Detail</button>'
+        cellRenderer: params => {
+            let button = document.createElement('button')
+            button.textContent = 'Toggle Master/Detail'
+            button.addEventListener('click', () => toggle(params));
+            return button
+        }
     },
     {
-        headerName: "b",
-        field: "b",
-        colSpan: () => 3,
+        field: 'name',
+        colSpan: () => 2,
         rowSpan: ({
             node
         }) => {
@@ -29,98 +35,71 @@ var columnDefs = [{
         valueFormatter: () => '',
     },
     {
-        headerName: "c",
-        field: "c"
+        field: 'account'
     },
     {
-        headerName: "d",
-        field: "d"
+        field: 'calls'
     },
     {
-        headerName: "e",
-        field: "e"
-    },
-    {
-        headerName: "f",
-        field: "f"
-    },
-    {
-        headerName: "g",
-        field: "g"
-    },
-    {
-        headerName: "h",
-        field: "h"
-    }
-];
-
-var rowData = [{
-        a: "1",
-        b: "2",
-        c: "3",
-        d: "4",
-        e: "5",
-        f: "6",
-        g: "7",
-        h: "8"
-    },
-    {
-        a: "1",
-        b: "2",
-        c: "3",
-        d: "4",
-        e: "5",
-        f: "6",
-        g: "7",
-        h: "8"
-    },
-    {
-        a: "1",
-        b: "2",
-        c: "3",
-        d: "4",
-        e: "5",
-        f: "6",
-        g: "7",
-        h: "8"
-    },
-    {
-        a: "1",
-        b: "2",
-        c: "3",
-        d: "4",
-        e: "5",
-        f: "6",
-        g: "7",
-        h: "8"
-    },
-    {
-        a: "1",
-        b: "2",
-        c: "3",
-        d: "4",
-        e: "5",
-        f: "6",
-        g: "7",
-        h: "8"
+        field: 'minutes',
+        valueFormatter: "x.toLocaleString() + 'm'"
     }
 ];
 
 var gridOptions = {
     suppressRowTransform: true, // For row spanning to work
+    masterDetail: true,
+    detailCellRendererParams: {
+        detailGridOptions: {
+            columnDefs: [{
+                    field: 'callId'
+                },
+                {
+                    field: 'direction'
+                },
+                {
+                    field: 'number'
+                },
+                {
+                    field: 'duration',
+                    valueFormatter: "x.toLocaleString() + 's'"
+                },
+                {
+                    field: 'switchCode'
+                }
+            ],
+            getDetailRowData: function (params) {
+                params.successCallback(params.data.callRecords);
+            },
+        }
+    },
     columnDefs: columnDefs,
-    rowData: rowData,
-    onFirstDataRendered: () => {
-        gridOptions.api.sizeColumnsToFit();
-    }
+
 };
 
-function toggle(e) {
-    console.log(123)
+function toggle(params) {
+    console.log(params.node.expanded);
+    params.node.expanded = !params.node.expanded
 }
 
-var eGridDiv = document.querySelector("#myGrid");
+document.addEventListener('DOMContentLoaded', function () {
+    var gridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(gridDiv, gridOptions);
 
-document.addEventListener("DOMContentLoaded", () => {
-    new agGrid.Grid(eGridDiv, gridOptions);
+    // do http request to get our sample data - not using any framework to keep the example self contained.
+    // you will probably use a framework like JQuery, Angular or something else to do your HTTP calls.
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('GET', 'https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json');
+    httpRequest.send();
+    httpRequest.onreadystatechange = function () {
+        if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+            var httpResult = JSON.parse(httpRequest.responseText);
+            var count = 0;
+            httpResult.map((obj) => {
+                obj.rowNumber = count++;
+                return obj;
+            });
+            gridOptions.api.setRowData(httpResult);
+        }
+    };
 });
