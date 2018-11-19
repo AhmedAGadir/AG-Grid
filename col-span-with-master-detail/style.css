@@ -1,0 +1,14 @@
+/* Styles go here */
+
+.cell-span-red {
+    background: lightcoral;
+}
+
+.cell-span-blue {
+    background: lightskyblue;
+}
+
+.center-button {
+    display: flex;
+    align-items: center;
+}
