@@ -1,41 +1,28 @@
-var columnDefs = [
-    // group cell renderer needed for expand / collapse icons
-    {
-        field: 'rowNumber',
-        cellRenderer: 'agGroupCellRenderer',
-        rowSpan: (({
-            node
-        }) => {
-            let rowIndex = node.rowIndex;
-            return rowIndex == 0 ? 5 : false;
-        }),
+var columnDefs = [{
+        field: 'name',
+        rowSpan: params => params.node.rowIndex === 0 ? 5 : null,
         cellClassRules: {
-            "cell-span-red": "true",
-            "center-button": "true"
+            "cell-span-red": params => params.node.rowIndex < 5,
+            "center-button": params => params.node.rowIndex < 5
         },
         cellRenderer: params => {
-            let button = document.createElement('button')
-            button.textContent = 'Toggle Master/Detail'
-            button.addEventListener('click', () => toggle(params));
-            return button
+            if (params.node.rowIndex == 0) {
+                let button = document.createElement('button')
+                button.textContent = 'Toggle Master/Detail'
+                button.addEventListener('click', () => toggle(params));
+                return button
+            }
+            return params.value
         }
     },
     {
-        field: 'name',
-        colSpan: () => 2,
-        rowSpan: ({
-            node
-        }) => {
-            let rowIndex = node.rowIndex;
-            return rowIndex == 0 ? 5 : false;
-        },
+        field: 'account',
+        colSpan: params => params.node.rowIndex < 5 ? 2 : 1,
+        rowSpan: params => params.node.rowIndex === 0 ? 5 : null,
         cellClassRules: {
-            "cell-span-blue": "true"
+            "cell-span-blue": params => params.node.rowIndex < 5
         },
-        valueFormatter: () => '',
-    },
-    {
-        field: 'account'
+        valueFormatter: params => params.node.rowIndex < 5 ? '' : null,
     },
     {
         field: 'calls'
@@ -100,12 +87,12 @@ document.addEventListener('DOMContentLoaded', function () {
     httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === 4 && httpRequest.status === 200) {
             var httpResult = JSON.parse(httpRequest.responseText);
-            var count = 0;
-            httpResult.map((obj) => {
-                obj.rowNumber = count++;
-                return obj;
-            });
-            gridOptions.api.setRowData(httpResult);
+            let arr = [];
+            for (let i = 0; i < 5; i++) {
+                arr = arr.concat(httpResult.slice(0))
+            }
+            console.log(arr)
+            gridOptions.api.setRowData(arr);
         }
     };
 });
