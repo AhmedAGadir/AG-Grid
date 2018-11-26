@@ -1,45 +1,51 @@
 var columnDefs = [{
+        field: 'isVisible',
+        hide: true
+    },
+    {
         field: 'name',
-        rowSpan: params => {
-            console.log(params.node.rowIndex % 5)
-            return params.node.rowIndex % 5 === 0 ? 5 : null
-        },
         cellClassRules: {
-            "cell-span-red": "true",
+            "cell-span-darkgrey": "true",
             "center-button": "true"
         },
         cellRenderer: params => {
-            if (params.node.rowIndex % 5 == 0) {
-                let button = document.createElement('button')
-                button.textContent = 'Toggle Master/Detail'
-                button.addEventListener('click', () => toggle(params));
-                return button
-            }
-            return params.value
+            let button = document.createElement('button')
+            button.textContent = 'Toggle Master/Detail'
+            button.addEventListener('click', () => {
+                params.node.setExpanded(!params.node.expanded)
+            });
+            return button
         }
     },
     {
-        field: 'account',
-        colSpan: params => 2,
-        rowSpan: params => params.node.rowIndex % 5 === 0 ? 5 : null,
+        headerName: '',
+        colSpan: () => 2,
         cellClassRules: {
-            "cell-span-blue": "true"
+            "cell-span-grey": "true"
         },
-        valueFormatter: () => '',
     },
     {
-        field: 'calls'
+        headerName: '',
     },
     {
         field: 'minutes',
-        valueFormatter: "x.toLocaleString() + 'm'"
+        cellRenderer: params => getFiveRows(params)
     }
 ];
 
 var gridOptions = {
-    suppressRowTransform: true, // For row spanning to work
+    suppressRowTransform: true,
     columnDefs: columnDefs,
+    enableFilter: true,
     masterDetail: true,
+    getRowHeight: params => {
+        var isDetailRow = params.node.detail;
+        if (isDetailRow) {
+            // console.log(params.data.children.length)
+            return 500
+        }
+        return 5 * 26
+    },
     detailCellRendererParams: {
         detailGridOptions: {
             columnDefs: [{
@@ -67,25 +73,21 @@ var gridOptions = {
             params.successCallback(params.data.callRecords);
         }
     },
-    onFirstDataRendered(params) {
+    onFirstDataRendered: params => {
         params.api.sizeColumnsToFit();
+        params.api.setFilterModel({
+            isVisible: {
+                values: ["true"],
+                filterType: "set"
+            }
+        })
     }
 }
 
 
-function toggle(params) {
-    // must specifify which row you would like to open the detail for
-    let nodeId = params.node.rowIndex + 4
-    let fifthRow = params.api.getRowNode(nodeId)
-    fifthRow.setExpanded(!fifthRow.expanded)
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
-
-    // do http request to get our sample data - not using any framework to keep the example self contained.
-    // you will probably use a framework like JQuery, Angular or something else to do your HTTP calls.
     var httpRequest = new XMLHttpRequest();
     httpRequest.open('GET', 'https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json');
     httpRequest.send();
@@ -96,8 +98,44 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let i = 0; i < 5; i++) {
                 arr = arr.concat(httpResult.slice(0))
             }
-            console.log(arr)
+            arr.forEach((obj, ind) => {
+                obj.isVisible = ind % 5 === 0
+            })
             gridOptions.api.setRowData(arr);
         }
     };
 });
+
+
+function getFiveRows(params) {
+    let div = document.createElement('div');
+    div.style.height = '100%';
+
+    let secondGridOptions = {
+        columnDefs: [{
+            field: 'minutes'
+        }],
+        getRowHeight: () => 25,
+        onFirstDataRendered: params => {
+            params.api.setHeaderHeight(0)
+            params.api.sizeColumnsToFit();
+        }
+    }
+
+    let data = [];
+    let index = params.node.rowIndex;
+    let x = 0;
+    while (x < 5) {
+        data = data.concat([{
+            minutes: 23
+        }])
+        // console.log(index)
+        index++
+        x++
+    }
+
+
+    new agGrid.Grid(div, secondGridOptions);
+    setTimeout(() => secondGridOptions.api.setRowData(data), 1000);
+    return div
+}

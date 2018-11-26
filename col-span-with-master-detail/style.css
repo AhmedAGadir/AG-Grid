@@ -1,11 +1,11 @@
 /* Styles go here */
 
-.cell-span-red {
-    background: lightcoral;
+.cell-span-darkgrey {
+    background: #bbb;
 }
 
-.cell-span-blue {
-    background: lightskyblue;
+.cell-span-grey {
+    background: #ccc;
 }
 
 .center-button {
