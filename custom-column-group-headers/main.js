@@ -157,7 +157,7 @@ var gridOptionsBottom = {
     groupDefaultExpanded: -1, // expand all groups by default
     enableColResize: true,
     groupSuppressAutoColumn: true,
-    onFirstDataRendered: resizeBottomColGroups,
+    // onFirstDataRendered: resizeBottomColGroups,
     onBodyScroll: scrollTopGrid,
     onColumnResized: ({ columns, finished }) => {
         if (finished) {
@@ -176,25 +176,6 @@ document.addEventListener('DOMContentLoaded', function () {
     new agGrid.Grid(gridDivBottom, gridOptionsBottom);
 });
 
-
-function resizeBottomColGroups() {
-    // // ************** FIX THIS **************
-    // let allDisplayedColumnGroupsTop = gridOptionsTop.columnApi.getAllDisplayedColumnGroups();
-
-    // allDisplayedColumnGroupsTop.forEach(colGroup => {
-
-    // })
-
-    // let topGroupOneChildren = allDisplayedColumnGroupsTop[1].displayedChildren;
-    // let topGroupOneChildTotalWidth = topGroupOneChildren.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
-
-    // let allDisplayedColumnGroupsBottom = gridOptionsBottom.columnApi.getAllDisplayedColumnGroups();
-    // let bottomGroupOneChildren = allDisplayedColumnGroupsBottom[1].displayedChildren;
-    // let newWidth = topGroupOneChildTotalWidth / bottomGroupOneChildren.length;
-    // bottomGroupOneChildren.forEach(col => {
-    //     gridOptionsBottom.columnApi.setColumnWidth(col, newWidth)
-    // })
-}
 
 function scrollBottomGrid() {
     let topHScrollPos = gridOptionsTop.api.gridPanel.getHScrollPosition();
@@ -240,3 +221,22 @@ function resizeTopGrid(columns) {
         gridOptionsTop.columnApi.setColumnWidth(col, col.actualWidth + difference / topColGroup.children.length, false)
     })
 }
+
+// function resizeBottomColGroups() {
+// // ************** is this even needed? **************
+// let allDisplayedColumnGroupsTop = gridOptionsTop.columnApi.getAllDisplayedColumnGroups();
+
+// allDisplayedColumnGroupsTop.forEach(colGroup => {
+
+// })
+
+// let topGroupOneChildren = allDisplayedColumnGroupsTop[1].displayedChildren;
+// let topGroupOneChildTotalWidth = topGroupOneChildren.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+
+// let allDisplayedColumnGroupsBottom = gridOptionsBottom.columnApi.getAllDisplayedColumnGroups();
+// let bottomGroupOneChildren = allDisplayedColumnGroupsBottom[1].displayedChildren;
+// let newWidth = topGroupOneChildTotalWidth / bottomGroupOneChildren.length;
+// bottomGroupOneChildren.forEach(col => {
+//     gridOptionsBottom.columnApi.setColumnWidth(col, newWidth)
+// })
+// }
