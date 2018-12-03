@@ -79,13 +79,27 @@ var columnDefsTop = [
     },
     {
         headerName: 'Group1',
-        // headerGroupComponent: 'customHeaderGroupComponent',
         children: [
-            { field: 'jobTitle' },
-            { field: 'employmentType' },
-            { field: 'employmentType' },
+            { field: 'jobTitle', width: 200 },
+            { field: 'employmentType', width: 400 },
         ],
     },
+    {
+        headerName: 'Group2',
+        children: [
+            { field: 'jobTitle', width: 200 },
+            { field: 'employmentType', width: 200 },
+        ],
+    },
+    {
+        headerName: 'Group3',
+        children: [
+            { field: 'jobTitle', width: 200 },
+            { field: 'employmentType', width: 200 },
+            { field: 'employmentType', width: 200 },
+        ],
+    },
+
 ];
 
 var columnDefsBottom = [
@@ -98,8 +112,25 @@ var columnDefsBottom = [
     },
     {
         headerName: 'Group1',
-        // headerGroupComponent: 'customHeaderGroupComponent',
-        children: [{ field: 'jobTitle' }, { field: 'employmentType' }],
+        children: [
+            { field: 'jobTitle', width: 200 },
+            { field: 'employmentType', width: 200 },
+            { field: 'employmentType', width: 200 },
+        ],
+    },
+    {
+        headerName: 'Group2',
+        children: [
+            { field: 'jobTitle', width: 200 },
+            { field: 'employmentType', width: 200 },
+        ],
+    },
+    {
+        headerName: 'Group1',
+        children: [
+            { field: 'jobTitle', width: 200 },
+            { field: 'employmentType', width: 400 },
+        ],
     },
 ];
 
@@ -107,12 +138,14 @@ var columnDefsBottom = [
 var gridOptionsTop = {
     columnDefs: columnDefsTop,
     rowData: normalRowData,
-    // components: {
-    //     customHeaderGroupComponent: CustomHeaderGroup
-    // },
     enableColResize: true,
     groupSuppressAutoColumn: true,
-    alignedGrids: [],
+    onBodyScroll: scrollBottomGrid,
+    onColumnResized: ({ columns, finished }) => {
+        if (finished) {
+            resizeBottomGrid(columns)
+        }
+    }
 };
 
 // this is the grid options for the bottom grid
@@ -122,17 +155,12 @@ var gridOptionsBottom = {
     treeData: true,
     getDataPath: data => data.orgHierarchy,
     groupDefaultExpanded: -1, // expand all groups by default
-    // components: {
-    //     customHeaderGroupComponent: CustomHeaderGroup
-    // },
     enableColResize: true,
     groupSuppressAutoColumn: true,
-    alignedGrids: [],
-    onFirstDataRendered: params => resizeBottomColGroups(params)
+    onFirstDataRendered: resizeBottomColGroups,
+    onBodyScroll: scrollTopGrid,
 };
 
-gridOptionsTop.alignedGrids.push(gridOptionsBottom);
-gridOptionsBottom.alignedGrids.push(gridOptionsTop);
 
 // setup the grid after the page has finished loading
 document.addEventListener('DOMContentLoaded', function () {
@@ -144,16 +172,69 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function resizeBottomColGroups(params) {
+function resizeBottomColGroups() {
     let allDisplayedColumnGroupsTop = gridOptionsTop.columnApi.getAllDisplayedColumnGroups();
+
+    allDisplayedColumnGroupsTop.forEach(colGroup => {
+
+    })
+
     let topGroupOneChildren = allDisplayedColumnGroupsTop[1].displayedChildren;
     let topGroupOneChildTotalWidth = topGroupOneChildren.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
-    console.log(topGroupOneChildTotalWidth)
 
     let allDisplayedColumnGroupsBottom = gridOptionsBottom.columnApi.getAllDisplayedColumnGroups();
     let bottomGroupOneChildren = allDisplayedColumnGroupsBottom[1].displayedChildren;
     let newWidth = topGroupOneChildTotalWidth / bottomGroupOneChildren.length;
-    console.log(newWidth)
+    bottomGroupOneChildren.forEach(col => {
+        gridOptionsBottom.columnApi.setColumnWidth(col, newWidth)
+    })
+}
+
+function scrollBottomGrid() {
+    let topHScrollPos = gridOptionsTop.api.gridPanel.getHScrollPosition();
+    gridOptionsBottom.api.gridPanel.setHorizontalScrollPosition(topHScrollPos.left)
+}
+
+function scrollTopGrid() {
+    let bottomHScrollPos = gridOptionsBottom.api.gridPanel.getHScrollPosition();
+    gridOptionsTop.api.gridPanel.setHorizontalScrollPosition(bottomHScrollPos.left)
+}
+
+function resizeBottomGrid(columns) {
+    if (columns.length > 1) {
+        // a column header was resized
+
+        let topColGroupWidth = columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+        let topColGroupId = columns[0].parent.groupId;
+
+        let bottomColGroup = gridOptionsBottom.columnApi.getColumnGroup(topColGroupId);
+        let bottomColGroupWidth = bottomColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+
+        let difference = topColGroupWidth - bottomColGroupWidth;
+
+
+
+    } else {
+        // a single column was resized
+    }
+
+
+    let topGroupOneChildTotalWidth = columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+
+    let allDisplayedColumnGroupsBottom = gridOptionsBottom.columnApi.getAllDisplayedColumnGroups();
+    let bottomGroupOneChildren = allDisplayedColumnGroupsBottom[1].displayedChildren;
+    let newWidth = topGroupOneChildTotalWidth / bottomGroupOneChildren.length;
+    bottomGroupOneChildren.forEach(col => {
+        gridOptionsBottom.columnApi.setColumnWidth(col, newWidth)
+    })
+}
+
+function resizeTopGrid(columns) {
+    let bottomGroupOneChildTotalWidth = columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+
+    let allDisplayedColumnGroupsBottom = gridOptionsBottom.columnApi.getAllDisplayedColumnGroups();
+    let bottomGroupOneChildren = allDisplayedColumnGroupsBottom[1].displayedChildren;
+    let newWidth = topGroupOneChildTotalWidth / bottomGroupOneChildren.length;
     bottomGroupOneChildren.forEach(col => {
         gridOptionsBottom.columnApi.setColumnWidth(col, newWidth)
     })
