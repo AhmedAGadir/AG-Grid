@@ -31,8 +31,6 @@ const debounce = (func, delay) => {
     }
 }
 
-document.querySelector('button').addEventListener('click', debounce(() => upsertNRows(100), 1450));
-
 function upsertNRows(n) {
     // fetch n random rows
     fetchNRandRows(n)
@@ -98,10 +96,10 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('./data.json')
         .then(res => res.json())
         .then(function (data) {
-            gridOptions.api.setRowData(data.slice(0, 500)); //initially load the first 500 rows
+            gridOptions.api.setRowData(data.slice(0, 500)); // initially load the first 500 rows
         });
 
-    setInterval(() => document.querySelector('button').click(), 1500)
+    setInterval(() => debounce(upsertNRows(100), 1450), 1500)
 });
 
 
