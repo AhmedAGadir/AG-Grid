@@ -7,23 +7,50 @@ var columnDefs = [
     { headerName: 'Gold', field: 'gold' },
     { headerName: 'Silver', field: 'silver' },
     { headerName: 'Bronze', field: 'bronze' },
+    { headerName: 'Total', field: 'total' }
 ];
 
 var gridOptions = {
     columnDefs: columnDefs,
     defaultColDef: {
-        cellRenderer: 'agAnimateShowChangeCellRenderer',
         width: 150,
+        cellRenderer: 'agAnimateShowChangeCellRenderer',
+        enableCellChangeFlash: true
     },
     rowData: [],
     getRowNodeId: data => data.id
 };
 
-document.querySelector('button').addEventListener('click', () => upsertNRows(60))
+document.querySelector('button').addEventListener('click', myDebouncedFn)
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        var later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+var myDebouncedFn = debounce(function () {
+    console.log('hi')
+    upsertNRows(60);
+}, 250);
+
 
 function upsertNRows(n) {
     // fetch n random rows
-    let rows = fetchNRows(n)
+    let rows = fetchNRandRows(n)
 
     rows
         .then(rows => {
@@ -46,23 +73,23 @@ function upsertNRows(n) {
                 } else {
                     transactionObj.add.push(row)
                 }
-            })
+            });
+
             gridOptions.api.updateRowData(transactionObj)
         })
         .catch(err => console.log(err))
 
 }
 
-function fetchNRows(n) {
+function fetchNRandRows(n) {
     return new Promise((resolve, reject) => {
         fetch('./data.json')
             .then(res => res.json())
-            .then(data => data.slice(0, 2000)) // only using the first 2000 rows
             .then(data => {
                 let rows = [];
                 let x = 0;
                 while (x < n) {
-                    let randInd = Math.floor(Math.random() * data.length);
+                    let randInd = Math.floor(Math.random() * data.length); // random index between 0 and 2000
                     rows.push(data[randInd])
                     x++
                 }
@@ -95,9 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
+// function uuidv4() {
+//     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+//         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+//         return v.toString(16);
+//     });
+// }
