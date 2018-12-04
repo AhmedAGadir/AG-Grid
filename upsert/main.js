@@ -21,61 +21,43 @@ var gridOptions = {
     getRowNodeId: data => data.id
 };
 
-document.querySelector('button').addEventListener('click', myDebouncedFn)
-
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-function debounce(func, wait, immediate) {
-    var timeout;
+const debounce = (func, delay) => {
+    let inDebounce
     return function () {
-        var context = this, args = arguments;
-        var later = function () {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
-};
+        const context = this
+        const args = arguments
+        clearTimeout(inDebounce)
+        inDebounce = setTimeout(() => func.apply(context, args), delay)
+    }
+}
 
-var myDebouncedFn = debounce(function () {
-    console.log('hi')
-    upsertNRows(60);
-}, 250);
-
+document.querySelector('button').addEventListener('click', debounce(() => upsertNRows(100), 1450));
 
 function upsertNRows(n) {
     // fetch n random rows
-    let rows = fetchNRandRows(n)
-
-    rows
+    fetchNRandRows(n)
         .then(rows => {
             // get an array of all current id's in the grid
             let idArr = [];
             gridOptions.api.forEachNode(node => idArr.push(node.id))
 
-            // randomly update 50% of the rows 
-            rows = rows.map(row => (Math.random() < 0.5 ? updateRow(row) : row));
-
-            // update the grid
             let transactionObj = {
                 add: [],
                 update: []
             };
 
+            // update the rows that are already in the grid
             rows.forEach(row => {
                 if (idArr.includes(row.id)) {
-                    transactionObj.update.push(row)
+                    let updatedRow = updateRow(row)
+                    transactionObj.update.push(updatedRow)
                 } else {
                     transactionObj.add.push(row)
                 }
             });
 
-            gridOptions.api.updateRowData(transactionObj)
+            console.log('transcation object add length', transactionObj.add.length, ', transaction object update length', transactionObj.update.length)
+            gridOptions.api.updateRowData(transactionObj);
         })
         .catch(err => console.log(err))
 
@@ -109,7 +91,6 @@ function updateRow(row) {
     return updatedRow
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
@@ -117,8 +98,10 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('./data.json')
         .then(res => res.json())
         .then(function (data) {
-            gridOptions.api.setRowData(data.slice(0, 1000)); //initially load the first 1000 rows
+            gridOptions.api.setRowData(data.slice(0, 500)); //initially load the first 500 rows
         });
+
+    setInterval(() => document.querySelector('button').click(), 1500)
 });
 
 
