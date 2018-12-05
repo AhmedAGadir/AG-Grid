@@ -24,6 +24,8 @@ var gridOptions = {
 
 function upsertNRows(n) {
 
+    // ******************** MY CODE BEFORE ALBERTO REFACTORED IT WITH ME *************************
+
     // // get an array of all current id's in the grid
     // let idArr = [];
     // gridOptions.api.forEachNode(node => idArr.push(node.id))
@@ -46,6 +48,7 @@ function upsertNRows(n) {
     // console.log('transcation object add length', transactionObj.add.length, ', transaction object update length', transactionObj.update.length)
     // gridOptions.api.updateRowData(transactionObj);
 
+    // ********************************************************************************************
 
     // fetch n random UNQIUE rows
     fetchNRandRows(n)
