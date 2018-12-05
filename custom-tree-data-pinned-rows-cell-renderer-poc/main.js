@@ -136,7 +136,7 @@ var gridOptions = {
         },
     },
     components: {
-        agGroupCellRenderer: CustomGroupCellRenderer
+        // agGroupCellRenderer: CustomGroupCellRenderer
     }
 };
 
@@ -172,12 +172,12 @@ CustomGroupCellRenderer.prototype.init = function (params) {
         this.params.value = this.params.node.data.orgHierarchy[this.params.node.data.orgHierarchy.length - 1];
     }
 
-    this.contracted = ''
-    this.expanded = ''
-    if (Object.keys(params.node.childrenMapped).length > 0) {
-        this.contracted = (this.params.node.expanded) ? '<span class="ag-icon ag-icon-contracted" style="transform: translateY(2px) rotate(-90deg)"></span>' : '';
-        this.expanded = (this.params.node.expanded) ? '' : '<span class="ag-icon ag-icon-expanded"></span>'
-    }
+    // this.contracted = ''
+    // this.expanded = ''
+    // if (Object.keys(params.node.childrenMapped).length > 0) {
+    this.contracted = (this.params.node.expanded) ? '<span class="ag-icon ag-icon-contracted" style="transform: translateY(2px) rotate(-90deg)"></span>' : '';
+    this.expanded = (this.params.node.expanded) ? '' : '<span class="ag-icon ag-icon-expanded"></span>'
+    // }
 
     this.eGui = document.createElement('div');
     this.eGui.innerHTML = '<span class="ag-row-group-indent-' + this.indentation + '">' +
