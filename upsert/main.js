@@ -23,20 +23,42 @@ var gridOptions = {
 
 
 function upsertNRows(n) {
-    // fetch n random rows
+
+    // // get an array of all current id's in the grid
+    // let idArr = [];
+    // gridOptions.api.forEachNode(node => idArr.push(node.id))
+
+    // let transactionObj = {
+    //     add: [],
+    //     update: []
+    // };
+
+    // // update the rows that are already in the grid
+    // rows.forEach(row => {
+    //     if (idArr.includes(row.id)) {
+    //         let updatedRow = updateRow(row)
+    //         transactionObj.update.push(updatedRow)
+    //     } else {
+    //         transactionObj.add.push(row)
+    //     }
+    // });
+
+    // console.log('transcation object add length', transactionObj.add.length, ', transaction object update length', transactionObj.update.length)
+    // gridOptions.api.updateRowData(transactionObj);
+
+
+    // fetch n random UNQIUE rows
     fetchNRandRows(n)
         .then(randomRowsToUpsert => {
-            // get an array of all current id's in the grid
             let transactionObj = {
                 add: [],
                 update: []
             };
 
-            let randomSeed = Math.floor(Math.random() * 3) // between 0 and 3;
-
             randomRowsToUpsert.forEach(randomRowToUpsert => {
-                let alreadyAdded = gridOptions.api.getRowNode(randomRowToUpsert.id);
+                let alreadyAdded = gridOptions.api.getRowNode(randomRowToUpsert.id); // returns null if row is not found in grid
                 if (alreadyAdded) {
+                    let randomSeed = Math.floor(Math.random() * 3);
                     transactionObj.update.push(updateRow(randomRowToUpsert, randomSeed));
                 } else {
                     transactionObj.add.push(randomRowToUpsert);
@@ -58,9 +80,9 @@ function fetchNRandRows(n) {
                 let result = [];
 
                 for (let i = 0; i < n; i++) {
-                    let randIndex = Math.floor(Math.random() * remainingCandidates.length); // random index between 0 and remainingCandidates.length
+                    let randIndex = Math.floor(Math.random() * remainingCandidates.length);
                     result.push(remainingCandidates[randIndex]);
-                    remainingCandidates.splice(randIndex, 1);
+                    remainingCandidates.splice(randIndex, 1); // this ensures the rows are unique 
                 }
 
                 resolve(result);
@@ -86,8 +108,8 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('./data.json')
         .then(res => res.json())
         .then(function (data) {
-            gridOptions.api.setRowData(data.slice(0, 500)); // initially load the first 500 rows
+            gridOptions.api.setRowData(data.slice(0, 500)); // initially load the first 500 rows 
         });
 
-    setInterval(() => upsertNRows(1000), 1000)
+    setInterval(() => upsertNRows(750), 1000) // upsert 750 rows every second
 });
