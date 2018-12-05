@@ -113,117 +113,7 @@ var rowData = [
         ],
         jobTitle: 'Sales Executive',
         employmentType: 'Permanent',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Bob Michaels',
-        ],
-        jobTitle: 'Sales Manager',
-        employmentType: 'Permanent',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'John Rogers',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Contract',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Leticia Arnold',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Contract',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Jim Tutem',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Permanent',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Mariah Saunders',
-        ],
-        jobTitle: 'Sales Manager',
-        employmentType: 'Permanent',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Clare Wong',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Contract',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Carley Boyle',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Permanent',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Morris Hanson',
-        ],
-        jobTitle: 'Sales Manager',
-        employmentType: 'Permanent',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Declan Lyons',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Contract',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Payton Dennis',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Contract',
-    },
-    {
-        orgHierarchy: [
-            'Erica Rogers',
-            'Malcolm Barrett',
-            'Francis Strickland',
-            'Donte Houston',
-        ],
-        jobTitle: 'Sales Executive',
-        employmentType: 'Permanent',
-    },
+    }
 ];
 
 var gridOptions = {
@@ -245,6 +135,9 @@ var gridOptions = {
             suppressCount: true,
         },
     },
+    components: {
+        agGroupCellRenderer: CustomGroupCellRenderer
+    }
 };
 
 function onFilterTextBoxChanged() {
@@ -265,3 +158,65 @@ document.addEventListener('DOMContentLoaded', function () {
     // gridOptions.api.setPinnedTopRowData(pinnedTopRowData);
     // gridOptions.api.setRowData(rowData);
 });
+
+function CustomGroupCellRenderer() { }
+
+CustomGroupCellRenderer.prototype.init = function (params) {
+    console.log(Object.keys(params.node.childrenMapped).length)
+    this.params = params;
+
+    this.indentation = this.params.node.uiLevel
+
+    if (params.node.isRowPinned()) {
+        this.indentation = this.params.node.data.orgHierarchy.length;
+        this.params.value = this.params.node.data.orgHierarchy[this.params.node.data.orgHierarchy.length - 1];
+    }
+
+    this.contracted = ''
+    this.expanded = ''
+    if (Object.keys(params.node.childrenMapped).length > 0) {
+        this.contracted = (this.params.node.expanded) ? '<span class="ag-icon ag-icon-contracted" style="transform: translateY(2px) rotate(-90deg)"></span>' : '';
+        this.expanded = (this.params.node.expanded) ? '' : '<span class="ag-icon ag-icon-expanded"></span>'
+    }
+
+    this.eGui = document.createElement('div');
+    this.eGui.innerHTML = '<span class="ag-row-group-indent-' + this.indentation + '">' +
+        '<span class="ag-group-expanded" ref="eExpanded">' + this.expanded + '</span>' +
+        '<span class="ag-group-contracted" ref="eContracted">' + this.contracted + '</span>' +
+        '<span class="ag-group-checkbox" ref="eCheckbox"></span>' +
+        '<span class="ag-group-value" ref="eValue">' + this.params.value + '</span>' +
+        '<span class="ag-group-child-count" ref="eChildCount"></span>' +
+        '</span>'
+
+
+
+    // this.eGui = document.createElement('span');
+    // this.eGui.textContent = params.node.isRowPinned();
+
+    // this.params = params;
+
+    // this.eGui = document.createElement('div');
+    // this.eGui.innerHTML = `
+    //   <span class="open-arrow">&#8594</span><span>${params.value}</span>
+    // `;
+
+    // this.eGroupArrow = this.eGui.querySelector('.open-arrow');
+    // this.eGui.addEventListener('click', this.onGroupClicked.bind(this));
+}
+
+CustomGroupCellRenderer.prototype.getGui = function () {
+    return this.eGui;
+}
+
+CustomGroupCellRenderer.prototype.onGroupClicked = function () {
+    // this.params.node.setExpanded(!this.params.node.expanded);
+    // if (this.params.node.expanded) {
+    //     this.eGroupArrow.innerHTML = '&#8595';
+    // } else {
+    //     this.eGroupArrow.innerHTML = '&#8594';
+    // }
+}
+
+CustomGroupCellRenderer.prototype.destroy = function () {
+    // this.eGroupArrow.removeEventListener('click', this.onGroupClicked);
+}
