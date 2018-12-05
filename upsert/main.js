@@ -21,40 +21,28 @@ var gridOptions = {
     getRowNodeId: data => data.id
 };
 
-const debounce = (func, delay) => {
-    let inDebounce
-    return function () {
-        const context = this
-        const args = arguments
-        clearTimeout(inDebounce)
-        inDebounce = setTimeout(() => func.apply(context, args), delay)
-    }
-}
 
 function upsertNRows(n) {
     // fetch n random rows
     fetchNRandRows(n)
-        .then(rows => {
+        .then(randomRowsToUpsert => {
             // get an array of all current id's in the grid
-            let idArr = [];
-            gridOptions.api.forEachNode(node => idArr.push(node.id))
-
             let transactionObj = {
                 add: [],
                 update: []
             };
 
-            // update the rows that are already in the grid
-            rows.forEach(row => {
-                if (idArr.includes(row.id)) {
-                    let updatedRow = updateRow(row)
-                    transactionObj.update.push(updatedRow)
-                } else {
-                    transactionObj.add.push(row)
-                }
-            });
+            let randomSeed = Math.floor(Math.random() * 3) // between 0 and 3;
 
-            console.log('transcation object add length', transactionObj.add.length, ', transaction object update length', transactionObj.update.length)
+            randomRowsToUpsert.forEach(randomRowToUpsert => {
+                let alreadyAdded = gridOptions.api.getRowNode(randomRowToUpsert.id);
+                if (alreadyAdded) {
+                    transactionObj.update.push(updateRow(randomRowToUpsert, randomSeed));
+                } else {
+                    transactionObj.add.push(randomRowToUpsert);
+                }
+            })
+
             gridOptions.api.updateRowData(transactionObj);
         })
         .catch(err => console.log(err))
@@ -66,26 +54,28 @@ function fetchNRandRows(n) {
         fetch('./data.json')
             .then(res => res.json())
             .then(data => {
-                let rows = [];
-                let x = 0;
-                while (x < n) {
-                    let randInd = Math.floor(Math.random() * data.length); // random index between 0 and 2000
-                    rows.push(data[randInd])
-                    x++
+                let remainingCandidates = data.slice(0);
+                let result = [];
+
+                for (let i = 0; i < n; i++) {
+                    let randIndex = Math.floor(Math.random() * remainingCandidates.length); // random index between 0 and remainingCandidates.length
+                    result.push(remainingCandidates[randIndex]);
+                    remainingCandidates.splice(randIndex, 1);
                 }
-                resolve(rows);
+
+                resolve(result);
             })
             .catch(err => reject(err))
     })
 }
 
-function updateRow(row) {
+function updateRow(row, seed) {
     let updatedRow = { ...row }
-    updatedRow.age++
-    updatedRow.gold++
-    updatedRow.silver++
-    updateRow.bronze++
-    updatedRow.total += 3
+    updatedRow.age = updatedRow.age + seed;
+    updatedRow.gold = updatedRow.gold + seed;
+    updatedRow.silver = updatedRow.silver + seed;
+    updateRow.bronze = updatedRow.bronze + seed;
+    updatedRow.total += updatedRow.gold + updatedRow.silver + updatedRow.bronze;
     return updatedRow
 }
 
@@ -99,13 +89,5 @@ document.addEventListener('DOMContentLoaded', function () {
             gridOptions.api.setRowData(data.slice(0, 500)); // initially load the first 500 rows
         });
 
-    setInterval(() => debounce(upsertNRows(100), 1450), 1500)
+    setInterval(() => upsertNRows(1000), 1000)
 });
-
-
-// function uuidv4() {
-//     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-//         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-//         return v.toString(16);
-//     });
-// }
