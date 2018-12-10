@@ -1,0 +1,12 @@
+.ag-group-value .ag-react-container {
+	margin: -26px;
+}
+
+.ag-group-value .ag-react-container > div,
+.ag-group-value .ag-react-container > span {
+	padding-left: 80px;
+}
+
+.ag-group-child-count {
+	padding-left: 125px
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@19.1.1/dist/ag-grid-enterprise.min.js"></script></head>
+<body>
+
+<div style="height: 100%; padding-top: 35px; box-sizing: border-box;">
+    <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+</div>
+<div style="position: absolute; top: 0px; left: 0px;">
+    <button onClick="logColData()">Log Column Data</button>
+    <button onclick="saveState()">Save State</button>
+    <button onclick="restoreState()">Restore State</button>
+    <button onclick="printState()">Print State</button>
+    <button onclick="resetState()">Reset State</button>
+    <button onclick="togglePivotMode()">Toggle Pivot Mode</button>
+</div>
+
+    <script src="main.js"></script>
+</body>
+</html>

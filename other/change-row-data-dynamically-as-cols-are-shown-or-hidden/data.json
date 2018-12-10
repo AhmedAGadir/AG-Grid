@@ -1,0 +1,17 @@
+{
+    "a": {
+        "make": "Toyota",
+        "model": "Celica",
+        "price": 35000
+    },
+    "b": {
+        "make": "Ford",
+        "model": "Mondeo",
+        "price": 32000
+    },
+    "c": {
+        "make": "Porsche",
+        "model": "Boxter",
+        "price": 72000
+    }
+}

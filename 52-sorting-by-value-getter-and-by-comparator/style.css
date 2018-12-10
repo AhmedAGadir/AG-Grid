@@ -1,0 +1,16 @@
+
+.ag-filter-value div {
+  padding-bottom: 6px;
+}
+
+.green {
+  background-color: #00ff00;
+}
+
+.yellow {
+  background: #ffff00;
+}
+
+.red {
+  background: #ff0000;
+}

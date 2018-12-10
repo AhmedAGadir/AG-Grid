@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+    <script src="https://unpkg.com/ag-grid-community@19.1.2/dist/ag-grid-community.min.js"></script>    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="test-header" style="height: 5%">
+    <label><input type="checkbox" checked onchange="onCbAthlete(this.checked)"/>Athlete</label>
+    <label><input type="checkbox" checked onchange="onCbAge(this.checked)"/>Age</label>
+    <label><input type="checkbox" checked onchange="onCbCountry(this.checked)"/>Country</label>
+</div>
+<div id="myGridTop" class="ag-theme-balham"></div>
+<div id="myGridBottom" style="height: 45%;" class="ag-theme-balham"></div>
+    <script src="main.js"></script>
+</body>
+</html>

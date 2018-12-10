@@ -1,0 +1,27 @@
+
+<html>
+<head>
+    <!-- you don't need ignore=notused in your code, this is just here to trick the cache -->
+    <script src="https://unpkg.com/ag-grid-enterprise@19.1.4/dist/ag-grid-enterprise.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.3/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+
+<div>
+
+    <div style="padding-bottom: 4px;">
+        Get / Set State:
+        <button onclick="printState()">Print Col State</button>
+        <button onclick="saveState()">Save Col State</button>
+        <button onclick="restoreState()">Restore Col State</button>
+        <button onclick="resetState()">Reset Col State</button>
+    </div>
+<h2>Click "Save Col State" and then "Restore Col State"... % Gold Metal values will be all zeros.
+    </h2>
+</div> 
+
+<div id="myGrid" class="ag-theme-balham" style="height: 400px;"></div>
+</body>
+</html>

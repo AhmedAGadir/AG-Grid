@@ -1,0 +1,26 @@
+/* Styles go here */
+
+.ag-theme-balham .ag-cell {
+    padding: 0 !important;
+}
+
+.innerGrid .ag-root,
+.innerGrid .ag-header,
+.innerGrid .ag-status-bar {
+    border: none;
+}
+
+.cell-span-darkgrey {
+    background: #bbb;
+}
+
+.cell-span-grey {
+    background: #ccc;
+}
+
+.center-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+

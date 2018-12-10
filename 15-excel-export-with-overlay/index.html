@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@19.1.2/dist/ag-grid-enterprise.min.js"></script></head>
+<body>
+
+<style>
+
+    .topContainer {
+        display: flex;
+        flex-direction: column;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 13px;
+        height: 100%;
+        width: 100%;
+    }
+
+    
+    .grid-wrapper {
+        display: flex;
+        flex: 1;
+    }
+    .grid-wrapper > div {
+        width: 100%;
+        height: 100%;
+    }
+
+    button {
+        width: 100px
+    }
+</style>
+<div class="topContainer">
+            <button onclick="onBtExport()" style="height: 25px; cursor: pointer">Export to Excel</button>
+    <div class="grid-wrapper">
+        <div id="myGrid" class="ag-theme-balham" />
+    </div>
+</div>
+    <script src="main.js"></script>
+</body>
+</html>

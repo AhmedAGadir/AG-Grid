@@ -1,0 +1,14 @@
+/* CSS */
+.removeDefault {
+  -webkit-appearance: none;
+  box-shadow: none !important;
+  border: none;
+  // outline: none;
+  font-size: inherit;
+  background: transparent;
+
+}
+
+/* .removeDefault:focus {
+  outline: none
+} */
