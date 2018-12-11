@@ -29,7 +29,7 @@ var gridOptions = {
     components: {
         myCustomCellRenderer: MyCustomCellRenderer
     },
-    onGridReady: params => {
+    onGridReady: () => {
         // in this example, the CSS styles are loaded AFTER the grid is created,
         // so we put this in a timeout, so height is calculated after styles are applied.
         setTimeout(function () {
@@ -54,13 +54,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             let rowData = data.map((d, ind) => {
+                // every seventh row to be expandable
                 if (ind % 7 === 0) {
                     return {
                         ...largeRow,
                         expanded: false
                     };
                 } else {
-                    d.expanded = false;
                     return d;
                 }
             })
@@ -84,7 +84,7 @@ MyCustomCellRenderer.prototype.init = function (params) {
     }
 
     // set text length 
-    this.cellText = document.createElement('div')
+    this.cellText = document.createElement('div');
     if (params.data.expanded) {
         this.cellText.textContent = params.value;
     } else {
