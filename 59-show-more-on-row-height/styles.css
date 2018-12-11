@@ -1,0 +1,23 @@
+.cell-wrap-text {
+  white-space: normal !important;
+}
+
+.custom-cell-contracted {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-cell-contracted button {
+  height: 50%
+}
+
+.custom-cell-expanded {
+  position: relative
+}
+
+.custom-cell-expanded button {
+  position: absolute;
+  bottom: 7px;
+  right: 0;
+}
