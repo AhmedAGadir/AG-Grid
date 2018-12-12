@@ -48,35 +48,39 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 });
 
-function addRowsToCache(rows) {
-	gridOptions.api.serverSideRowModel.datasource.addRowsToCache(rows)
-}
-
 function doQuickFilter() {
 	const filterInput = document.getElementById('filter-input');
 	gridOptions.api.setQuickFilter(filterInput.value);
 }
 
 function ServerSideDatasource(server) {
-	let cache = [];
+	let cache;
 	return {
-		addRowsToCache(rows) {
-			console.log("addRowsToCache")
-			cache.push(...rows);
-			console.log(cache)
-		},
+		// isCacheReady() {
+		// 	return cache != null;
+		// },
+		// setCache(newCache) {
+		// 	cache = newCache;
+		// },
+		// getCache() {
+		// 	return cache;
+		// },
+		//WE SHOULD PASS THE CACHE HERE!!!!!!!
 		getRows(params) {
-			console.log('getRows');
+			console.log('getRows', params.request);
 			// adding delay to simulate real sever call
 			setTimeout(function () {
 				let serverRequest = params.request;
 
 				let quickFilter = document.getElementById('filter-input').value;
+
 				if (quickFilter) {
 					let filteredResults = cache.filter(row => {
 						return Object.values(row).join('\n').toLowerCase().includes(quickFilter.toString().toLowerCase())
 					})
-					params.successCallback(filteredResults, -1);
+					// *********** NOTE: using -1 for the lastRow paramater will result in the grid simulating infinite rows,
+					// using the length of the results will give a cleaner look for a fixed number of rows ************
+					params.successCallback(filteredResults, filteredResults.length);
 					return;
 				}
 
@@ -85,7 +89,11 @@ function ServerSideDatasource(server) {
 				if (response.success) {
 					// call the success callback
 					params.successCallback(response.rows, response.lastRow);
-					addRowsToCache(response.rows)
+					//Because we dont have an event for after rowData has changed
+					setTimeout(() => {
+						cache = [];
+						gridOptions.api.forEachNode(node => cache.push(node.data));
+					}, 0)
 
 				} else {
 					// inform the grid request failed
@@ -99,7 +107,7 @@ function ServerSideDatasource(server) {
 function FakeServer(allData) {
 	return {
 		getResponse(request) {
-			// console.log('Server has been called: ', request);
+			console.log('Server has been called: ', request);
 
 			// take a slice of the total rows
 			var rowsThisPage = allData.slice(request.startRow, request.endRow);
