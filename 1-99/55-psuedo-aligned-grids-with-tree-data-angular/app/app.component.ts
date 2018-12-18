@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import "ag-grid-enterprise";
 @Component({
     selector: 'my-app',
     template: `
