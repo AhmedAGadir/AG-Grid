@@ -1,8 +1,9 @@
 function CustomGroupRenderer() { }
 
 CustomGroupRenderer.prototype.init = function (params) {
+    this.groupSelectionState = '';
+
     this.params = params;
-    // this.groupSelectionState = false;
 
     var eTemp = document.createElement('div');
     eTemp.innerHTML = this.getTemplate(this.params.data);
@@ -10,11 +11,11 @@ CustomGroupRenderer.prototype.init = function (params) {
 
     var eCheckbox = document.createElement('input');
     eCheckbox.type = 'checkbox';
-    eCheckbox.addEventListener('click', () => this.params.onCheckboxClicked(this.params.node, eCheckbox.checked));
+    // eCheckbox.addEventListener('click', this.masterRowSelectedHandler.bind(this));
     this.eGui.querySelector('.ag-group-checkbox').appendChild(eCheckbox);
 
 
-    this.setUpExpandAndContractFunctionality()
+    this.applyChevronStyles();
 }
 
 CustomGroupRenderer.prototype.getTemplate = function (data) {
@@ -31,21 +32,19 @@ CustomGroupRenderer.prototype.getTemplate = function (data) {
         '</span>';
 }
 
-CustomGroupRenderer.prototype.setUpExpandAndContractFunctionality = function () {
+CustomGroupRenderer.prototype.applyChevronStyles = function () {
     this.eExpanded = this.eGui.querySelector('.ag-group-expanded');
     this.eContracted = this.eGui.querySelector('.ag-group-contracted');
-
-    this.eExpanded.style.display = this.params.expanded ? 'inline' : 'none';
-    this.eContracted.style.display = this.params.expanded ? 'none' : 'inline';
 
     this.eExpanded.addEventListener('click', () => this.params.node.setExpanded(false));
     this.eContracted.addEventListener('click', () => this.params.node.setExpanded(true));
 
-    this.expandOrContract = this.expandOrContract.bind(this);
-    this.params.node.addEventListener('expandedChanged', this.expandOrContract)
+    this.showCorrectChevron = this.showCorrectChevron.bind(this);
+    this.params.node.addEventListener('expandedChanged', this.showCorrectChevron)
+    this.showCorrectChevron();
 }
 
-CustomGroupRenderer.prototype.expandOrContract = function (bool) {
+CustomGroupRenderer.prototype.showCorrectChevron = function () {
     var expanded = this.params.node.expanded
     this.eExpanded.style.display = expanded ? 'inline' : 'none';
     this.eContracted.style.display = expanded ? 'none' : 'inline';
