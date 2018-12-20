@@ -23,7 +23,7 @@ var gridOptions = {
     rowMultiSelectWithClick: true,
     masterDetail: true,
     onRowSelected: masterRowSelectedHandler,
-    detailRowHeight: 260,
+    detailRowHeight: 134,
     detailCellRenderer: 'myDetailCellRenderer',
     detailCellRendererParams: {
         detailRowSelectedHandler: detailRowSelectedHandler
@@ -60,15 +60,14 @@ function updateSelection(params) {
 
         switch (params.newValue) {
             case true:
-                // params.node.setSelected(true);
+                params.node.setSelected(true);
                 params.api.getDetailGridInfo(detailGridId).api.forEachNode(node => node.setSelected(true));
                 break;
             case false:
-                // params.node.setSelected(false);
+                params.node.setSelected(false);
                 params.api.getDetailGridInfo(detailGridId).api.forEachNode(node => node.setSelected(false))
                 break;
             case 'indeterminate':
-                // detailRowSelectedHandler
                 // params.node.setSelected(false);
                 break;
         }

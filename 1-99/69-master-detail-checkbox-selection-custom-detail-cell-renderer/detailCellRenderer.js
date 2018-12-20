@@ -31,7 +31,7 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
         suppressRowClickSelection: true,
         // rowMultiSelectWithClick: true,
         onRowSelected: this.onRowSelected.bind(this),
-        rowData: callRecords,
+        rowData: callRecords.slice(0, 3),
         onGridReady: function (params) {
             var detailGridId = "detail_" + masterRowIndex;
             var gridInfo = {
