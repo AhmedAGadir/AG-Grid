@@ -1,7 +1,6 @@
 function DetailCellRenderer() { }
 
 DetailCellRenderer.prototype.init = function (params) {
-  console.log('init', params)
   this.masterGridApi = params.api;
   this.masterRowIndex = params.rowIndex;
   this.masterNode = params.node.parent;
@@ -29,8 +28,8 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
       { field: 'switchCode' }
     ],
     rowSelection: 'multiple',
-    // suppressRowClickSelection: true,
-    rowMultiSelectWithClick: true,
+    suppressRowClickSelection: true,
+    // rowMultiSelectWithClick: true,
     onRowSelected: this.onRowSelected.bind(this),
     rowData: callRecords,
     onGridReady: function (params) {

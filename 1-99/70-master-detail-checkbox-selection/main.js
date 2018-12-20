@@ -1,14 +1,10 @@
 var columnDefs = [
     // group cell renderer needed for expand / collapse icons
     {
-        field: 'selectionState',
-        onCellValueChanged: updateSelection
-    },
-    {
         field: 'name',
-        cellRenderer: 'agGroupCellRenderer',
+        cellRenderer: 'customGroupRenderer',
         cellRendererParams: {
-            checkbox: true
+            onCheckboxClicked: checkboxClickedHandler
         }
     },
     { field: 'account' },
@@ -19,17 +15,16 @@ var columnDefs = [
 var gridOptions = {
     columnDefs: columnDefs,
     rowSelection: 'multiple',
-    // suppressRowClickSelection: true,
-    rowMultiSelectWithClick: true,
+    suppressRowClickSelection: true,
+    // rowMultiSelectWithClick: true,
     masterDetail: true,
-    onRowClicked: masterRowSelectedHandler,
     detailRowHeight: 260,
     detailCellRenderer: 'myDetailCellRenderer',
     detailCellRendererParams: {
         detailRowSelectedHandler: detailRowSelectedHandler
     },
     components: {
-        agGroupCellRenderer: () => 'yo',
+        customGroupRenderer: CustomGroupRenderer,
         myDetailCellRenderer: DetailCellRenderer,
     },
     onGridReady: function (params) {
@@ -46,12 +41,12 @@ var gridOptions = {
     },
 };
 
-function masterRowSelectedHandler(params) {
-    params.node.setDataValue('selectionState', params.node.selected);
+function checkboxClickedHandler(node, checked) {
+    // node.setDataValue('selectionState', checked);
 }
 
 function detailRowSelectedHandler(node, selectionState) {
-    node.setDataValue('selectionState', selectionState)
+    // node.setDataValue('selectionState', selectionState)
 }
 
 function updateSelection(params) {
@@ -62,14 +57,14 @@ function updateSelection(params) {
         switch (params.newValue) {
             case true:
                 params.api.getDetailGridInfo(detailGridId).api.forEachNode(node => node.setSelected(true));
-                params.node.setSelected(true);
+                // params.node.setSelected(true);
                 break;
             case false:
                 params.api.getDetailGridInfo(detailGridId).api.forEachNode(node => node.setSelected(false));
-                params.node.setSelected(false);
+                // params.node.setSelected(false);
                 break;
             case 'indeterminate':
-                params.node.setSelected(false);
+                // params.node.setSelected(false);
                 break;
         }
     }
@@ -88,10 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 'https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/custom-detail-with-grid/data/data.json',
         })
         .then(function (data) {
-            data = data.map(d => {
-                d.selectionState = false;
-                return d;
-            })
             gridOptions.api.setRowData(data);
         });
 });
