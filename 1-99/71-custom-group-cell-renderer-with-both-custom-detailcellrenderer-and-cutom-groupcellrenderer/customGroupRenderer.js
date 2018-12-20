@@ -54,3 +54,7 @@ CustomGroupRenderer.prototype.showCorrectChevron = function () {
 CustomGroupRenderer.prototype.getGui = function () {
     return this.eGui;
 }
+
+CustomGroupRenderer.prototype.destroy = function () {
+    // remove event listeners
+}
