@@ -1,12 +1,14 @@
 function DetailCellRenderer() { }
 
 DetailCellRenderer.prototype.init = function (params) {
+  console.log('init', params)
   this.masterGridApi = params.api;
   this.masterRowIndex = params.rowIndex;
   this.masterNode = params.node.parent;
+  this.detailRowSelectedHandler = params.detailRowSelectedHandler;
 
   this.eGui = document.createElement('div');
-  this.eGui.classList.add('full-width-panel')
+  this.eGui.classList.add('full-width-panel');
   this.eGui.innerHTML = '<div class="full-width-grid"></div>';
 
   this.setupDetailGrid(params.data.callRecords, params.api, params.rowIndex);
@@ -27,7 +29,9 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
       { field: 'switchCode' }
     ],
     rowSelection: 'multiple',
-    onRowSelected: this.onRowSelectedHandler.bind(this),
+    // suppressRowClickSelection: true,
+    rowMultiSelectWithClick: true,
+    onRowSelected: this.onRowSelected.bind(this),
     rowData: callRecords,
     onGridReady: function (params) {
       var detailGridId = "detail_" + masterRowIndex;
@@ -37,24 +41,32 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
         columnApi: params.columnApi
       };
 
-      console.log("adding detail grid info with id: ", detailGridId);
       masterGridApi.addDetailGridInfo(detailGridId, gridInfo);
-
       params.api.sizeColumnsToFit();
     },
   });
 };
 
-DetailCellRenderer.prototype.onRowSelectedHandler = function (params) {
-  debugger;
+DetailCellRenderer.prototype.onRowSelected = function (params) {
+  let store = [];
+  var detailGridId = "detail_" + this.masterRowIndex;
+  this.masterGridApi.getDetailGridInfo(detailGridId).api.forEachNode(node => store.push(node.selected));
+
+  let selectionState = '';
+  let filter = store.filter(bool => bool === true)
+  if (filter.length === store.length) {
+    selectionState = true
+  } else if (filter.length === 0) {
+    selectionState = false
+  } else {
+    selectionState = 'indeterminate'
+  }
+
+  this.detailRowSelectedHandler(this.masterNode, selectionState)
 }
 
 DetailCellRenderer.prototype.destroy = function () {
   var detailGridId = "detail_" + this.masterRowIndex;
-
-  console.log("destroying detail grid with id: ", detailGridId);
   this.masterGridApi.getDetailGridInfo(detailGridId).api.destroy();
-
-  console.log("removing detail grid info with id: ", detailGridId);
   this.masterGridApi.removeDetailGridInfo(detailGridId);
 };
