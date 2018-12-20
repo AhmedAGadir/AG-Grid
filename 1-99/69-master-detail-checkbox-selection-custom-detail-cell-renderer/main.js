@@ -1,15 +1,16 @@
 var columnDefs = [
     // group cell renderer needed for expand / collapse icons
     {
-        field: 'selectionState',
-        onCellValueChanged: updateSelection
-    },
-    {
         field: 'name',
         cellRenderer: 'agGroupCellRenderer',
         cellRendererParams: {
             checkbox: true
         }
+    },
+    {
+        field: 'selectionState',
+        cellStyle: { backgroundColor: 'lightblue' },
+        onCellValueChanged: updateSelection,
     },
     { field: 'account' },
     { field: 'calls' },
@@ -55,7 +56,6 @@ function detailRowSelectedHandler(node, selectionState) {
 
 function updateSelection(params) {
     if (params.newValue !== params.oldValue) {
-
         let detailGridId = 'detail_' + (params.node.rowIndex + 1);
 
         switch (params.newValue) {
