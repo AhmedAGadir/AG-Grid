@@ -51,7 +51,7 @@ DetailCellRenderer.prototype.onRowSelected = function (params) {
     var detailGridId = "detail_" + this.masterRowIndex;
     this.masterGridApi.getDetailGridInfo(detailGridId).api.forEachNode(node => store.push(node.selected));
 
-    let selectionState = '';
+    let selectionState;
     let filter = store.filter(bool => bool === true)
     if (filter.length === store.length) {
         selectionState = true
