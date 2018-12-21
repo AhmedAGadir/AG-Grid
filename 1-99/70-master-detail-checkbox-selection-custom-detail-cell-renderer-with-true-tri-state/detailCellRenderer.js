@@ -1,6 +1,8 @@
 function DetailCellRenderer() { }
 
 DetailCellRenderer.prototype.init = function (params) {
+    console.log('reinstate selection on:', params.initialIds);
+    this.initialIds = params.initialIds;
     this.masterGridApi = params.api;
     this.masterRowIndex = params.rowIndex;
     this.masterNode = params.node.parent;
@@ -9,6 +11,7 @@ DetailCellRenderer.prototype.init = function (params) {
     this.eGui = document.createElement('div');
     this.eGui.classList.add('full-width-panel');
     this.eGui.innerHTML = '<div class="full-width-grid"></div>';
+    this.masterRowData = params.data;
 
     this.setupDetailGrid(params.data.callRecords, params.api, params.rowIndex);
 };
@@ -19,6 +22,7 @@ DetailCellRenderer.prototype.getGui = function () {
 
 DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGridApi, masterRowIndex) {
     var eDetailGrid = this.eGui.querySelector('.full-width-grid');
+    this.data = callRecords.slice(0, 3);
     new agGrid.Grid(eDetailGrid, {
         columnDefs: [
             { field: 'callId', checkboxSelection: true },
@@ -31,8 +35,8 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
         suppressRowClickSelection: true,
         // rowMultiSelectWithClick: true,
         onRowSelected: this.onRowSelected.bind(this),
-        rowData: callRecords,
-        onGridReady: function (params) {
+        rowData: this.data,
+        onGridReady: (params) => {
             var detailGridId = "detail_" + masterRowIndex;
             var gridInfo = {
                 id: detailGridId,
@@ -40,28 +44,27 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
                 columnApi: params.columnApi
             };
 
+            this.detailApi = params.api;
             masterGridApi.addDetailGridInfo(detailGridId, gridInfo);
             params.api.sizeColumnsToFit();
+            this.initialIds.forEach(id => this.detailApi.getRowNode(id).setSelected(true));
+
         },
     });
 };
 
 DetailCellRenderer.prototype.onRowSelected = function (params) {
-    let store = [];
-    var detailGridId = "detail_" + this.masterRowIndex;
-    this.masterGridApi.getDetailGridInfo(detailGridId).api.forEachNode(node => store.push(node.selected));
-
-    let selectionState = '';
-    let filter = store.filter(bool => bool === true)
-    if (filter.length === store.length) {
+    debugger;
+    let selectedNodes = this.detailApi.getSelectedNodes();
+    if (this.data.length === selectedNodes.length) {
         selectionState = true
-    } else if (filter.length === 0) {
+    } else if (selectedNodes.length === 0) {
         selectionState = false
     } else {
-        selectionState = 'indeterminate'
+        selectionState = undefined
     }
 
-    this.detailRowSelectedHandler(this.masterNode, selectionState)
+    this.detailRowSelectedHandler(this.masterNode, selectionState, selectedNodes.map(node => node.id))
 }
 
 DetailCellRenderer.prototype.destroy = function () {
