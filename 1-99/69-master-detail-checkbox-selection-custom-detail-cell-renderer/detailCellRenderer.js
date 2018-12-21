@@ -46,7 +46,7 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
     });
 };
 
-DetailCellRenderer.prototype.onRowSelected = function (params) {
+DetailCellRenderer.prototype.onRowSelected = function () {
     let store = [];
     var detailGridId = "detail_" + this.masterRowIndex;
     this.masterGridApi.getDetailGridInfo(detailGridId).api.forEachNode(node => store.push(node.selected));
