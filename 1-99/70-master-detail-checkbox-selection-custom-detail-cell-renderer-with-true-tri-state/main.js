@@ -1,17 +1,9 @@
 var columnDefs = [
-    // group cell renderer needed for expand / collapse icons
     {
         field: 'name',
         cellRenderer: 'agGroupCellRenderer',
-        cellRendererParams: {
-            checkbox: true
-        }
+        cellRendererParams: { checkbox: true }
     },
-    // {
-    //     field: 'selectionState',
-    //     cellStyle: { backgroundColor: 'lightblue' },
-    //     onCellValueChanged: updateSelection,
-    // },
     { field: 'account' },
     { field: 'calls' },
     { field: 'minutes', valueFormatter: "x.toLocaleString() + 'm'" },
@@ -47,23 +39,21 @@ var gridOptions = {
     },
     onRowSelected: (params) => {
         if (params.node.data.updatingFromDetails) return;
-        onParentNodeSeleted(params.node)
+        onParentNodeSelected(params.node)
     }
 };
 
+function onParentNodeSelected(node) {
+    let detailGridId = 'detail_' + (node.rowIndex + 1);
+    gridOptions.api.getDetailGridInfo(detailGridId).api.forEachNode(detailNode => detailNode.setSelected(node.selected));
+}
+
 function onDetailRowsSelectionChanged(node, parentSelectionState, idsSelected) {
-    console.log(idsSelected);
     node.data.childIdsSelected = idsSelected;
     node.data.updatingFromDetails = true;
     node.selectThisNode(parentSelectionState);
     setTimeout(() => node.data.updatingFromDetails = false, 0);
 }
-
-function onParentNodeSeleted(node) {
-    let detailGridId = 'detail_' + (node.rowIndex + 1);
-    gridOptions.api.getDetailGridInfo(detailGridId).api.forEachNode(detailNode => detailNode.setSelected(node.selected));
-}
-
 
 document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');

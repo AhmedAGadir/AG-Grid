@@ -1,7 +1,6 @@
 function DetailCellRenderer() { }
 
 DetailCellRenderer.prototype.init = function (params) {
-    console.log('reinstate selection on:', params.initialIds);
     this.initialIds = params.initialIds;
     this.masterGridApi = params.api;
     this.masterRowIndex = params.rowIndex;
@@ -44,18 +43,19 @@ DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGrid
                 columnApi: params.columnApi
             };
 
-            this.detailApi = params.api;
             masterGridApi.addDetailGridInfo(detailGridId, gridInfo);
-            params.api.sizeColumnsToFit();
+            this.detailApi = params.api;
             this.initialIds.forEach(id => this.detailApi.getRowNode(id).setSelected(true));
+            params.api.sizeColumnsToFit();
 
         },
     });
 };
 
-DetailCellRenderer.prototype.onRowSelected = function (params) {
-    debugger;
+DetailCellRenderer.prototype.onRowSelected = function () {
     let selectedNodes = this.detailApi.getSelectedNodes();
+
+    let selectionState;
     if (this.data.length === selectedNodes.length) {
         selectionState = true
     } else if (selectedNodes.length === 0) {
