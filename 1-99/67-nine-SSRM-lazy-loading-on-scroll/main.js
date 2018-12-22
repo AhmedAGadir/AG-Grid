@@ -104,6 +104,7 @@ var loadGridsOnScroll = function () {
   }
 
   function loadGridData(div) {
+    console.log('loading grid');
     let gridOptionsCopy = JSON.parse(JSON.stringify(gridOptions));
     new agGrid.Grid(div, gridOptionsCopy);
 

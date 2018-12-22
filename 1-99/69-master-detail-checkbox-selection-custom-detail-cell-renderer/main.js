@@ -68,7 +68,7 @@ function updateSelection(params) {
                 params.api.getDetailGridInfo(detailGridId).api.forEachNode(node => node.setSelected(false))
                 break;
             case 'indeterminate':
-                // params.node.setSelected(false);
+                params.node.selectThisNode(undefined);
                 break;
         }
     }
