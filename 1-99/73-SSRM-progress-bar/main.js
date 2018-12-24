@@ -16,19 +16,24 @@ var gridOptions = {
 		suppressFilter: true
 	},
 	columnDefs: columnDefs,
-
 	// use the server-side row model
 	rowModelType: 'serverSide',
-
 	// fetch 100 rows per at a time
 	cacheBlockSize: 100,
-
 	// only keep 10 blocks of rows
 	maxBlocksInCache: 10,
-
 	enableColResize: true,
 	animateRows: true,
-	// debug: true
+	// debug: true,
+	components: {
+		customLoadingOverlay: CustomLoadingOverlay,
+	},
+	loadingOverlayComponent: 'customLoadingOverlay',
+	loadingOverlayComponentParams: {
+		loadingMessage: () => {
+			return 'Loading...';
+		}
+	},
 };
 
 // setup the grid after the page has finished loading
@@ -53,26 +58,38 @@ function ServerSideDatasource(server) {
 	return {
 		getRows(params) {
 
-			server.initResponse(params.request);
+			new Promise(resolve => {
 
-			new Promise((resolve) => {
 				let updateProgressBar = setInterval(() => {
-					let progress = server.getProgress();
-					console.log('progress %', progress);
 
-					if (progress === 100) {
-						clearInterval(updateProgressBar)
-						resolve(server.getResponse(params.request));
+					let response = server.getResponse(params.request);
+
+					if (response.loading) {
+						// update overlay
+
 					} else {
-						// update progress bar UI
+
+						clearInterval(updateProgressBar);
+						resolve({
+							success: response.success,
+							rows: response.rows,
+							lastRow: response.lastRows
+						})
+
 					}
+
 				}, 25)
+
 			})
-				.then(response => {
-					params.successCallback(response.rows, response.lastRow);
+				.then(({ success, rows, lastRow }) => {
+					if (success) {
+						params.successCallback(rows, lastRow);
+					} else {
+						params.failCallback();
+					}
 				})
 				.catch(err => {
-					// handler error
+					// handle error;
 					console.log(err);
 					params.failCallback();
 				})
@@ -82,30 +99,57 @@ function ServerSideDatasource(server) {
 
 function FakeServer(allData) {
 	var progress = 0;
+	var loading = false;
 	return {
-		initResponse(request) {
-			console.log('asking for rows: ' + request.startRow + ' to ' + request.endRow);
-
-			var simulateLoading = setInterval(() => {
-				progress++;
-				if (progress === 100) {
-					clearInterval(simulateLoading);
-				}
-			}, 15)
-		},
-		getProgress() {
-			return progress;
-		},
 		getResponse(request) {
-			progress = 0;
-			var rowsThisPage = allData.slice(request.startRow, request.endRow);
-			var lastRow = allData.length <= request.endRow ? data.length : -1;
+			// console.log('asking for rows: ' + request.startRow + ' to ' + request.endRow);
 
-			return {
-				success: true,
-				rows: rowsThisPage,
-				lastRow: lastRow
+			if (!loading && progress === 0) {
+				var simulateLoading = setInterval(() => {
+					progress++;
+					if (progress === 100) {
+						loading = false;
+						clearInterval(simulateLoading);
+					}
+				}, 15);
+
+				loading = true;
 			}
+
+			let response = {
+				success: true,
+				loading: loading,
+				progress: progress
+			}
+
+			if (progress === 100) {
+				var rowsThisPage = allData.slice(request.startRow, request.endRow);
+				var lastRow = allData.length <= request.endRow ? data.length : -1;
+
+				response.rows = rowsThisPage;
+				response.lastRow = lastRow
+
+				progress = 0;
+			}
+
+			return response;
+
 		}
 	};
 }
+
+function showLoadingOverlay() {
+	gridOptions.api.showLoadingOverlay();
+}
+
+function CustomLoadingOverlay() { }
+
+CustomLoadingOverlay.prototype.init = function (params) {
+	var eTemp = document.createElement('div');
+	eTemp.innerHTML = '<span class="ag-overlay-loading-center">' + params.loadingMessage() + '</span>';
+	this.eGui = eTemp.firstElementChild;
+};
+
+CustomLoadingOverlay.prototype.getGui = function () {
+	return this.eGui;
+};
