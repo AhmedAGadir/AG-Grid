@@ -21,6 +21,9 @@ var gridOptions = {
 	maxBlocksInCache: 10,
 	enableColResize: true,
 	animateRows: true,
+	onGridReady: params => {
+		setTimeout(() => params.api.sizeColumnsToFit(), 2000)
+	},
 	components: {
 		customLoadingOverlay: CustomLoadingOverlay,
 	},
@@ -68,9 +71,8 @@ function ServerSideDatasource(server) {
 						gridOptions.api.showLoadingOverlay();
 
 					} else {
-
-						clearInterval(updateProgressBar);
 						gridOptions.api.hideOverlay();
+						clearInterval(updateProgressBar);
 						resolve({
 							success: response.success,
 							rows: response.rows,
@@ -79,7 +81,7 @@ function ServerSideDatasource(server) {
 
 					}
 
-				}, 25)
+				}, 15)
 
 			})
 				.then(({ success, rows, lastRow }) => {

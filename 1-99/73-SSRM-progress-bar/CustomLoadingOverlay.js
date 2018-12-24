@@ -4,7 +4,8 @@ CustomLoadingOverlay.prototype.init = function (params) {
     var eTemp = document.createElement('div');
     eTemp.innerHTML =
         '<div class="progress-bar blue stripes">' +
-        '   <span style="width: ' + params.progress() + '%"></span>' +
+        '   <span class="bar" style="width: ' + params.progress() + '%' + '"></span>' +
+        '   <span class="text">' + params.progress() + '%' + '</span>' +
         '</div>';
 
     this.eGui = eTemp.firstElementChild;

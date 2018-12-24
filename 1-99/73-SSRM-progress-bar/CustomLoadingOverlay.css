@@ -3,7 +3,7 @@
 }
 
 .ag-theme-balham-dark .ag-overlay-loading-wrapper {
-    background: none !important;
+    background: rgba(0, 0, 0, 0.4)
 }
 
 .progress-bar {
@@ -14,9 +14,10 @@
     margin: 50px auto;
     border-radius: 5px;
     box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+    position: relative
 }
 
-.progress-bar span {
+.progress-bar .bar {
     display: inline-block;
     height: 100%;
     border-radius: 3px;
@@ -24,21 +25,28 @@
     transition: width .4s ease-in-out;
 }
 
-.blue span {
+.progress-bar .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.blue span.bar {
     background-color: #34c2e3;
 }
 
-.orange span {
+.orange span.bar {
     background-color: #fecf23;
     background-image: linear-gradient(top, #fecf23, #fd9215);
 }
 
-.green span {
+.green span.bar {
     background-color: #a5df41;
     background-image: linear-gradient(top, #a5df41, #4ca916);
 }
 
-.stripes span {
+.stripes span.bar {
     background-size: 30px 30px;
     background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
     animation: animate-stripes 3s linear infinite;
@@ -53,11 +61,11 @@
     }
 }
 
-.shine span {
+.shine span.bar {
     position: relative;
 }
 
-.shine span::after {
+.shine span.bar::after {
     content: '';
     opacity: 0;
     position: absolute;
@@ -84,7 +92,7 @@
     }
 }
 
-.glow span {
+.glow span.bar {
     box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
     animation: animate-glow 1s ease-out infinite;
 }
