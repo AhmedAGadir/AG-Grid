@@ -69,11 +69,11 @@ class GridExample extends Component {
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
   }
-  
+
   onGridSizeChanged(params) {
     params.api.sizeColumnsToFit();
   }
-  
+
   render() {
     const { number } = this.state;
     return (
@@ -111,7 +111,7 @@ class GridExample extends Component {
                   colId: "params",
                   width: 180
                 }
-      ]}
+              ]}
               rowData={this.state.rowData}
               context={this.state.context}
               frameworkComponents={this.state.frameworkComponents}
