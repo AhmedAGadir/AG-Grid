@@ -16,22 +16,18 @@ var gridOptions = {
 		suppressFilter: true
 	},
 	columnDefs: columnDefs,
-	// use the server-side row model
 	rowModelType: 'serverSide',
-	// fetch 100 rows per at a time
 	cacheBlockSize: 100,
-	// only keep 10 blocks of rows
 	maxBlocksInCache: 10,
 	enableColResize: true,
 	animateRows: true,
-	// debug: true,
 	components: {
 		customLoadingOverlay: CustomLoadingOverlay,
 	},
 	loadingOverlayComponent: 'customLoadingOverlay',
 	loadingOverlayComponentParams: {
-		loadingMessage: () => {
-			return 'Loading...';
+		progress: () => {
+			return gridOptions.api.serverSideRowModel.datasource.progress
 		}
 	},
 };
@@ -56,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function ServerSideDatasource(server) {
 	return {
+		progress: 0,
 		getRows(params) {
 
 			new Promise(resolve => {
@@ -66,10 +63,14 @@ function ServerSideDatasource(server) {
 
 					if (response.loading) {
 						// update overlay
+						this.progress = response.progress
+						gridOptions.api.hideOverlay();
+						gridOptions.api.showLoadingOverlay();
 
 					} else {
 
 						clearInterval(updateProgressBar);
+						gridOptions.api.hideOverlay();
 						resolve({
 							success: response.success,
 							rows: response.rows,
@@ -137,19 +138,3 @@ function FakeServer(allData) {
 		}
 	};
 }
-
-function showLoadingOverlay() {
-	gridOptions.api.showLoadingOverlay();
-}
-
-function CustomLoadingOverlay() { }
-
-CustomLoadingOverlay.prototype.init = function (params) {
-	var eTemp = document.createElement('div');
-	eTemp.innerHTML = '<span class="ag-overlay-loading-center">' + params.loadingMessage() + '</span>';
-	this.eGui = eTemp.firstElementChild;
-};
-
-CustomLoadingOverlay.prototype.getGui = function () {
-	return this.eGui;
-};
