@@ -44,8 +44,11 @@ var gridOptions = {
 };
 
 function onParentNodeSelected(node) {
-    let detailGridId = 'detail_' + (node.rowIndex + 1);
-    gridOptions.api.getDetailGridInfo(detailGridId).api.forEachNode(detailNode => detailNode.setSelected(node.selected));
+    node.data.childIdsSelected = node.selected ? node.data.callRecords.map((_, ind) => ind) : [];
+    if (node.expanded) {
+        let detailGridId = 'detail_' + (node.rowIndex + 1);
+        gridOptions.api.getDetailGridInfo(detailGridId).api.forEachNode(detailNode => detailNode.setSelected(node.selected));
+    }
 }
 
 function onDetailRowsSelectionChanged(node, parentSelectionState, idsSelected) {
@@ -65,6 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 'https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/custom-detail-with-grid/data/data.json',
         })
         .then(function (data) {
+            data = data.map(d => ({
+                ...d,
+                callRecords: d.callRecords.slice(0, 3)
+            }));
             gridOptions.api.setRowData(data);
         });
 });

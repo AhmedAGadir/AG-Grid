@@ -21,7 +21,7 @@ DetailCellRenderer.prototype.getGui = function () {
 
 DetailCellRenderer.prototype.setupDetailGrid = function (callRecords, masterGridApi, masterRowIndex) {
     var eDetailGrid = this.eGui.querySelector('.full-width-grid');
-    this.data = callRecords.slice(0, 3);
+    this.data = callRecords;
     new agGrid.Grid(eDetailGrid, {
         columnDefs: [
             { field: 'callId', checkboxSelection: true },
