@@ -12,10 +12,9 @@ var columnDefs = [
 var gridOptions = {
     columnDefs: columnDefs,
     rowSelection: 'multiple',
-    // suppressRowClickSelection: true,
+    suppressRowClickSelection: true,
     rowMultiSelectWithClick: true,
     masterDetail: true,
-    // onRowSelected: masterRowSelectedHandler,
     detailRowHeight: 134,
     detailCellRenderer: 'myDetailCellRenderer',
     detailCellRendererParams: (params) => ({
