@@ -8,7 +8,6 @@ var gridOptions = {
     },
     rowData: null,
     onCellValueChanged: params => {
-
         if (params.node.updatingFromCellValueChanged) {
             return;
         }
