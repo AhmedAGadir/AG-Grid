@@ -83,7 +83,7 @@ export class AgGridExampleComponent {
                 ],
             },
             {
-                headerName: 'Group1',
+                headerName: 'Group3',
                 children: [
                     { field: 'jobTitle', width: 200 },
                     { field: 'employmentType', width: 400 },
