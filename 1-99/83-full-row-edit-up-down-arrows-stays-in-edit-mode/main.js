@@ -22,9 +22,24 @@ var gridOptions = {
                 switch (event.keyCode) {
                     case 38: // key up  
                         params.api.setFocusedCell(editingCell.rowIndex - 1, editingCell.column);
+                        params.api.startEditingCell({
+                            rowIndex: editingCell.rowIndex - 1,
+                            colKey: editingCell.column,
+                        });
+                        // DIDNT WORK
+                        // params.api.getCellEditorInstances(editingCell.rowIndex - 1, editingCell.column)
+                        //     .filter(editor => editor.params.column.colId === editingCell.column.colId)[0]
+                        //     .focusIn();
                         break;
                     case 40: // key down
                         params.api.setFocusedCell(editingCell.rowIndex + 1, editingCell.column);
+                        params.api.startEditingCell({
+                            rowIndex: editingCell.rowIndex + 1,
+                            colKey: editingCell.column,
+                        })
+                        // ALSO DIDNT WORK
+                        // document.activeElement.focus();
+                        // document.activeElement.select();
                         break;
                 }
             })
