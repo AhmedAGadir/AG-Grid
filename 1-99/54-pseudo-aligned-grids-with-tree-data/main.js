@@ -142,7 +142,7 @@ var gridOptionsTop = {
     groupSuppressAutoColumn: true,
     onBodyScroll: scrollBottomGrid,
     onColumnResized: ({ columns, finished }) => {
-        if (finished) {
+        if (!finished) {
             resizeBottomGrid(columns)
         }
     }
@@ -160,7 +160,7 @@ var gridOptionsBottom = {
     // onFirstDataRendered: resizeBottomColGroups,
     onBodyScroll: scrollTopGrid,
     onColumnResized: ({ columns, finished }) => {
-        if (finished) {
+        if (!finished) {
             resizeTopGrid(columns)
         }
     }
@@ -187,55 +187,35 @@ function scrollTopGrid() {
 }
 
 function resizeBottomGrid(columns) {
-    // columns.length > 1 when a column group is being resized
-    let topColGroupWidth = (columns.length > 1)
-        ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth
-        : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;;
+    const topColGroupWidth =
+        columns.length > 1  // columns.length > 1 when a column group is being resized
+            ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth
+            : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth;
 
-    let topColGroupId = columns[0].parent.groupId;
+    const topColGroupId = columns[0].parent.groupId;
+    const bottomColGroup = gridOptionsBottom.columnApi.getColumnGroup(topColGroupId);
+    const bottomColGroupWidth = bottomColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
-    let bottomColGroup = gridOptionsBottom.columnApi.getColumnGroup(topColGroupId);
-    let bottomColGroupWidth = bottomColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
-
-    let difference = topColGroupWidth - bottomColGroupWidth;
     bottomColGroup.children.forEach(col => {
-        // set finished to false on setColumnWidth to prevent inifinite loop 
-        gridOptionsBottom.columnApi.setColumnWidth(col, col.actualWidth + difference / bottomColGroup.children.length, false)
-    })
+        const newWidth = col.actualWidth + (topColGroupWidth - bottomColGroupWidth) / bottomColGroup.children.length;
+        gridOptionsBottom.columnApi.setColumnWidth(col, newWidth, true); // set finished to true to prevent inifinite loop
+    });
 }
+
+
 
 function resizeTopGrid(columns) {
-    let bottomColGroupWidth = (columns.length > 1)
-        ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth
-        : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+    const bottomColGroupWidth =
+        columns.length > 1  // columns.length > 1 when a column group is being resized
+            ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth
+            : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
-    let bottomColGroupId = columns[0].parent.groupId;
+    const bottomColGroupId = columns[0].parent.groupId;
+    const topColGroup = gridOptionsTop.columnApi.getColumnGroup(bottomColGroupId);
+    const topColGroupWidth = topColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
-    let topColGroup = gridOptionsTop.columnApi.getColumnGroup(bottomColGroupId);
-    let topColGroupWidth = topColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
-
-    let difference = bottomColGroupWidth - topColGroupWidth;
     topColGroup.children.forEach(col => {
-        // set finished to false on setColumnWidth to prevent inifinite loop 
-        gridOptionsTop.columnApi.setColumnWidth(col, col.actualWidth + difference / topColGroup.children.length, false)
-    })
+        const newWidth = col.actualWidth + (bottomColGroupWidth - topColGroupWidth) / topColGroup.children.length;
+        gridOptionsTop.columnApi.setColumnWidth(col, newWidth, true); // set finished to true to prevent inifinite loop
+    });
 }
-
-// function resizeBottomColGroups() {
-// // ************** is this even needed? **************
-// let allDisplayedColumnGroupsTop = gridOptionsTop.columnApi.getAllDisplayedColumnGroups();
-
-// allDisplayedColumnGroupsTop.forEach(colGroup => {
-
-// })
-
-// let topGroupOneChildren = allDisplayedColumnGroupsTop[1].displayedChildren;
-// let topGroupOneChildTotalWidth = topGroupOneChildren.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
-
-// let allDisplayedColumnGroupsBottom = gridOptionsBottom.columnApi.getAllDisplayedColumnGroups();
-// let bottomGroupOneChildren = allDisplayedColumnGroupsBottom[1].displayedChildren;
-// let newWidth = topGroupOneChildTotalWidth / bottomGroupOneChildren.length;
-// bottomGroupOneChildren.forEach(col => {
-//     gridOptionsBottom.columnApi.setColumnWidth(col, newWidth)
-// })
-// }
