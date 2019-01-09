@@ -1,0 +1,29 @@
+<ag-grid-angular
+                style="width: 100%; height: 400px"
+                #topGrid
+                class="ag-theme-balham"
+                [enableColResize]="true"
+                [groupSuppressAutoColumn]="true"
+                [rowData]="normalRowData"
+                [columnDefs]="columnDefsTop"
+                (gridReady)="onTopGridReady($event)"
+                (bodyScroll)="onScrollBottomGrid()"
+                (columnResized)="onTopColumnResized($event)">
+        </ag-grid-angular>
+
+        <ag-grid-angular
+                style="width: 100%; height: 400px"
+                #bottomGrid
+                class="ag-theme-balham"
+                [enableColResize]="true"
+                [groupSuppressAutoColumn]="true"
+                [groupDefaultExpanded]="groupDefaultExpanded"
+                [treeData]="true"
+                [getDataPath]="getDataPath"
+                [rowData]="treeRowData"
+                [autoGroupColumnDef]="autoGroupColumnDef"
+                [columnDefs]="columnDefsBottom"
+                (gridReady)="onBottomGridReady($event)"
+                (bodyScroll)="onScrollTopGrid()"
+                (columnResized)="onBottomColumnResized($event)">
+        </ag-grid-angular>
