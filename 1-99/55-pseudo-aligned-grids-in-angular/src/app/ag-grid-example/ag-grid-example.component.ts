@@ -189,17 +189,13 @@ export class AgGridExampleComponent {
     }
 
     onScrollTopGrid() {
-        let bottomHScrollPos = this.bottomGridApi.gridPanel.getHScrollPosition();
-        this.topGridApi.gridPanel.setHorizontalScrollPosition(
-            bottomHScrollPos.left
-        );
+        const bottomHScrollPos = this.bottomGridApi.gridPanel.getHScrollPosition();
+        this.topGridApi.gridPanel.setHorizontalScrollPosition(bottomHScrollPos.left);
     }
 
     onScrollBottomGrid() {
-        let topHScrollPos = this.topGridApi.gridPanel.getHScrollPosition();
-        this.bottomGridApi.gridPanel.setHorizontalScrollPosition(
-            topHScrollPos.left
-        );
+        const topHScrollPos = this.topGridApi.gridPanel.getHScrollPosition();
+        this.bottomGridApi.gridPanel.setHorizontalScrollPosition(topHScrollPos.left);
     }
 
     onTopColumnResized({ columns, finished }) {
@@ -215,65 +211,35 @@ export class AgGridExampleComponent {
     }
 
     resizeTopGrid(columns) {
-        let bottomColGroupWidth =
-            columns.length > 1
-                ? columns.reduce((a, b) => ({
-                    actualWidth: a.actualWidth + b.actualWidth,
-                })).actualWidth
-                : columns[0].parent.children.reduce((a, b) => ({
-                    actualWidth: a.actualWidth + b.actualWidth,
-                })).actualWidth;
+        const bottomColGroupWidth =
+            columns.length > 1  // columns.length > 1 when a column group is being resized
+                ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth
+                : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
-        let bottomColGroupId = columns[0].parent.groupId;
+        const bottomColGroupId = columns[0].parent.groupId;
+        const topColGroup = this.topGridColumnApi.getColumnGroup(bottomColGroupId);
+        const topColGroupWidth = topColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
-        let topColGroup = this.topGridColumnApi.getColumnGroup(
-            bottomColGroupId
-        );
-        let topColGroupWidth = topColGroup.children.reduce((a, b) => ({
-            actualWidth: a.actualWidth + b.actualWidth,
-        })).actualWidth;
-
-        let difference = bottomColGroupWidth - topColGroupWidth;
         topColGroup.children.forEach(col => {
-            // set finished to true on setColumnWidth to prevent inifinite loop
-            this.topGridColumnApi.setColumnWidth(
-                col,
-                col.actualWidth + difference / topColGroup.children.length,
-                true
-            );
+            const newWidth = col.actualWidth + (bottomColGroupWidth - topColGroupWidth) / topColGroup.children.length;
+            this.topGridColumnApi.setColumnWidth(col, newWidth, true); // set finished to true to prevent inifinite loop
         });
     }
 
     resizeBottomGrid(columns) {
-        // columns.length > 1 when a column group is being resized
-        let topColGroupWidth =
-            columns.length > 1
-                ? columns.reduce((a, b) => ({
-                    actualWidth: a.actualWidth + b.actualWidth,
-                })).actualWidth
-                : columns[0].parent.children.reduce((a, b) => ({
-                    actualWidth: a.actualWidth + b.actualWidth,
-                })).actualWidth;
+        const topColGroupWidth =
+            columns.length > 1  // columns.length > 1 when a column group is being resized
+                ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth
+                : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth;
 
-        let topColGroupId = columns[0].parent.groupId;
+        const topColGroupId = columns[0].parent.groupId;
+        const bottomColGroup = this.bottomGridColumnApi.getColumnGroup(topColGroupId);
+        const bottomColGroupWidth = bottomColGroup.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
-        let bottomColGroup = this.bottomGridColumnApi.getColumnGroup(
-            topColGroupId
-        );
-        let bottomColGroupWidth = bottomColGroup.children.reduce((a, b) => ({
-            actualWidth: a.actualWidth + b.actualWidth,
-        })).actualWidth;
-
-        let difference = topColGroupWidth - bottomColGroupWidth;
         bottomColGroup.children.forEach(col => {
-            // set finished to true on setColumnWidth to prevent inifinite loop
-            this.bottomGridColumnApi.setColumnWidth(
-                col,
-                col.actualWidth + difference / bottomColGroup.children.length,
-                true
-            );
+            const newWidth = col.actualWidth + (topColGroupWidth - bottomColGroupWidth) / bottomColGroup.children.length;
+            this.bottomGridColumnApi.setColumnWidth(col, newWidth, true); // set finished to true to prevent inifinite loop
         });
     }
-
 
 }
