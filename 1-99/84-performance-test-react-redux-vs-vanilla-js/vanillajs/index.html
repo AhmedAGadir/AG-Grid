@@ -27,13 +27,13 @@
 
 <body>
     <div class="button-wrap">
-        <button onclick="update1Row(event)">Update 1 Row</button>
-        <button onclick="delete1Row(event)">Delete 1 Row</button>
-        <button onclick="add1Row(event)">Add 1 Row</button>
+        <button onclick="updateRows(event, 1)">Update 1 Row</button>
+        <button onclick="deleteRows(event, 1)">Delete 1 Row</button>
+        <button onclick="addRows(event, 1)">Add 1 Row</button>
         <br />
-        <button onclick="update100Rows(event)">Update 100 Rows</button>
-        <button onclick="delete100Rows(event)">Delete 100 Rows</button>
-        <button onclick="add100Rows(event)">Add 100 Rows</button>
+        <button onclick="updateRows(event, 100)">Update 100 Rows</button>
+        <button onclick="deleteRows(event, 100)">Delete 100 Rows</button>
+        <button onclick="addRows(event, 100)">Add 100 Rows</button>
     </div>
     <div style="height: 100%; box-sizing: border-box;">
         <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>

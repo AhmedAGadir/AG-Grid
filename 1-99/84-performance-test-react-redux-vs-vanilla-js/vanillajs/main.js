@@ -1,75 +1,99 @@
-var immutableStore = [];
+var immutableStore = {
+    rowData: null
+};
 
-function update1Row() {
-    console.time('[UPDATE_1_ROW]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 1; i++) {
-        const randInd = Math.floor(Math.random() * newStore.length);
-        newStore[randInd].age += randomSeed();
-    }
-    gridOptions.api.setRowData(newStore);
-    console.timeEnd('[UPDATE_1_ROW]');
+function initRowData(data) {
+    data.forEach(d => d.id = createUniqueRandomSymbol(data));
+    immutableStore.rowData = data;
+    gridOptions.api.setRowData(immutableStore.rowData);
 }
 
-function delete1Row() {
-    console.time('[DELETE_1_ROW]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 1; i++) {
-        const randInd = Math.floor(Math.random() * newStore.length);
-        newStore.splice(randInd, 1);
+function updateRows(_, n) {
+    const indexSet = new Set();
+    while (indexSet.size < n) {
+        const randInd = getRandInd();
+        if (indexSet.has(randInd)) {
+            continue;
+        }
+        indexSet.add(randInd);
     }
-    gridOptions.api.setRowData(newStore)
-    console.timeEnd('[DELETE_1_ROW]');
+    const updatedRows = immutableStore.rowData.map(row => ({ ...row }));
+    [...indexSet].forEach(ind => {
+        updatedRows[ind]['age'] += Math.floor(Math.random() * 4) + 1;
+    });
+    immutableStore.rowData = updatedRows;
+    gridOptions.api.setRowData(immutableStore.rowData);
 }
 
-function add1Row() {
-    console.time('[ADD_1_ROW]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 1; i++) {
-        const randInd = Math.floor(Math.random() * newStore.length);
-        newStore.push({
-            ...newStore[randInd],
-            symbol: createUniqueRandomSymbol()
+function deleteRows(_, n) {
+    const indexSet = new Set();
+    while (indexSet.size < n) {
+        const randInd = getRandInd();
+        if (indexSet.has(randInd)) {
+            continue;
+        }
+        indexSet.add(randInd);
+    }
+    const updatedRows = immutableStore.rowData
+        .map(row => Object.assign({}, row))
+        .filter((_, ind) => ![...indexSet].includes(ind));
+    immutableStore.rowData = updatedRows;
+    gridOptions.api.setRowData(immutableStore.rowData);
+}
+
+function addRows(_, n) {
+    const indexSet = new Set();
+    const symbolSet = new Set();
+    while (indexSet.size < n) {
+        const randInd = getRandInd();
+        const symbol = createUniqueRandomSymbol();
+        if (indexSet.has(randInd) || symbolSet.has(symbol)) {
+            continue;
+        }
+        indexSet.add(randInd);
+        symbolSet.add(symbol);
+    }
+    const updatedRows = immutableStore.rowData.map(row => Object.assign({}, row));
+    [...indexSet].forEach((rowInd, ind) => {
+        updatedRows.push({
+            ...updatedRows[rowInd],
+            id: [...symbolSet][ind]
         })
-    }
-    gridOptions.api.setRowData(newStore)
-    console.timeEnd('[ADD_1_ROW]');
+    })
+    immutableStore.rowData = updatedRows;
+    gridOptions.api.setRowData(immutableStore.rowData);
 }
 
-function update100Rows() {
-    console.time('[UPDATE_100_ROWS]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 100; i++) {
-        const randInd = Math.floor(Math.random() * newStore.length);
-        newStore[randInd].age += randomSeed();
-    }
-    gridOptions.api.setRowData(newStore);
-    console.timeEnd('[UPDATE_100_ROWS]');
+function getRandInd() {
+    return Math.floor(Math.random() * immutableStore.rowData.length);
 }
 
-function delete100Rows() {
-    console.time('[DELETE_100_ROWS]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 100; i++) {
-        const randInd = Math.floor(Math.random() * newStore.length);
-        newStore.splice(randInd, 1);
+function createUniqueRandomSymbol(data = immutableStore.rowData) {
+    var symbol;
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    var isUnique = false;
+    while (!isUnique) {
+        symbol = '';
+        for (var i = 0; i < 10; i++) {
+            symbol += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        isUnique = true;
+        if (data.some(row => row.id === symbol)) {
+            isUnique = false;
+        }
     }
-    gridOptions.api.setRowData(newStore)
-    console.timeEnd('[DELETE_100_ROWS]');
+    return symbol;
 }
 
-function add100Rows() {
-    console.time('[ADD_100_ROWS]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 100; i++) {
-        const randInd = Math.floor(Math.random() * newStore.length);
-        newStore.push({
-            ...newStore[randInd],
-            symbol: createUniqueRandomSymbol()
-        })
+function logger(fn) {
+    return function (...arguments) {
+        console.group(fn.name);
+        console.log('prev state', immutableStore);
+        fn(...arguments);
+        console.log('next state', immutableStore);
+        console.groupEnd(fn.name);
     }
-    gridOptions.api.setRowData(newStore)
-    console.timeEnd('[ADD_100_ROWS]');
 }
 
 var gridOptions = {
@@ -87,8 +111,14 @@ var gridOptions = {
         width: 150,
     },
     deltaRowMode: true,
-    getRowNodeId: data => data.symbol,
-    rowData: null,
+    getRowNodeId: data => data.id,
+    rowData: immutableStore.rowData,
+    onGridReady: () => {
+        initRowData = logger(initRowData)
+        updateRows = logger(updateRows);
+        deleteRows = logger(deleteRows);
+        addRows = logger(addRows);
+    }
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -99,45 +129,6 @@ document.addEventListener('DOMContentLoaded', function () {
             url:
                 'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json',
         })
-        .then(function (data) {
-            data.forEach(d => {
-                d.symbol = createUniqueRandomSymbol();
-                immutableStore.push(d);
-            })
-            gridOptions.api.setRowData(immutableStore);
-
-            update1Row();
-            update100Rows();
-            delete1Row();
-            delete100Rows();
-            add1Row();
-            add100Rows();
-        });
+        .then(data => initRowData(data));
 });
 
-function randomSeed() {
-    return Math.floor(Math.random() * 4) + 1;
-}
-
-
-function createUniqueRandomSymbol() {
-    var symbol;
-    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    var isUnique = false;
-    while (!isUnique) {
-        symbol = '';
-        // create symbol
-        for (var i = 0; i < 10; i++) {
-            symbol += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        // check uniqueness
-        isUnique = true;
-        immutableStore.forEach(function (oldItem) {
-            if (oldItem.symbol === symbol) {
-                isUnique = false;
-            }
-        });
-    }
-    return symbol;
-}

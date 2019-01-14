@@ -7,7 +7,7 @@ var gridOptions = {
         { headerName: 'Date', field: 'date' },
         { headerName: 'Gold', field: 'gold' },
         { headerName: 'Silver', field: 'silver' },
-        { headerName: 'Bronze', field: 'bronze' },
+        { headerName: 'Bronze', field: 'bronze' }
     ],
     defaultColDef: {
         width: 150,

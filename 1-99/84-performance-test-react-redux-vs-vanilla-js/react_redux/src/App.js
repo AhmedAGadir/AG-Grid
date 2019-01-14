@@ -6,118 +6,110 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'ag-grid-enterprise';
 
-import { connect } from 'redux';
+import { connect } from 'react-redux';
 import * as actions from './store/actions';
+
+// HOW TO GET REFERENCES TO 100 DIFFERENT (UNIQUE) ROWS 
+// const alreadyAdded = new Set();
+// while (alreadyAdded.size < 100) {
+//   const randRow = this.props.rowData[Math.floor(Math.random() * this.props.rowData.length)];
+//   if (alreadyAdded.has(randRow)) continue;
+//   alreadyAdded.add(randRow)
+// }
 
 class App extends Component {
 
-  // componentDidMount() {
-  //   fetch('https://api.myjson.com/bins/15psn9')
-  //     .then(result => result.json())
-  //     .then(rowData => this.setState({ rowData }))
-  // }
+  componentDidMount() {
+    // not using redux thunk / asynchronous action setters
+    fetch('https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json')
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(d => d.id = this.createUniqueRandomSymbol(data));
+        this.props.onInitRowData(data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
   }
 
-  onUpdate1Row = () => {
-    console.time('[UPDATE_1_ROW]');
-    const newStore = this.props.rowData.map(data => ({ ...data }));
-    for (let i = 0; i < 1; i++) {
-      const randInd = Math.floor(Math.random() * newStore.length);
-      newStore[randInd].age += this.randomSeed();
+  update1RowHandler = () => {
+    const randInd = this.getRandInd();
+    this.props.onUpdateRows([randInd]);
+  }
+
+  delete1RowHandler = () => {
+    const randInd = this.getRandInd();
+    this.props.onDeleteRows([randInd]);
+  }
+
+  add1RowHandler = () => {
+    const randInd = this.getRandInd();
+    const symbol = this.createUniqueRandomSymbol();
+    this.props.onAddRows([randInd], [symbol]);
+  }
+
+  update100RowsHandler = () => {
+    const indexSet = new Set();
+    while (indexSet.size < 100) {
+      const randInd = this.getRandInd();
+      if (indexSet.has(randInd)) {
+        continue;
+      }
+      indexSet.add(randInd);
     }
-    this.gridApi.setRowData(newStore);
-    console.timeEnd('[UPDATE_1_ROW]');
+    this.props.onUpdateRows([...indexSet]);
   }
 
-  onDelete1Row = () => {
-    console.time('[DELETE_1_ROW]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 1; i++) {
-      const randInd = Math.floor(Math.random() * newStore.length);
-      newStore.splice(randInd, 1);
+  delete100RowsHandler = () => {
+    const indexSet = new Set();
+    while (indexSet.size < 100) {
+      const randInd = this.getRandInd();
+      if (indexSet.has(randInd)) {
+        continue;
+      }
+      indexSet.add(randInd);
     }
-    this.gridApi.setRowData(newStore)
-    console.timeEnd('[DELETE_1_ROW]');
+    this.props.onDeleteRows([...indexSet]);
   }
 
-  onAdd1Row = () => {
-    console.time('[ADD_1_ROW]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 1; i++) {
-      const randInd = Math.floor(Math.random() * newStore.length);
-      newStore.push({
-        ...newStore[randInd],
-        symbol: createUniqueRandomSymbol()
-      })
+  add100RowsHandler = () => {
+    const indexSet = new Set();
+    const symbolSet = new Set();
+    while (indexSet.size < 100) {
+      const randInd = this.getRandInd();
+      const symbol = this.createUniqueRandomSymbol();
+      if (indexSet.has(randInd) || symbolSet.has(symbol)) {
+        continue;
+      }
+      indexSet.add(randInd);
+      symbolSet.add(symbol);
     }
-    this.gridApi.setRowData(newStore)
-    console.timeEnd('[ADD_1_ROW]');
+    this.props.onAddRows([...indexSet], [...symbolSet]);
   }
 
-  onUpdate100Rows = () => {
-    console.time('[UPDATE_100_ROWS]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 100; i++) {
-      const randInd = Math.floor(Math.random() * newStore.length);
-      newStore[randInd].age += this.randomSeed();
-    }
-    this.gridApi.setRowData(newStore);
-    console.timeEnd('[UPDATE_100_ROWS]');
+  getRandInd() {
+    return Math.floor(Math.random() * this.props.rowData.length);
   }
 
-  onDelete100Rows = () => {
-    console.time('[DELETE_100_ROWS]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 100; i++) {
-      const randInd = Math.floor(Math.random() * newStore.length);
-      newStore.splice(randInd, 1);
-    }
-    this.gridApi.setRowData(newStore)
-    console.timeEnd('[DELETE_100_ROWS]');
-  }
-
-  onAdd100Rows = () => {
-    console.time('[ADD_100_ROWS]');
-    const newStore = immutableStore.map(data => ({ ...data }));
-    for (let i = 0; i < 100; i++) {
-      const randInd = Math.floor(Math.random() * newStore.length);
-      newStore.push({
-        ...newStore[randInd],
-        symbol: this.createUniqueRandomSymbol()
-      })
-    }
-    this.gridApi.setRowData(newStore)
-    console.timeEnd('[ADD_100_ROWS]');
-  }
-
-  getRandomSeed() {
-    return Math.floor(Math.random() * 4) + 1;
-  }
-
-
-  createUniqueRandomSymbol() {
+  createUniqueRandomSymbol(data = this.props.rowData) {
     var symbol;
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     var isUnique = false;
     while (!isUnique) {
       symbol = '';
-      // create symbol
       for (var i = 0; i < 10; i++) {
         symbol += possible.charAt(Math.floor(Math.random() * possible.length));
       }
-      // check uniqueness
       isUnique = true;
-      this.props.rowData.forEach(oldItem => {
-        if (oldItem.symbol === symbol) {
-          isUnique = false;
-        }
-      })
-
+      if (data.some(row => row.id === symbol)) {
+        isUnique = false;
+      }
     }
     return symbol;
   }
@@ -127,13 +119,13 @@ class App extends Component {
     return (
       <Fragment>
         <div className="button-wrap">
-          <button onClick={this.onUpdate1Row}>Update 1 Row</button>
-          <button onClick={this.onDelete1Row}>Delete 1 Row</button>
-          <button onClick={this.onAdd1Row}>Add 1 Row</button>
+          <button onClick={this.update1RowHandler}>Update 1 Row</button>
+          <button onClick={this.delete1RowHandler}>Delete 1 Row</button>
+          <button onClick={this.add1RowHandler}>Add 1 Row</button>
           <br />
-          <button onClick={this.onUpdate100Rows}>Update 100 Rows</button>
-          <button onClick={this.onDelete100Rows}>Delete 100 Rows</button>
-          <button onClick={this.onAdd100Rows}>Add 100 Rows</button>
+          <button onClick={this.update100RowsHandler}>Update 100 Rows</button>
+          <button onClick={this.delete100RowsHandler}>Delete 100 Rows</button>
+          <button onClick={this.add100RowsHandler}>Add 100 Rows</button>
         </div>
         <div
           className="ag-theme-balham"
@@ -142,12 +134,21 @@ class App extends Component {
             // width: '100%'
           }}>
           <AgGridReact
-            columnDefs={this.props.columnDefs}
+            columnDefs={[
+              { headerName: 'Athlete', field: 'athlete' },
+              { headerName: 'Sport', field: 'sport' },
+              { headerName: 'Age', field: 'age' },
+              { headerName: 'Year', field: 'year' },
+              { headerName: 'Date', field: 'date' },
+              { headerName: 'Gold', field: 'gold' },
+              { headerName: 'Silver', field: 'silver' },
+              { headerName: 'Bronze', field: 'bronze' }
+            ]}
             rowData={this.props.rowData}
             defaultColDef={{ width: 150 }}
             onGridReady={this.onGridReady}
             deltaRowMode={true}
-            getRowNodeId={data => data.symbol}>
+            getRowNodeId={data => data.id}>
           </AgGridReact>
         </div>
 
@@ -158,19 +159,16 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    columnDefs: state.columnDefs,
     rowData: state.rowData
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdate1Row: row => dispatch(actions.update1Row(row)),
-    onDelete1Row: row => dispatch(actions.delete1Row(row)),
-    onAdd1Row: row => dispatch(actions.add1Row(row)),
-    onUpdate100Rows: rows => dispatch(actions.update100Rows(rows)),
-    onDelete100Rows: rows => dispatch(actions.delete100Rows(rows)),
-    onAdd100Rows: rows => dispatch(actions.add100Rows(rows)),
+    onInitRowData: rowData => dispatch(actions.initRowData(rowData)),
+    onUpdateRows: indexArr => dispatch(actions.updateRows(indexArr)),
+    onDeleteRows: indexArr => dispatch(actions.deleteRows(indexArr)),
+    onAddRows: (indexArr, symbolArr) => dispatch(actions.addRows(indexArr, symbolArr)),
   }
 }
 

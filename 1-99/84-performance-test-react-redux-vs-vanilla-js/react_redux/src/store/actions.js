@@ -1,43 +1,30 @@
 import * as actionTypes from './actionTypes';
 
-export const update1Row = row => {
+export const initRowData = rowData => {
     return {
-        type: actionTypes.UPDATE_1_ROW,
-        payload: row
+        type: actionTypes.INIT_ROW_DATA,
+        rowData: rowData
     }
 }
 
-export const add1Row = row => {
+export const updateRows = indexArr => {
     return {
-        type: actionTypes.ADD_1_ROW,
-        payload: row
+        type: actionTypes.UPDATE_ROWS,
+        indexArr: indexArr
     }
 }
 
-export const delete1Row = row => {
+export const deleteRows = indexArr => {
     return {
-        type: actionTypes.DELETE_1_ROW,
-        payload: row
+        type: actionTypes.DELETE_ROWS,
+        indexArr: indexArr
     }
 }
 
-export const update100Rows = rows => {
+export const addRows = (indexArr, symbolArr) => {
     return {
-        type: actionTypes.UPDATE_100_ROWS,
-        payload: rows
-    }
-}
-
-export const add100Rows = rows => {
-    return {
-        type: actionTypes.ADD_100_ROWS,
-        payload: rows
-    }
-}
-
-export const delete100Rows = rows => {
-    return {
-        type: 'DELETE_100_ROWS',
-        payload: rows
+        type: actionTypes.ADD_ROWS,
+        indexArr: indexArr,
+        symbolArr: symbolArr
     }
 }
