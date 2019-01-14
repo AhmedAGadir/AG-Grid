@@ -45,7 +45,7 @@ export class AgGridExampleComponent {
             {
                 headerName: 'Group2',
                 children: [
-                    // { field: 'jobTitle', width: 200 },
+                    { field: 'jobTitle', width: 200 },
                     { field: 'employmentType', width: 200 },
                 ],
             },
@@ -188,14 +188,14 @@ export class AgGridExampleComponent {
         this.bottomGridColumnApi = params.columnApi;
     }
 
-    onScrollTopGrid() {
-        const bottomHScrollPos = this.bottomGridApi.gridPanel.getHScrollPosition();
-        this.topGridApi.gridPanel.setHorizontalScrollPosition(bottomHScrollPos.left);
-    }
-
-    onScrollBottomGrid() {
+    onTopGridScrolled() {
         const topHScrollPos = this.topGridApi.gridPanel.getHScrollPosition();
         this.bottomGridApi.gridPanel.setHorizontalScrollPosition(topHScrollPos.left);
+    }
+
+    onBottomGridScrolled() {
+        const bottomHScrollPos = this.bottomGridApi.gridPanel.getHScrollPosition();
+        this.topGridApi.gridPanel.setHorizontalScrollPosition(bottomHScrollPos.left);
     }
 
     onTopColumnResized({ columns, finished }) {

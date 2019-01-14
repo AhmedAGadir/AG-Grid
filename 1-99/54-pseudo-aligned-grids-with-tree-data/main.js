@@ -140,7 +140,7 @@ var gridOptionsTop = {
     rowData: normalRowData,
     enableColResize: true,
     groupSuppressAutoColumn: true,
-    onBodyScroll: scrollBottomGrid,
+    onBodyScroll: onTopGridScrolled,
     onColumnResized: ({ columns, finished }) => {
         if (!finished) {
             resizeBottomGrid(columns)
@@ -158,7 +158,7 @@ var gridOptionsBottom = {
     enableColResize: true,
     groupSuppressAutoColumn: true,
     // onFirstDataRendered: resizeBottomColGroups,
-    onBodyScroll: scrollTopGrid,
+    onBodyScroll: onBottomGridScrolled,
     onColumnResized: ({ columns, finished }) => {
         if (!finished) {
             resizeTopGrid(columns)
@@ -176,12 +176,12 @@ document.addEventListener('DOMContentLoaded', function () {
     new agGrid.Grid(gridDivBottom, gridOptionsBottom);
 });
 
-function scrollBottomGrid() {
+function onTopGridScrolled() {
     let topHScrollPos = gridOptionsTop.api.gridPanel.getHScrollPosition();
     gridOptionsBottom.api.gridPanel.setHorizontalScrollPosition(topHScrollPos.left)
 }
 
-function scrollTopGrid() {
+function onBottomGridScrolled() {
     let bottomHScrollPos = gridOptionsBottom.api.gridPanel.getHScrollPosition();
     gridOptionsTop.api.gridPanel.setHorizontalScrollPosition(bottomHScrollPos.left)
 }
