@@ -87,10 +87,10 @@ function createUniqueRandomSymbol(data = immutableStore.rowData) {
 }
 
 function logger(fn) {
-    return function (...arguments) {
+    return function (...args) {
         console.group(fn.name);
         console.log('prev state', immutableStore);
-        fn(...arguments);
+        fn(...args);
         console.log('next state', immutableStore);
         console.groupEnd(fn.name);
     }
