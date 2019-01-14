@@ -187,10 +187,8 @@ function scrollTopGrid() {
 }
 
 function resizeBottomGrid(columns) {
-    const topColGroupWidth =
-        columns.length > 1  // columns.length > 1 when a column group is being resized
-            ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth
-            : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth;
+    const topColGroupWidth = columns[0].parent.children
+        .reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth;
 
     const topColGroupId = columns[0].parent.groupId;
     const bottomColGroup = gridOptionsBottom.columnApi.getColumnGroup(topColGroupId);
@@ -205,10 +203,8 @@ function resizeBottomGrid(columns) {
 
 
 function resizeTopGrid(columns) {
-    const bottomColGroupWidth =
-        columns.length > 1  // columns.length > 1 when a column group is being resized
-            ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth
-            : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+    const bottomColGroupWidth = columns[0].parent.children
+        .reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
     const bottomColGroupId = columns[0].parent.groupId;
     const topColGroup = gridOptionsTop.columnApi.getColumnGroup(bottomColGroupId);

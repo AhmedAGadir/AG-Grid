@@ -45,7 +45,7 @@ export class AgGridExampleComponent {
             {
                 headerName: 'Group2',
                 children: [
-                    { field: 'jobTitle', width: 200 },
+                    // { field: 'jobTitle', width: 200 },
                     { field: 'employmentType', width: 200 },
                 ],
             },
@@ -211,10 +211,8 @@ export class AgGridExampleComponent {
     }
 
     resizeTopGrid(columns) {
-        const bottomColGroupWidth =
-            columns.length > 1  // columns.length > 1 when a column group is being resized
-                ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth
-                : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
+        const bottomColGroupWidth = columns[0].parent.children
+            .reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth })).actualWidth;
 
         const bottomColGroupId = columns[0].parent.groupId;
         const topColGroup = this.topGridColumnApi.getColumnGroup(bottomColGroupId);
@@ -227,10 +225,8 @@ export class AgGridExampleComponent {
     }
 
     resizeBottomGrid(columns) {
-        const topColGroupWidth =
-            columns.length > 1  // columns.length > 1 when a column group is being resized
-                ? columns.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth
-                : columns[0].parent.children.reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth;
+        const topColGroupWidth = columns[0].parent.children
+            .reduce((a, b) => ({ actualWidth: a.actualWidth + b.actualWidth, })).actualWidth;
 
         const topColGroupId = columns[0].parent.groupId;
         const bottomColGroup = this.bottomGridColumnApi.getColumnGroup(topColGroupId);
