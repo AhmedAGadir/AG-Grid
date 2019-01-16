@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid/dist/styles/ag-grid.css';
-import 'ag-grid/dist/styles/ag-theme-balham.css';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'ag-grid-enterprise';
 
 import MyFullWidthCellRenderer from './MyFullWidthCellRenderer';
 
-class MyMainGrid extends Component {
+class MyMasterGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,10 +31,20 @@ class MyMainGrid extends Component {
         };
     };
 
+    updateDetailRowData = () => {
+        const rowDataCopy = this.state.rowData.map(row => ({
+            ...row,
+            rowDatas: row.rowDatas ? row.rowDatas.map(rD => ({ ...rD })) : undefined
+        }));
+        rowDataCopy[1].rowDatas[0].test = 'from button click';
+        this.setState({ rowData: rowDataCopy }, () => {
+            this.gridApi.setRowData(rowDataCopy)
+        })
+    }
+
     onGridReady = params => {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
-
 
         this.gridApi.sizeColumnsToFit();
     }
@@ -66,6 +76,9 @@ class MyMainGrid extends Component {
                     doesDataFlower={this.doesDataFlower}
                     isFullWidthCell={this.isFullWidthCell}
                     fullWidthCellRendererFramework={MyFullWidthCellRenderer}
+                    fullWidthCellRendererParams={{
+                        updateRowData: this.updateDetailRowData
+                    }}
                     getRowHeight={this.getRowHeight}
                     getRowNodeId={this.getRowNodeId}
                     deltaRowDataMode={true}
@@ -75,4 +88,4 @@ class MyMainGrid extends Component {
     }
 }
 
-export default MyMainGrid;
+export default MyMasterGrid;

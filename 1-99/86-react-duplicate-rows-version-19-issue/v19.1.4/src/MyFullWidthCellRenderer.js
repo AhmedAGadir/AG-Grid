@@ -17,12 +17,7 @@ class MyFullWidthCellRenderer extends Component {
     //     this.gridApi.sizeColumnsToFit();
     // }
 
-    componentWillReceiveProps() {
-        console.log('componentWillReceiveProps')
-    }
-
     render() {
-        console.log('middle man')
         return (
             <div style={{
                 display: 'flex',

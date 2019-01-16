@@ -1,5 +1,4 @@
 import React from 'react';
-import { AgGrid } from 'ag-grid';
 import { AgGridReact } from 'ag-grid-react';
 import _ from 'lodash';
 import 'ag-grid/dist/styles/ag-grid.css';
@@ -7,7 +6,7 @@ import 'ag-grid/dist/styles/ag-theme-balham.css';
 import 'ag-grid-enterprise';
 
 
-export default class MyGrid extends React.Component {
+export default class MyDetailGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +36,13 @@ export default class MyGrid extends React.Component {
       //NO NEED TO DO THIS!
       this.gridApi.setRowData(nextProps.rowDatas);
     });
+  }
+
+  onGridReady = params => {
+    this.gridApi = params.api;
+    this.columnApi = params.columnApi;
+
+    this.gridApi.sizeColumnsToFit();
   }
 
 
