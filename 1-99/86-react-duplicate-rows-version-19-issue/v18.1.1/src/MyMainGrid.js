@@ -38,25 +38,20 @@ class MyMainGrid extends Component {
         };
     };
 
-
-    componentDidMount = () => {
-        fetch("https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json")
-            .then(res => res.json())
-            .then(data => {
-                this.gridApi.setRowData(data);
-            })
-    }
-
-    // componentWillReceiveProps = (nextProps) => {
-    //     this.setState({ rowData: nextProps.rowData }, () => {
-    //         //NO NEED TO DO THIS!
-    //         this.gridApi.setRowData(nextProps.rowData);
-    //     });
-    // }
-
     onGridReady = params => {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
+
+        fetch("https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json")
+            .then(res => res.json())
+            .then(data => {
+                params.api.setRowData(data);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        this.gridApi.sizeColumnsToFit();
     }
 
     doesDataFlower = () => {
@@ -72,7 +67,8 @@ class MyMainGrid extends Component {
     }
 
     getRowNodeId = data => {
-        return data.uniqueId;
+        ;
+        return data.account;
     }
 
 
