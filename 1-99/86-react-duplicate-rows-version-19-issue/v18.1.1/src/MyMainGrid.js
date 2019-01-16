@@ -4,7 +4,7 @@ import 'ag-grid/dist/styles/ag-grid.css';
 import 'ag-grid/dist/styles/ag-theme-balham.css';
 import 'ag-grid-enterprise';
 
-import MySubGrid from './MySubGrid';
+import MyFullWidthCellRenderer from './MyFullWidthCellRenderer';
 
 class MyMainGrid extends Component {
     constructor(props) {
@@ -13,28 +13,21 @@ class MyMainGrid extends Component {
             columnDefs: [
                 {
                     field: "name",
-                    cellRenderer: "agGroupCellRenderer"
-                },
-                { field: "account" },
-                { field: "calls" },
-                {
-                    field: "minutes",
-                    valueFormatter: "x.toLocaleString() + 'm'"
                 }
             ],
-            rowData: null,
-            fullWidthCellRendererParams: {
-                columnDefs: [
-                    { field: "callId" },
-                    { field: "direction" },
-                    { field: "number" },
-                    {
-                        field: "duration",
-                        valueFormatter: "x.toLocaleString() + 's'"
-                    },
-                    { field: "switchCode" }
-                ]
-            }
+            rowData: [
+                {
+                    name: 'old master',
+                    id: 'oldMaster'
+                },
+                {
+                    name: 'old detail',
+                    id: 'oldDetail',
+                    rowDatas: [{
+                        test: 'from the old master'
+                    }]
+                }
+            ]
         };
     };
 
@@ -42,33 +35,24 @@ class MyMainGrid extends Component {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
 
-        fetch("https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json")
-            .then(res => res.json())
-            .then(data => {
-                params.api.setRowData(data);
-            })
-            .catch(err => {
-                console.log(err)
-            })
 
         this.gridApi.sizeColumnsToFit();
     }
 
-    doesDataFlower = () => {
-        return true
+    doesDataFlower = (data) => {
+        return data.id === 'oldMaster';
     }
 
     isFullWidthCell = node => {
-        return node.flower;
+        return node.data.id === 'oldDetail';
     }
 
     getRowHeight = params => {
-        return params.node.level === 1 ? 200 : 25
+        return params.node.data.id === 'oldDetail' ? 200 : 25
     }
 
     getRowNodeId = data => {
-        ;
-        return data.account;
+        return data.id;
     }
 
 
@@ -81,8 +65,7 @@ class MyMainGrid extends Component {
                     onGridReady={this.onGridReady}
                     doesDataFlower={this.doesDataFlower}
                     isFullWidthCell={this.isFullWidthCell}
-                    fullWidthCellRendererFramework={MySubGrid}
-                    fullWidthCellRendererParams={this.state.fullWidthCellRendererParams}
+                    fullWidthCellRendererFramework={MyFullWidthCellRenderer}
                     getRowHeight={this.getRowHeight}
                     getRowNodeId={this.getRowNodeId}
                     deltaRowDataMode={true}

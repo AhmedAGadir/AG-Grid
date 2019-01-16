@@ -4,8 +4,9 @@ import 'ag-grid/dist/styles/ag-grid.css';
 import 'ag-grid/dist/styles/ag-theme-balham.css';
 import 'ag-grid-enterprise';
 
-class FullWidthCellRenderer extends Component {
+import MyGrid from './MyGrid';
 
+class FullWidthCellRenderer extends Component {
 
     // componentWillReceiveProps = (nextProps) => {
     //     this.setState({ rowData: nextProps.rowData }, () => {
@@ -23,18 +24,12 @@ class FullWidthCellRenderer extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center'
+            }}>
                 <button onClick={this.props.updateRowData}>update row data</button>
-                <div className="ag-theme-balham testings" style={{
-                    width: '90%',
-                    height: '190px',
-                    margin: '5px auto'
-                }}>
-                    <AgGridReact
-                        columnDefs={this.props.columnDefs}
-                        rowData={this.props.data.callRecords}
-                        onGridReady={this.onGridReady} />
-                </div>
+                <MyGrid rowDatas={this.props.data.rowDatas} />
             </div>
         );
     }

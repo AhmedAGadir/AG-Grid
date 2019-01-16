@@ -42,13 +42,13 @@ export default class MyGrid extends React.Component {
 
   render() {
     return (
-      <div className="ag-theme-balham" style={{ width: '100vw', height: '100vh' }}>
+      <div className="ag-theme-balham" style={{ width: '100%', height: '200px' }}>
         <AgGridReact
           // properties
           columnDefs={[{
             field: 'test'
           }]}
-          rowData={this.state.rowDatas}
+          rowData={this.props.rowDatas}
           showToolPanel={false}
           enableSorting
           enableColResize
