@@ -13,12 +13,10 @@ import uuidv4 from 'uuid';;
 class App extends Component {
 
   componentDidMount() {
-    // not using redux thunk / asynchronous action setters
     fetch('https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json')
       .then(res => res.json())
       .then(data => {
         data.forEach(d => d.id = uuidv4())
-        console.log(data)
         this.props.onInitRowData(data);
       })
       .catch(error => {
