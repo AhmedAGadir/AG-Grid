@@ -65,7 +65,6 @@ const mapStateToProps = state => {
   return {
     columnDefs: state.columnDefs,
     rowData: state.rowData,
-    isFilterVisible: state.isFilterVisible
   }
 }
 
