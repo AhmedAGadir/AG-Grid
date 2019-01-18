@@ -8,17 +8,16 @@ import 'ag-grid-enterprise';
 
 import { connect } from 'react-redux';
 import * as actions from './store/actions';
-import uuidv4 from 'uuid';;
+import uuidv4 from 'uuid';
+import MyCustomFloatingFilter from './MyCustomFloatingFilter';
 
 class App extends Component {
 
   componentDidMount() {
-    // not using redux thunk / asynchronous action setters
     fetch('https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json')
       .then(res => res.json())
       .then(data => {
         data.forEach(d => d.id = uuidv4())
-        console.log(data)
         this.props.onInitRowData(data);
       })
       .catch(error => {
@@ -29,33 +28,41 @@ class App extends Component {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+
+    this.gridApi.sizeColumnsToFit();
   }
 
   render() {
     return (
-      <div
-        className="ag-theme-balham"
-        style={{
-          height: '90vh',
-          // width: '100%'
-        }}>
-        <AgGridReact
-          columnDefs={[
-            { headerName: 'Athlete', field: 'athlete' },
-            { headerName: 'Sport', field: 'sport' },
-            { headerName: 'Age', field: 'age' },
-            { headerName: 'Year', field: 'year' },
-            { headerName: 'Date', field: 'date' },
-            { headerName: 'Gold', field: 'gold' },
-            { headerName: 'Silver', field: 'silver' },
-            { headerName: 'Bronze', field: 'bronze' }
-          ]}
-          rowData={this.props.rowData}
-          defaultColDef={{ width: 150 }}
-          onGridReady={this.onGridReady}
-          deltaRowMode={true}
-          getRowNodeId={data => data.id}>
-        </AgGridReact>
+      <div>
+        <button
+          style={{ margin: '10px' }}
+          onClick={this.props.onToggleFloatingFilter}>{this.props.isFilterVisible ? 'hide filter' : 'show filter'}</button>
+        <div
+          className="ag-theme-balham"
+          style={{ height: '100vh', }}>
+          <AgGridReact
+            columnDefs={this.props.columnDefs}
+            defaultColDef={{
+              width: 150,
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              floatingFilterComponent: 'myCustomFloatingFilter',
+              floatingFilterComponentParams: {
+                suppressFilterButton: true,
+                isFilterVisible: this.props.isFilterVisible
+              }
+            }}
+            frameworkComponents={{
+              myCustomFloatingFilter: MyCustomFloatingFilter
+            }}
+            rowData={this.props.rowData}
+            onGridReady={this.onGridReady}
+            getRowNodeId={data => data.id}
+            deltaRowMode={true}
+            floatingFilter={true}
+            enableColResize={true} />
+        </div>
       </div>
     );
   }
@@ -63,13 +70,16 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    rowData: state.rowData
+    columnDefs: state.columnDefs,
+    rowData: state.rowData,
+    isFilterVisible: state.isFilterVisible
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onInitRowData: rowData => dispatch(actions.initRowData(rowData)),
+    onToggleFloatingFilter: () => dispatch(actions.toggleFloatingFilter())
   }
 }
 

@@ -6,3 +6,9 @@ export const initRowData = rowData => {
         rowData: rowData
     }
 }
+
+export const toggleFloatingFilter = () => {
+    return {
+        type: actionTypes.TOGGLE_FLOATING_FILTER,
+    }
+}
