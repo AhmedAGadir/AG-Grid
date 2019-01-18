@@ -3,19 +3,9 @@ import MyDetailGrid from './MyDetailGrid';
 
 class MyFullWidthCellRenderer extends Component {
 
-    // componentWillReceiveProps = (nextProps) => {
-    //     this.setState({ rowData: nextProps.rowData }, () => {
-    //         //NO NEED TO DO THIS!
-    //         this.gridApi.setRowData(nextProps.rowData);
-    //     });
-    // }
-
-    // onGridReady = params => {
-    //     this.gridApi = params.api;
-    //     this.columnApi = params.columnApi;
-
-    //     this.gridApi.sizeColumnsToFit();
-    // }
+    componentWillReceiveProps() {
+        console.log('[MyFullWidthCellRenderer] componentWillReceiveProps')
+    }
 
     render() {
         return (

@@ -13,6 +13,7 @@ import logger from './logger';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk, logger)));
 
+
 const app = (
     <Provider store={store}>
         <App />

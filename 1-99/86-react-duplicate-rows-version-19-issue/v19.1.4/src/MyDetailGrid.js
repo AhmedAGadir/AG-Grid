@@ -31,12 +31,12 @@ export default class MyDetailGrid extends React.Component {
         return data.uniqueId;
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({ rowDatas: nextProps.rowDatas }, () => {
-            //NO NEED TO DO THIS!
-            this.gridApi.setRowData(nextProps.rowDatas);
-        });
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     this.setState({ rowDatas: nextProps.rowDatas }, () => {
+    //         //NO NEED TO DO THIS!
+    //         this.gridApi.setRowData(nextProps.rowDatas);
+    //     });
+    // }
 
     onGridReady = params => {
         this.gridApi = params.api;
