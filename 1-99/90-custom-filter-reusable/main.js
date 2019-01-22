@@ -1,8 +1,17 @@
 
 var columnDefs = [
     { field: 'movie' },
-    { field: 'plot', filter: StarFilter },
-    { field: 'humour', filter: StarFilter }
+    {
+        field: 'plot',
+        type: 'starFilter',
+    },
+    {
+        field: 'humour',
+        type: 'starFilter',
+        filterParams: {
+            starWidth: '40px'
+        }
+    }
 ];
 
 var rowData = [
@@ -19,11 +28,16 @@ var rowData = [
 ];
 
 var gridOptions = {
-    defaultColDef: {
-        filter: true
-    },
     columnDefs: columnDefs,
-    rowData: rowData
+    columnTypes: {
+        starFilter: {
+            filter: StarFilter,
+            filterParams: {
+                starWidth: '20px'
+            }
+        }
+    },
+    rowData: rowData,
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -34,12 +48,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function StarFilter() { }
 
 StarFilter.prototype.init = function (params) {
+    // The number of stars selected by the user
+    this.stars = null;
     this.params = params;
-    this.valueGetter = params.valueGetter;
-
+    this.fieldId = params.colDef.field;
     this.eGui = document.createElement('div');
-    this.id = 'rateYo' + params.colDef.field;
-    this.eGui.setAttribute('id', this.id);
 }
 
 StarFilter.prototype.getGui = function () {
@@ -47,30 +60,33 @@ StarFilter.prototype.getGui = function () {
 }
 
 StarFilter.prototype.afterGuiAttached = function () {
-    $("#" + this.id).rateYo({
-        starWidth: "20px",
+    $(this.eGui).rateYo({
+        starWidth: this.params.starWidth,
         fullStar: true,
         onSet: rating => {
-            this.filterText = rating;
+            this.stars = rating;
             this.params.filterChangedCallback();
         },
     });
 }
 
 StarFilter.prototype.isFilterActive = function () {
-    return $("#" + this.id).rateYo('rating') !== 0;
+    return this.stars !== null;
 }
 
 StarFilter.prototype.doesFilterPass = function (params) {
-    console.log('doesFilterPass', this.valueGetter(params))
-    return this.valueGetter(params) === $("#" + this.id).rateYo('rating');
+    return params.data[this.fieldId] === this.stars;
 }
 
+// The following 2 methods arent used for filtering directly, but more for maintaining the grids state
+
+// This component is modeled only with one variable that 
+// represents the number of stars that the user is filtering by.
 StarFilter.prototype.getModel = function () {
-    var model = { value: $("#" + this.id).rateYo('rating') };
-    return model;
+    return this.stars;
 };
 
-StarFilter.prototype.setModel = function (model) {
-    $("#" + this.id).rateYo('rating', model.value);
+// setModel might get called by the grid with a null parameter to reset the filter
+StarFilter.prototype.setModel = function (numberOfStars) {
+    this.stars = numberOfStars;
 };

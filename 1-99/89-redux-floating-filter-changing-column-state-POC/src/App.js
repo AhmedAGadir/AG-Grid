@@ -55,7 +55,8 @@ class App extends Component {
           getRowNodeId={data => data.id}
           deltaRowMode={true}
           floatingFilter={true}
-          enableColResize={true} />
+          enableColResize={true}
+          suppressPropertyNamesCheck={true} />
       </div>
     );
   }
