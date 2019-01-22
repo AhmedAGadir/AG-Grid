@@ -64,7 +64,7 @@ StarFilter.prototype.afterGuiAttached = function () {
         starWidth: this.params.starWidth,
         fullStar: true,
         onSet: rating => {
-            this.stars = rating;
+            this.stars = rating !== 0 ? rating : null;
             this.params.filterChangedCallback();
         },
     });
