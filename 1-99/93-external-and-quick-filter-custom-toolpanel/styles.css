@@ -9,3 +9,9 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 13px;
 }
+
+label {
+    display: block;
+    padding: 5px 30px;
+    text-align: left;
+}
