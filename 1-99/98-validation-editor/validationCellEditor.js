@@ -32,7 +32,7 @@ ValidationCellEditor.prototype.inputChanged = function (event) {
     this.eResult.innerHTML = TICK_SYMBOL;
   } else {
     this.eValidating.classList.remove('hide');
-    this.eValidating.textContent = 'Invalid for reason x' // can conditionally render different messages using regexp
+    this.eValidating.textContent = event.target.value.length < 6 ? 'Too Short' : 'Too Long';
     this.eResult.classList.remove('hide');
     this.eResult.innerHTML = CROSS_SYMBOL;
   }
