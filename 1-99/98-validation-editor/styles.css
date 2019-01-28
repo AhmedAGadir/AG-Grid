@@ -1,0 +1,23 @@
+.ag-cell {
+    overflow: visible !important;
+}
+
+.validating-msg {
+    background: rgb(243, 225, 161);
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    padding: 10px;
+    color: #816719;
+}
+
+.validating-msg:before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 7px solid rgb(243, 225, 161);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
