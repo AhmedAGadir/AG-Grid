@@ -5,10 +5,11 @@
 .validating-msg {
     background: rgb(243, 225, 161);
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: 25px;
     padding: 10px;
     color: #816719;
+    box-shadow: 0 1px 3px grey;
 }
 
 .validating-msg:before {
@@ -20,4 +21,10 @@
     border-bottom: 7px solid rgb(243, 225, 161);
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
+}
+
+.validating-result {
+    position: relative;
+    right: 20px;
+    color: grey
 }

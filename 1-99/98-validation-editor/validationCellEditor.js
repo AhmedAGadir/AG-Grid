@@ -5,25 +5,23 @@ var CROSS_SYMBOL = '&#10005';
 
 ValidationCellEditor.prototype.init = function (params) {
   this.isValid = true;
-  this.isValidating = false;
 
-  this.eGui = document.createElement('div');
+  this.eGui = document.createElement('span');
   this.eGui.innerHTML = `
-    <input value=${params.value}  />
+    <input class="ag-cell-edit-input" value=${params.value}  />
     <span class="validating-msg hide"></span>
     <span class="validating-result hide"><span>
   `;
   this.eInput = this.eGui.querySelector('input');
   this.eValidating = this.eGui.querySelector('.validating-msg');
   this.eResult = this.eGui.querySelector('.validating-result');
+
   this.eInput.addEventListener('input', this.inputChanged.bind(this));
   this.eInput.addEventListener('keydown', this.keydownEvent.bind(this));
   this.eInput.addEventListener('blur', this.blurEvent.bind(this));
-
 }
 
 ValidationCellEditor.prototype.inputChanged = function (event) {
-
   this.isValid = event.target.value.length === 6;
 
   if (this.isValid) {
@@ -39,29 +37,23 @@ ValidationCellEditor.prototype.inputChanged = function (event) {
 }
 
 ValidationCellEditor.prototype.keydownEvent = function (event) {
-  console.log("KEYDOWN EVENT CALLED");
-
   if (event.keyCode == 9 && !this.isValid) {
     event.stopImmediatePropagation();
   }
 }
 
-// focus and select can be done after the gui is attached
 ValidationCellEditor.prototype.afterGuiAttached = function () {
   this.eInput.focus();
   this.eInput.select();
-
 };
 
-
 ValidationCellEditor.prototype.blurEvent = function (event) {
-  console.log("BLUR EVENT CALLED");
   this.eInput.focus();
   this.eInput.select();
 }
 
 ValidationCellEditor.prototype.isCancelAfterEnd = function () {
-  return !this.isValid || this.isValidating;
+  return !this.isValid;
 }
 
 ValidationCellEditor.prototype.getValue = function () {
