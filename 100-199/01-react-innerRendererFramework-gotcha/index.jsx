@@ -5,6 +5,10 @@ import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-enterprise";
 
+const MyInnerRenderer = props => (
+  <span>{props.value}</span>
+)
+
 class GridExample extends Component {
   constructor(props) {
     super(props);
@@ -74,14 +78,15 @@ class GridExample extends Component {
         }
       ],
       groupDefaultExpanded: -1,
-      getDataPath: function(data) {
+      getDataPath: function (data) {
         return data.orgHierarchy;
       },
       autoGroupColumnDef: {
         headerName: "Organisation Hierarchy",
-        cellRendererParams: { 
+        cellRendererParams: {
           suppressCount: true,
-          innerRendererFramework: MyInnerRenderer 
+          innerRenderer: ({ value }) => `<a href="https://www.ag-grid.com/javascript-grid-tree-data/" target="_blank">${value}</a>`
+          // innerRendererFramework: MyInnerRenderer 
         }
       }
     };
@@ -93,36 +98,32 @@ class GridExample extends Component {
 
     params.api.sizeColumnsToFit();
   };
-  
+
   render() {
     return (
       <div style={{ width: "100%", height: "100%" }}>
-          <div
-            id="myGrid"
-            style={{
-              height: "100%",
-              width: "100%"
-            }}
-            className="ag-theme-balham"
-          >
-            <AgGridReact
-              columnDefs={this.state.columnDefs}
-              rowData={this.state.rowData}
-              treeData={true}
-              animateRows={true}
-              groupDefaultExpanded={this.state.groupDefaultExpanded}
-              getDataPath={this.state.getDataPath}
-              autoGroupColumnDef={this.state.autoGroupColumnDef}
-              onGridReady={this.onGridReady}
-            />
-          </div>
+        <div
+          id="myGrid"
+          style={{
+            height: "100%",
+            width: "100%"
+          }}
+          className="ag-theme-balham"
+        >
+          <AgGridReact
+            columnDefs={this.state.columnDefs}
+            rowData={this.state.rowData}
+            treeData={true}
+            animateRows={true}
+            groupDefaultExpanded={this.state.groupDefaultExpanded}
+            getDataPath={this.state.getDataPath}
+            autoGroupColumnDef={this.state.autoGroupColumnDef}
+            onGridReady={this.onGridReady}
+          />
+        </div>
       </div>
     );
   }
 }
-
-const MyInnerRenderer = props => (
-  <span>{props.value}</span>
-)
 
 render(<GridExample />, document.querySelector("#root"));
