@@ -66,7 +66,11 @@ const VueExample = {
       httpRequest.send();
       httpRequest.onreadystatechange = () => {
         if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-          updateData(JSON.parse(httpRequest.responseText));
+          let data = JSON.parse(httpRequest.responseText).map(row => ({
+            ...row,
+            age: null
+          }))
+          updateData(data);
         }
       };
       params.api.sizeColumnsToFit();

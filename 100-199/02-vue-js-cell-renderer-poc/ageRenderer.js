@@ -3,29 +3,44 @@ import Vue from "vue";
 export default Vue.extend({
     template: `
         <div>
-            <button v-on:click="randomAge()">
-                Randomise
-            </button>
-            {{this.value}}
+            <div v-if="response === null">
+                <button @click="approved()">thumb_up</button>
+                <button @click="rejected()">thumb_down</button>
+            </div>
+            <!-- Rejected -->
+            <div v-else-if="response === 1" class="cl-response-text">
+                <div>
+                    approved 
+                </div>            
+            </div>
+            <div v-else-if="response === 2" class="cl-response-text">
+                <div>
+                    rejected 
+                </div>            
+            </div>
         </div>
     `,
     data: function () {
         return {
-            value: null
+            response: null
         };
     },
     beforeMount() {
     },
     mounted() {
-        console.log('mounted')
-        this.value = this.params.value;
+        this.response = this.params.value;
     },
     methods: {
-        randomAge() {
-            var newValue = 13 + Math.floor(Math.random() * 15);
-            this.params.setValue(newValue);
-            // updates UI but doesnt update grid data 
+        approved() {
+            // updates UI but doesn't update grid data 
             // this.value = newValue;
+            this.params.setValue(1);
+        },
+        rejected() {
+            this.params.setValue(2);
         }
     }
 });
+
+
+
