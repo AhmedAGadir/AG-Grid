@@ -23,7 +23,7 @@ export default Vue.extend({
     methods: {
         randomAge() {
             var newValue = 13 + Math.floor(Math.random() * 15);
-            this.params.node.setDataValue('age', newValue);
+            this.params.setValue(newValue);
             // updates UI but doesnt update grid data 
             // this.value = newValue;
         }

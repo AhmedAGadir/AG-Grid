@@ -28,6 +28,7 @@ const VueExample = {
       columnDefs: null,
       rowData: null,
       context: null,
+      rowHeight: null
     };
   },
   beforeMount() {
@@ -40,7 +41,6 @@ const VueExample = {
       {
         headerName: "Age",
         field: "age",
-        colId: 'age',
         cellRendererFramework: AgeRenderer
       }
     ];
