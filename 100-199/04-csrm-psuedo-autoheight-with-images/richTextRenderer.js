@@ -1,6 +1,3 @@
-
-
-
 function RichTextRenderer() { }
 
 RichTextRenderer.prototype.init = function (params) {
