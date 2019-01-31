@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(function (data) {
             data.forEach(d => {
-                d.rowHeight = null;
                 d.imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
             })
             gridOptions.api.setRowData(data);

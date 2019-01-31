@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var idSequence = 0;
     data.forEach(function (item) {
       item.id = idSequence++;
-      item.rowHeight = null;
       item.imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
     });
 
