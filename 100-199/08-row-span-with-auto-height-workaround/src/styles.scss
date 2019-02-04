@@ -1,0 +1,20 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.my-grid {
+  .cell-wrap-text {
+    white-space: normal !important;
+  }
+
+  .chip {
+    border: 1px solid #c1c1c1;
+    background-color: #f3f2f2;
+    border-radius: 5px;
+    margin: 5px;
+    box-sizing: border-box;
+    padding: 3px;
+    cursor: grab;
+  }
+}

@@ -1,0 +1,15 @@
+https://www.ag-grid.com/javascript-grid-row-spanning/#constraints-with-row-spanning
+
+Row span does not work with dynamic row height or auto-height. The row span assumes default row height is used when calculating how high the cell should be.
+
+Workaround:
+
+https://codesandbox.io/s/v8139r24o0
+
+changes made:
+
+added gridOptions.suppressRowTransform=true to make row spanning work
+
+hard-coded row spanning height to fit example
+
+styled row with cellStyle: { background: "white", border: "1px solid #D9DCDE" },

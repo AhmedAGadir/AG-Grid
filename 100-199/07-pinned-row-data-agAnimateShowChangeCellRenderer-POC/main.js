@@ -2,18 +2,28 @@ var gridOptions = {
     columnDefs: [
         { headerName: 'Athlete', field: 'athlete' },
         { headerName: 'Sport', field: 'sport' },
-        { headerName: 'Age', field: 'age' },
+        {
+            headerName: 'Age',
+            field: 'age',
+            pinnedRowCellRenderer: 'agAnimateShowChangeCellRenderer'
+        },
         { headerName: 'Year', field: 'year' },
         { headerName: 'Date', field: 'date' },
         { headerName: 'Gold', field: 'gold' },
         { headerName: 'Silver', field: 'silver' },
         { headerName: 'Bronze', field: 'bronze' },
     ],
-    getRowStyle: params => params.node.rowPinned ? { backgroundColor: 'skyblue' } : null,
-    rowSelection: 'multiple',
+    rowData: null,
+    getRowStyle: params => params.node.rowPinned ? { backgroundColor: 'khaki' } : null,
 };
 
-// setup the grid after the page has finished loading
+function updateAges() {
+    [0, 1, 2, 3, 4].forEach(ind => {
+        const pinnedNode = gridOptions.api.getPinnedTopRow(ind);
+        pinnedNode.setDataValue('age', Math.random() < 0.5 ? pinnedNode.data.age + 1 : pinnedNode.data.age - 1);
+    })
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
