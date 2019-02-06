@@ -26,8 +26,15 @@ The first grouped row should be prefixed with “Year.”
 The second grouped row should be prefixed with “Date.”
 I can access the original column defs by calling params.columnApi.getPivotColumns() but the problem is that I don’t know which column does this value belongs to.
     */
-    let prefix;
-    debugger;
+    let pivotColumns = params.columnApi.getPivotColumns().map(col => col.colId);
+    let numberOfParentCols = 0;
+    let columnGroup = params.columnGroup;
+    while (columnGroup.parent !== null) {
+        numberOfParentCols++;
+        columnGroup = columnGroup.parent;
+    }
+    let prefix = pivotColumns[numberOfParentCols]
+
     this.value = `${prefix} ${params.displayName}`;
   }
   
