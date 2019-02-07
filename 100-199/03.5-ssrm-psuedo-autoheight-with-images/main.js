@@ -34,10 +34,11 @@ let imgSettler = debounce(
     //   force: true
     // });
 
-    // nodesToSettle.forEach(node => node.setRowHeight(null))
-    // setTimeout(() => gridOptions.api.onRowHeightChanged(), 0);
+    // gridOptions.api.resetRowHeights();
 
-    gridOptions.api.resetRowHeights();
+    nodesToSettle.forEach(node => node.setRowHeight(null))
+    gridOptions.api.onRowHeightChanged();
+
 
     nodesToSettle = [];
   },
