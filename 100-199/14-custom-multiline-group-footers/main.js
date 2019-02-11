@@ -3,8 +3,8 @@
 var gridOptions = {
     columnDefs: [
         { headerName: 'Athlete', field: 'athlete' },
+        { headerName: 'Sport', field: 'sport', enableRowGroup: true, rowGroup: true },
         { headerName: 'Country', field: 'country', enableRowGroup: true, rowGroup: true },
-        { headerName: 'Sport', field: 'sport', enableRowGroup: true },
         { headerName: 'Age', field: 'age' },
         { headerName: 'Year', field: 'year', enableRowGroup: true },
         { headerName: 'Date', field: 'date' },
@@ -16,6 +16,12 @@ var gridOptions = {
         width: 150,
         filter: MyCustomFilter,
         sortable: true,
+        comparator: (valA, valB, nodeA, nodeB, isInverted) => {
+            if (!nodeA.group && nodeA.data.isFooter || !nodeB.group && nodeB.data.isFooter) {
+                return 0;
+            }
+            return valA == valB ? 0 : valA > valB ? 1 : -1;
+        },
         resizable: true
     },
     autoGroupColumnDef: {
@@ -37,7 +43,6 @@ var gridOptions = {
         removeCurrentFooters();
         addNewFooters();
     },
-    // postSort: postSort,
     getRowStyle: params => {
         if (!params.node.group && params.node.data.isFooter) {
             return {
