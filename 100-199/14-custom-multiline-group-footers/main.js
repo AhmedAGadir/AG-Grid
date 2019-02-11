@@ -1,23 +1,23 @@
-// whenever filtering, sorting, or grouping happens - remove all metarows, [filter|sort]?, add new metarows
 
-var gridOptions = {
+const gridOptions = {
     columnDefs: [
         { headerName: 'Athlete', field: 'athlete' },
+        { headerName: 'Age', field: 'age' },
         { headerName: 'Sport', field: 'sport', enableRowGroup: true, rowGroup: true },
         { headerName: 'Country', field: 'country', enableRowGroup: true, rowGroup: true },
-        { headerName: 'Age', field: 'age' },
         { headerName: 'Year', field: 'year', enableRowGroup: true },
         { headerName: 'Date', field: 'date' },
         { headerName: 'Gold', field: 'gold' },
         { headerName: 'Silver', field: 'silver' },
         { headerName: 'Bronze', field: 'bronze' },
+        { headerName: 'Total', field: 'total' }
     ],
     defaultColDef: {
         width: 150,
         filter: MyCustomFilter,
         sortable: true,
         comparator: (valA, valB, nodeA, nodeB, isInverted) => {
-            if (!nodeA.group && nodeA.data.isFooter || !nodeB.group && nodeB.data.isFooter) {
+            if (nodeA.data && nodeA.data.isFooter || nodeB.data && nodeB.data.isFooter) {
                 return 0;
             }
             return valA == valB ? 0 : valA > valB ? 1 : -1;
@@ -30,6 +30,15 @@ var gridOptions = {
         }
     },
     rowData: null,
+    getRowStyle: params => {
+        if (!params.node.group && params.node.data.isFooter) {
+            return {
+                background: 'black',
+                fontWeight: 'bold',
+                color: 'white'
+            }
+        }
+    },
     sideBar: true,
     rowGroupPanelShow: 'always',
     onFirstDataRendered: () => {
@@ -42,20 +51,11 @@ var gridOptions = {
     onFilterChanged: () => {
         removeCurrentFooters();
         addNewFooters();
-    },
-    getRowStyle: params => {
-        if (!params.node.group && params.node.data.isFooter) {
-            return {
-                background: 'blue',
-                fontWeight: 'bold',
-                color: 'white'
-            }
-        }
-    },
+    }
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    var gridDiv = document.querySelector('#myGrid');
+    const gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
     agGrid
         .simpleHttpRequest({
@@ -102,9 +102,9 @@ function addNewFooters() {
     const newFooterRows = [...groupingCombinations]
         .map(combination => {
             let rows = [];
-            rows.push(createFooterRow(combination, rowGroups, 'first footer row'));
-            rows.push(createFooterRow(combination, rowGroups, 'second footer row'));
-            rows.push(createFooterRow(combination, rowGroups, 'third footer row'));
+            rows.push(createFooterRow(combination, rowGroups, 'First Footer Row'));
+            rows.push(createFooterRow(combination, rowGroups, 'Second Footer Row'));
+            rows.push(createFooterRow(combination, rowGroups, 'Third Footer Row'));
             return rows;
         })
         .reduce((rows, row) => [...rows, ...row]);
