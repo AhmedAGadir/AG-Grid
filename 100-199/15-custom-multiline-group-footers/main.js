@@ -1,20 +1,65 @@
 
 const gridOptions = {
     columnDefs: [
-        { headerName: 'Athlete', field: 'athlete' },
-        // { headerName: 'Age', field: 'age' },
-        // { headerName: 'Date', field: 'date' },
-        { headerName: 'Gold', field: 'gold', cellRenderer: 'footerCellRenderer' },
-        { headerName: 'Silver', field: 'silver', cellRenderer: 'footerCellRenderer' },
-        { headerName: 'Bronze', field: 'bronze', cellRenderer: 'footerCellRenderer' },
-        // { headerName: 'Total', field: 'total' },
-        { headerName: 'Country', field: 'country', enableRowGroup: true, rowGroup: true, valueFormatter: groupedFooterValueFormatter },
-        { headerName: 'Sport', field: 'sport', enableRowGroup: true, rowGroup: true, valueFormatter: groupedFooterValueFormatter },
-        { headerName: 'Year', field: 'year', enableRowGroup: true, valueFormatter: groupedFooterValueFormatter },
+        {
+            field: 'athlete',
+            type: 'textColumn',
+            valueFormatter: params => {
+                if (params.data && params.data.isFooter) {
+                    return params.data.athlete
+                }
+            }
+        },
+        {
+            field: 'gold',
+            type: ['numberColumn', 'aggregatable']
+        },
+        {
+            field: 'silver',
+            type: ['numberColumn', 'aggregatable']
+        },
+        {
+            field: 'bronze',
+            type: ['numberColumn', 'aggregatable']
+        },
+        {
+            field: 'country',
+            rowGroup: true,
+            type: ['textColumn', 'groupable']
+        },
+        {
+            field: 'sport',
+            rowGroup: true,
+            type: ['textColumn', 'groupable']
+        },
+        {
+            field: 'year',
+            type: ['numberColumn', 'groupable']
+        },
     ],
+    columnTypes: {
+        textColumn: {
+            filter: 'agTextColumnFilter',
+            valueGetter: textColumnValueGetter
+        },
+        numberColumn: {
+            filter: 'agNumberColumnFilter',
+            valueGetter: numberColumnValueGetter
+        },
+        groupable: {
+            enableRowGroup: true,
+            valueFormatter: groupedFooterValueFormatter,
+        },
+        aggregatable: {
+            cellRenderer: 'footerCellRenderer'
+        }
+    },
     defaultColDef: {
         width: 150,
-        filter: MyCustomFilter,
+        filterParams: {
+            suppressAndOrCondition: true,
+            debounceMs: 500
+        },
         sortable: true,
         comparator: (valA, valB, nodeA, nodeB, isInverted) => {
             if (nodeA.data && nodeA.data.isFooter || nodeB.data && nodeB.data.isFooter) {
@@ -34,7 +79,7 @@ const gridOptions = {
         footerCellRenderer: FooterCellRenderer
     },
     getRowStyle: params => {
-        if (!params.node.group && params.node.data.isFooter) {
+        if (params.node.data && params.node.data.isFooter) {
             return {
                 background: 'black',
                 fontWeight: 'bold',
@@ -78,6 +123,49 @@ document.addEventListener('DOMContentLoaded', function () {
             gridOptions.api.setRowData(data);
         });
 });
+
+function textColumnValueGetter(params) {
+    if (params.node.group) {
+        return null;
+    }
+    const currentCol = params.colDef.field;
+    if (params.data.isFooter) {
+        let currentFilterModel = params.api.getFilterModel()[currentCol];
+        if (currentFilterModel) {
+            switch (currentFilterModel.type) {
+                case 'contains': return currentFilterModel.filter;
+                case 'notContains': return ''
+                case 'startsWith': return currentFilterModel.filter;
+                case 'endsWith': return currentFilterModel.filter;
+                case 'equals': return currentFilterModel.filter;
+                case 'notEqual': return '';
+            }
+        }
+    }
+    return params.data[currentCol];
+}
+
+function numberColumnValueGetter(params) {
+    if (params.node.group) {
+        return null;
+    }
+    const currentCol = params.colDef.field;
+    if (params.data.isFooter) {
+        let currentFilterModel = params.api.getFilterModel()[currentCol];
+        if (currentFilterModel) {
+            switch (currentFilterModel.type) {
+                case 'equals': return currentFilterModel.filter;
+                case 'lessThan': return currentFilterModel.filter - 1;
+                case 'lessThanOrEqual': return currentFilterModel.filter - 1;
+                case 'greaterThan': return currentFilterModel.filter + 1;
+                case 'greaterThanOrEqual': return currentFilterModel.filter + 1;
+                case 'notEqual': return currentFilterModel.filter + 1;
+                case 'inRange': return (currentFilterModel.filter + currentFilterModel.filterTo) / 2
+            }
+        }
+    }
+    return params.data[currentCol];
+}
 
 function groupedFooterValueFormatter(params) {
     if (params.node.group) {
