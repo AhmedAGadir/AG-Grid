@@ -92,7 +92,7 @@ const gridOptions = {
     onFirstDataRendered: params => {
         addNewFooters();
         params.api.forEachNode(node => {
-            if (node.group && node.key === 'Russia' || node.group && node.key === 'Cycling') {
+            if (node.group && node.key === 'China' || node.group && node.key === 'Wrestling') {
                 node.setExpanded(true);
             }
         });
@@ -124,6 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
+function transformStrToNotEqual(str) {
+    return str
+        .split('')
+        .map(char => String.fromCharCode(char.charCodeAt(0) + 1))
+        .join('');
+}
+
 function textColumnValueGetter(params) {
     if (params.node.group) {
         return null;
@@ -134,11 +141,11 @@ function textColumnValueGetter(params) {
         if (currentFilterModel) {
             switch (currentFilterModel.type) {
                 case 'contains': return currentFilterModel.filter;
-                case 'notContains': return ''
+                case 'notContains': return transformStrToNotEqual(currentFilterModel.filter);
                 case 'startsWith': return currentFilterModel.filter;
                 case 'endsWith': return currentFilterModel.filter;
                 case 'equals': return currentFilterModel.filter;
-                case 'notEqual': return '';
+                case 'notEqual': return transformStrToNotEqual(currentFilterModel.filter);
             }
         }
     }
