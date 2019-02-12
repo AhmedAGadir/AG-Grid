@@ -61,7 +61,10 @@ const gridOptions = {
         removeCurrentFooters();
         addNewFooters();
     },
-    onGridReady: params => window.params = params // for debugging;
+    onGridReady: params => {
+        window.params = params // for debugging;
+        params.api.sizeColumnsToFit();
+    }
 };
 
 document.addEventListener('DOMContentLoaded', function () {
