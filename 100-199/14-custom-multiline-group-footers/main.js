@@ -2,15 +2,15 @@
 const gridOptions = {
     columnDefs: [
         { headerName: 'Athlete', field: 'athlete' },
-        { headerName: 'Age', field: 'age' },
-        { headerName: 'Sport', field: 'sport', enableRowGroup: true, rowGroup: true },
-        { headerName: 'Country', field: 'country', enableRowGroup: true, rowGroup: true },
-        { headerName: 'Year', field: 'year', enableRowGroup: true },
-        { headerName: 'Date', field: 'date' },
-        { headerName: 'Gold', field: 'gold' },
-        { headerName: 'Silver', field: 'silver' },
-        { headerName: 'Bronze', field: 'bronze' },
-        { headerName: 'Total', field: 'total' }
+        // { headerName: 'Age', field: 'age' },
+        // { headerName: 'Date', field: 'date' },
+        { headerName: 'Gold', field: 'gold', cellRenderer: 'footerCellRenderer' },
+        { headerName: 'Silver', field: 'silver', cellRenderer: 'footerCellRenderer' },
+        { headerName: 'Bronze', field: 'bronze', cellRenderer: 'footerCellRenderer' },
+        // { headerName: 'Total', field: 'total' },
+        { headerName: 'Country', field: 'country', enableRowGroup: true, rowGroup: true, valueFormatter: groupedFooterValueFormatter },
+        { headerName: 'Sport', field: 'sport', enableRowGroup: true, rowGroup: true, valueFormatter: groupedFooterValueFormatter },
+        { headerName: 'Year', field: 'year', enableRowGroup: true, valueFormatter: groupedFooterValueFormatter },
     ],
     defaultColDef: {
         width: 150,
@@ -25,11 +25,15 @@ const gridOptions = {
         resizable: true
     },
     autoGroupColumnDef: {
+        field: 'footer',
         cellRendererParams: {
             suppressCount: true
         }
     },
     rowData: null,
+    components: {
+        footerCellRenderer: FooterCellRenderer
+    },
     getRowStyle: params => {
         if (!params.node.group && params.node.data.isFooter) {
             return {
@@ -41,8 +45,13 @@ const gridOptions = {
     },
     sideBar: true,
     rowGroupPanelShow: 'always',
-    onFirstDataRendered: () => {
+    onFirstDataRendered: params => {
         addNewFooters();
+        params.api.forEachNode(node => {
+            if (node.group && node.key === 'Russia' || node.group && node.key === 'Cycling') {
+                node.setExpanded(true);
+            }
+        });
     },
     onColumnRowGroupChanged: () => {
         removeCurrentFooters();
@@ -51,7 +60,8 @@ const gridOptions = {
     onFilterChanged: () => {
         removeCurrentFooters();
         addNewFooters();
-    }
+    },
+    onGridReady: params => window.params = params // for debugging;
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -66,6 +76,13 @@ document.addEventListener('DOMContentLoaded', function () {
             gridOptions.api.setRowData(data);
         });
 });
+
+function groupedFooterValueFormatter(params) {
+    if (params.node.group) {
+        return null;
+    }
+    return params.data.isFooter ? '' : params.value
+}
 
 function removeCurrentFooters() {
     // store all current footers
@@ -102,9 +119,9 @@ function addNewFooters() {
     const newFooterRows = [...groupingCombinations]
         .map(combination => {
             let rows = [];
-            rows.push(createFooterRow(combination, rowGroups, 'First Footer Row'));
-            rows.push(createFooterRow(combination, rowGroups, 'Second Footer Row'));
-            rows.push(createFooterRow(combination, rowGroups, 'Third Footer Row'));
+            rows.push(createFooterRow(combination, rowGroups, 'Minimum'));
+            rows.push(createFooterRow(combination, rowGroups, 'Maximum'));
+            rows.push(createFooterRow(combination, rowGroups, 'Total'));
             return rows;
         })
         .reduce((rows, row) => [...rows, ...row]);
@@ -115,12 +132,12 @@ function addNewFooters() {
     console.log(rowsUpdate);
 }
 
-function createFooterRow(combination, rowGroups, footerContent) {
+function createFooterRow(combination, rowGroups, text) {
     let row = {};
     combination.split('%').forEach((field, ind) => {
         row[rowGroups[ind]] = field;
     });
     row.isFooter = true;
-    row.athlete = footerContent;
+    row.athlete = text;
     return row;
 }
