@@ -47,7 +47,7 @@ const gridOptions = {
     onFirstDataRendered: params => {
         addNewFooters();
         params.api.forEachNode(node => {
-            if (node.group && node.key === 'Russia' || node.group && node.key === 'Cycling') {
+            if (node.group && node.key === 'Russia' || node.group && node.key === 'Canoeing') {
                 node.setExpanded(true);
             }
         });
