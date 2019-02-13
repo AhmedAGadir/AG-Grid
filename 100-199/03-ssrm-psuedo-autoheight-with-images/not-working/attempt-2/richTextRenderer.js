@@ -4,16 +4,12 @@ RichTextRenderer.prototype.init = function (params) {
     var offset = 120;
     var img = document.createElement('img');
     img.src = params.data.imageUrl;
-    if (params.data.rowHeight == null) {
-        console.log('adding img tag to DOM for first time')
+    if (!params.data.rowHeight) {
         img.addEventListener('load', () => {
             let rowHeight = img.height + offset;
-            params.data.rowHeight = rowHeight;
-            params.onImageLoaded(params.node, img.height + offset);
-        })
+            params.onImageLoaded(params.node, rowHeight);
+        });
     }
-
-
     this.eGui = document.createElement('div');
     this.eGui.innerHTML = getRichText();
     this.eGui.appendChild(img);

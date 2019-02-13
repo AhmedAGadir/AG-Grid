@@ -1,67 +1,6 @@
-function debounce(func, wait, immediate) {
-  var timeout;
-  return function () {
-    var context = this, args = arguments;
-    var later = function () {
-      timeout = null;
-      if (!immediate) func.apply(context, args);
-    };
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
-  };
-};
-
-let nodesToSettle = [];
-
-let imgSettler = debounce(
-  () => {
-    console.log(`images are settled now`, nodesToSettle)
-    console.log(`redrawing rows`);
-
-    // none of the following cause getRowHeight to be reinvoked 
-
-    // gridOptions.api.onRowHeightChanged();
-
-    // gridOptions.api.refreshCells({
-    //   rowNodes: nodesToSettle,
-    //   force: true
-    // });
-
-    // gridOptions.api.redrawRows({
-    //   rowNodes: nodesToSettle,
-    //   force: true
-    // });
-
-    // gridOptions.api.resetRowHeights();
-
-    nodesToSettle.forEach(node => node.setRowHeight(null))
-    gridOptions.api.onRowHeightChanged();
-
-
-    nodesToSettle = [];
-  },
-  500
-);
-
-let imgLoadedListener = (node, imgHeight) => {
-  console.log(`image settled for: `, node.id, imgHeight)
-  node.data.rowHeight = imgHeight;
-  nodesToSettle.push(node)
-  imgSettler();
-};
-
 var columnDefs = [
   { field: 'id' },
-  {
-    field: 'richText',
-    width: 500,
-    cellRenderer: 'richTextRenderer',
-    cellRendererParams: {
-      onImageLoaded: imgLoadedListener
-    }
-  },
+  { field: 'richText', width: 500, cellRenderer: 'richTextRenderer' },
   { field: 'athlete' },
   { field: 'age' },
   { field: 'country' },
@@ -79,20 +18,22 @@ var gridOptions = {
   },
   columnDefs: columnDefs,
   rowModelType: 'serverSide',
-  cacheBlockSize: 100,
+  // if cacheBlockSize > number of rows loaded onto DOM (which is dependant on viewport height and some other factors), then setRowHeight is buggy
+  // open console to see how many rows are added to grid
+  cacheBlockSize: 45,
+  // rowBuffer: 10, // default = 10
   animateRows: true,
   components: {
-    richTextRenderer: RichTextRenderer,
-  },
-  getRowHeight: (params) => {
-    let rowHeight = params.data.rowHeight ? params.data.rowHeight : 25;
-    console.log(`height for rowNode`, params.node.id, params.data.rowHeight, rowHeight)
-    return rowHeight;
+    richTextRenderer: RichTextRenderer
   }
+  // maxBlocksInCache: 100;
+  // debug: true,
 };
 
 // setup the grid after the page has finished loading
 document.addEventListener('DOMContentLoaded', function () {
+  // ========== PRELOAD IMAGES BEFORE BUILDING GRID =========
+  preloadImages();
 
   var gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, gridOptions);
@@ -104,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
       item.id = idSequence++;
       item.imageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
     });
-
     var server = new FakeServer(data);
     var datasource = new ServerSideDatasource(server);
     gridOptions.api.setServerSideDatasource(datasource);
@@ -151,6 +91,16 @@ function FakeServer(allData) {
     }
   };
 }
+
+function preloadImages() {
+  imageUrls.forEach(url => {
+    let image = new Image();
+    image.className = 'check-icon';
+    image.src = url;
+    return image;
+  });
+}
+
 const imageUrls = [
   "https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   "https://images.pexels.com/photos/326875/pexels-photo-326875.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
