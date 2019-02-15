@@ -21,9 +21,10 @@ var gridOptions = {
 };
 
 function toggleAthleteNameCase() {
+
     // Method 1 - {force: true} must be included in the refreshCells params as the grid will not detect any changes in the node
-    // gridOptions.api.forEachNode(node => node.data.athlete.isCapitalized = !node.data.athlete.isCapitalized);
-    // gridOptions.api.refreshCells({ force: true });
+    gridOptions.api.forEachNode(node => node.data.athlete.isCapitalized = !node.data.athlete.isCapitalized);
+    gridOptions.api.refreshCells({ force: true });
 
     // Method 2 - a new object is assigned to the athlete property, so you dont need to use {force: true} as the grid will detect this change
     // gridOptions.api.forEachNode(node => {
@@ -33,6 +34,7 @@ function toggleAthleteNameCase() {
     //     }
     // });
     // gridOptions.api.refreshCells();
+
 }
 
 function MyCellRenderer() { }
