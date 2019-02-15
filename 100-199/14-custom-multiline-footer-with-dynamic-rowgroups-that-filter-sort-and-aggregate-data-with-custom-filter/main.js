@@ -25,6 +25,7 @@ const gridOptions = {
         resizable: true
     },
     autoGroupColumnDef: {
+        width: 250,
         cellRendererParams: {
             suppressCount: true
         }
@@ -46,11 +47,11 @@ const gridOptions = {
     rowGroupPanelShow: 'always',
     onFirstDataRendered: params => {
         addNewFooters();
-        params.api.forEachNode(node => {
-            if (node.group && node.key === 'Russia' || node.group && node.key === 'Canoeing') {
-                node.setExpanded(true);
-            }
-        });
+        // params.api.forEachNode(node => {
+        //     if (node.group && node.key === 'Russia' || node.group && node.key === 'Canoeing') {
+        //         node.setExpanded(true);
+        //     }
+        // });
     },
     onColumnRowGroupChanged: () => {
         removeCurrentFooters();
@@ -62,7 +63,6 @@ const gridOptions = {
     },
     onGridReady: params => {
         window.params = params // for debugging;
-        params.api.sizeColumnsToFit();
     }
 };
 
