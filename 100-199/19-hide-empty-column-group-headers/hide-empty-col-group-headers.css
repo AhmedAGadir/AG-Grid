@@ -30,9 +30,9 @@
 .ag-header-group-cell-with-group:before {
     content: '';
     position: absolute;
-    top: -1px;
-    left: 0px;
-    height: calc(100% + 1px);
+    top: 0;
+    left: 1px;
+    height: 100%;
     width: 1px;
     background: #BDC3C7;
 }

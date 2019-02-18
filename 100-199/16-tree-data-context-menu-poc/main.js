@@ -84,4 +84,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // create the grid passing in the div to use together with the columns & data we want to use
     new agGrid.Grid(eGridDiv, gridOptions);
-});
+}); 
