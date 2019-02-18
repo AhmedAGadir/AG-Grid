@@ -1,0 +1,55 @@
+/* enable overflow */
+
+/* .ag-root-wrapper-body.ag-layout-normal, */
+
+.ag-root.ag-layout-normal, .ag-root.ag-layout-auto-height, .ag-header, .ag-pinned-left-header, .ag-pinned-right-header, .ag-header-viewport, .ag-header-group-cell-no-group, .ag-header-group-cell-with-group {
+    overflow: visible !important;
+}
+
+/* hide empty column groups */
+
+.ag-header-group-cell-no-group:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    background: white;
+    border-bottom: 1px solid #BDC3C7;
+}
+
+/* hide empty col group resizers */
+
+.ag-header-group-cell-no-group:after {
+    display: none;
+}
+
+/* left border for non-empty column groups */
+
+.ag-header-group-cell-with-group:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0px;
+    height: calc(100% + 1px);
+    width: 1px;
+    background: #BDC3C7;
+}
+
+/* right border for non-empty column groups (note: default styling is col resizer) */
+
+.ag-header-group-cell-with-group:after {
+    /* 
+        content: '';
+        position: absolute;
+        top: 0; 
+    */
+    margin-top: 0 !important;
+    text-indent: 0 !important;
+    border-right: none !important;
+    right: 1px !important;
+    height: 100% !important;
+    width: 1px !important;
+    background: #BDC3C7;
+}
