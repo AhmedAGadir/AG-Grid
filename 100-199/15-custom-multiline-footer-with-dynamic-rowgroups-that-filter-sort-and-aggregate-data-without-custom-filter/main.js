@@ -202,6 +202,11 @@ function addNewFooters() {
     gridOptions.columnApi.getRowGroupColumns().forEach(col => {
         rowGroups.push(col.colId);
     });
+
+    if (rowGroups.length === 0) {
+        return;
+    }
+
     // find all grouping combinations 
     const groupingCombinations = new Set();
     gridOptions.api.forEachNodeAfterFilter(node => {
