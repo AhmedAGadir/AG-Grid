@@ -1,0 +1,8 @@
+.grid-wrapper {
+    height: 100%;
+}
+
+form, form > div {
+    display: inline-block;
+    margin: 5px;
+}
