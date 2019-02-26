@@ -1,28 +1,31 @@
-.fa-cat {
-  color: lime  ;
-  font-size: 20px
+.fas {
+  font-size: 20px;
 }
+
+.fa-cat {
+  color: lime;
+}
+
 .fa-crow {
   color: cyan;
-  font-size: 20px
 }
+
 .fa-dog {
   color: orange;
-  font-size: 20px
 }
+
 .fa-dragon {
   color: purple;
-  font-size: 20px
 }
+
 .fa-spider {
   color: yellow;
-  font-size: 20px
 }
+
 .fa-hippo {
   color: red;
-  font-size: 20px
 }
+
 .fa-horse {
   color: grey;
-  font-size: 20px
 }
