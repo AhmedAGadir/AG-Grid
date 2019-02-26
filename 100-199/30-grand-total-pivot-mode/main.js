@@ -35,7 +35,7 @@ function addGrandTotal() {
     const customColumn = gridOptions.columnApi.getColumn('row_total');
     gridOptions.columnApi.addValueColumn(customColumn)
 
-    // hide unwanted ones
+    // pin one column and hide the others
     let pinned = false;
     gridOptions.columnApi.getAllGridColumns().forEach(column => {
         if (column.colDef.headerName === 'Row Total') {
