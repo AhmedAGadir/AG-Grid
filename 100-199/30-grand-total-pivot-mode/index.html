@@ -18,6 +18,20 @@
         .ag-row-hover .row-total-style {
             background-color: rgb(197, 202, 204);
         }
+
+        .ag-pinned-right-header .ag-header-group-text {
+            position: relative;
+        }
+
+        .ag-pinned-right-header .ag-header-group-text:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F5F7F7
+        }
     </style>
     <script src="https://unpkg.com/ag-grid-enterprise@20.0.0/dist/ag-grid-enterprise.js"></script>
     <link rel="stylesheet" href="styles.css">

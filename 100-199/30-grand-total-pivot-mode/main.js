@@ -9,18 +9,14 @@ var gridOptions = {
     ],
     defaultColDef: {
         width: 150,
-        headerGroupComponent: myHeaderGroupComponent
     },
     rowData: null,
     pivotMode: true,
-    // sideBar: true,
     suppressAggFuncInHeader: true,
     // onColumnPivotChanged: params => {
     //     debugger
     // },
-    // onFirstDataRendered: params => {
-    //     debugger
-    // }
+    // sideBar: true,
 };
 
 function addGrandTotal() {
@@ -30,11 +26,10 @@ function addGrandTotal() {
         headerName: 'Row Total',
         field: 'row_total',
         cellRenderer: params => Object.values(params.node.aggData).reduce((a, b) => a + b),
-        cellClass: 'row-total-style'
+        cellClass: 'row-total-style',
     }
     colDefs.push(customColDef);
     gridOptions.api.setColumnDefs(colDefs);
-
 
     // add new column to value columns
     const customColumn = gridOptions.columnApi.getColumn('row_total');
@@ -52,23 +47,6 @@ function addGrandTotal() {
             }
         }
     })
-
-}
-
-function myHeaderGroupComponent() { }
-
-myHeaderGroupComponent.prototype.init = function (params) {
-    this.eGui = document.createElement('div');
-    debugger;
-    this.eGui.innerHTML = 'yo'
-}
-
-myHeaderGroupComponent.prototype.getGui = function () {
-    return this.eGui;
-}
-
-myHeaderGroupComponent.prototype.destroy = function () {
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
