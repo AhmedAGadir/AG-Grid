@@ -1,6 +1,6 @@
 function countryCodes() {
     var listOfCountries = ['United States', 'Russia', 'Australia', 'Canada', 'Norway', 'China', 'Zimbabwe', 'Netherlands', 'South Korea', 'Croatia', 'France', 'Japan', 'Hungary', 'Germany', 'Poland', 'South Africa', 'Sweden', 'Ukraine', 'Italy', 'Czech Republic', 'Austria', 'Finland', 'Romania', 'Great Britain', 'Jamaica', 'Singapore', 'Belarus', 'Chile', 'Spain', 'Tunisia', 'Brazil', 'Slovakia', 'Costa Rica', 'Bulgaria', 'Switzerland', 'New Zealand', 'Estonia', 'Kenya', 'Ethiopia', 'Trinidad and Tobago', 'Turkey', 'Morocco', 'Bahamas', 'Slovenia', 'Armenia', 'Azerbaijan', 'India', 'Puerto Rico', 'Egypt', 'Kazakhstan', 'Iran', 'Georgia', 'Lithuania', 'Cuba', 'Colombia', 'Mongolia', 'Uzbekistan', 'North Korea', 'Tajikistan', 'Kyrgyzstan', 'Greece', 'Macedonia', 'Moldova', 'Chinese Taipei', 'Indonesia', 'Thailand', 'Vietnam', 'Latvia', 'Venezuela', 'Mexico', 'Nigeria', 'Qatar', 'Serbia', 'Serbia and Montenegro', 'Hong Kong', 'Denmark', 'Portugal', 'Argentina', 'Afghanistan', 'Gabon', 'Dominican Republic', 'Belgium', 'Kuwait', 'United Arab Emirates', 'Cyprus', 'Israel', 'Algeria', 'Montenegro', 'Iceland', 'Paraguay', 'Cameroon', 'Saudi Arabia', 'Ireland', 'Malaysia', 'Uruguay', 'Togo', 'Mauritius', 'Syria', 'Botswana', 'Guatemala', 'Bahrain', 'Grenada', 'Uganda', 'Sudan', 'Ecuador', 'Panama', 'Eritrea', 'Sri Lanka', 'Mozambique', 'Barbados'];
-    var listOfCountryCodes = ['UN', 'RU', 'AU', 'CA', 'NO', 'CH', 'ZI', 'NE', 'SO', 'CR', 'FR', 'JA', 'HU', 'GE', 'PO', 'SO', 'SW', 'UK', 'IT', 'CZ', 'AU', 'FI', 'RO', 'GR', 'JA', 'SI', 'BE', 'CH', 'SP', 'TU', 'BR', 'SL', 'CO', 'BU', 'SW', 'NE', 'ES', 'KE', 'ET', 'TR', 'TU', 'MO', 'BA', 'SL', 'AR', 'AZ', 'IN', 'PU', 'EG', 'KA', 'IR', 'GE', 'LI', 'CU', 'CO', 'MO', 'UZ', 'NO', 'TA', 'KY', 'GR', 'MA', 'MO', 'CH', 'IN', 'TH', 'VI', 'LA', 'VE', 'ME', 'NI', 'QA', 'SE', 'SE', 'HO', 'DE', 'PO', 'AR', 'AF', 'GA', 'DO', 'BE', 'KU', 'UN', 'CY', 'IS', 'AL', 'MO', 'IC', 'PA', 'CA', 'SA', 'IR', 'MA', 'UR', 'TO', 'MA', 'SY', 'BO', 'GU', 'BA', 'GR', 'UG', 'SU', 'EC', 'PA', 'ER', 'SR', 'MO', 'BA'];
+    var listOfCountryCodes = ["UN", "RU", "AU", "CA", "NO", "CH", "ZI", "NE", "SO", "CR", "FR", "JA", "HU", "GE", "PO", "SW", "UK", "IT", "CZ", "FI", "RO", "GR", "SI", "BE", "SP", "TU", "BR", "SL", "CO", "BU", "ES", "KE", "ET", "TR", "MO", "BA", "AR", "AZ", "IN", "PU", "EG", "KA", "IR", "LI", "CU", "UZ", "TA", "KY", "MA", "TH", "VI", "LA", "VE", "ME", "NI", "QA", "SE", "HO", "DE", "AF", "GA", "DO", "KU", "CY", "IS", "AL", "IC", "PA", "SA", "UR", "TO", "SY", "BO", "GU", "UG", "SU", "EC", "ER", "SR"]
     return listOfCountryCodes;
 }
 
@@ -14,12 +14,12 @@ var columnDefs = [
         keyCreator: params => params.value.code,
         filterParams: {
             newRowsAction: 'keep',
+            suppressSorting: true,
             values: params => {
                 setTimeout(() => {
                     params.success(countryCodes());
                 }, 2000);
             },
-            suppressSorting: true
             // cell renderer is not neccessary
             // cellRenderer: params => {
             //     // because we're using keyCreator only the country code is passed here (not the whole complex object)
