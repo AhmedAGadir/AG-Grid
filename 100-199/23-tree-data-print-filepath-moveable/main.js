@@ -150,38 +150,6 @@ function getFileCellRenderer() {
     return FileCellRenderer
 }
 
-function addNewGroup() {
-    var newGroupData = [
-        {
-            id: getNextId(),
-            filePath: ['Music', 'wav', 'hit_' + new Date().getTime() + '.wav'],
-            dateModified: 'Aug 23 2017 11:52:00 PM',
-            size: 58.9
-        }
-    ];
-    gridOptions.api.updateRowData({ add: newGroupData });
-}
-
-function removeSelected() {
-    var selectedNode = gridOptions.api.getSelectedNodes()[0]; // single selection
-    if (!selectedNode) {
-        console.warn('No nodes selected!');
-        return;
-    }
-
-    gridOptions.api.updateRowData({ remove: getRowsToRemove(selectedNode) });
-}
-
-function getRowsToRemove(node) {
-    var res = [];
-    for (var i = 0; i < node.childrenAfterGroup.length; i++) {
-        res = res.concat(getRowsToRemove(node.childrenAfterGroup[i]));
-    }
-
-    // ignore nodes that have no data, i.e. 'filler groups'
-    return node.data ? res.concat([node.data]) : res;
-}
-
 function moveSelectedNodeToTarget(targetRowId) {
     var selectedNode = gridOptions.api.getSelectedNodes()[0]; // single selection
     if (!selectedNode) {
@@ -199,7 +167,9 @@ function moveSelectedNodeToTarget(targetRowId) {
     var rowsToUpdate = getRowsToUpdate(selectedNode, targetNode.data.filePath);
     gridOptions.api.updateRowData({ update: rowsToUpdate });
     // the grid doesn't realize that the filePath array has been changed, so we need to use force: true
-    gridOptions.api.refreshCells({ force: true });
+    // gridOptions.api.refreshCells({ force: true });
+    // if you want to be more efficient use 
+    gridOptions.api.refreshCells({ rowNodes: [selectedNode], force: true });
 }
 
 function isSelectionParentOfTarget(selectedNode, targetNode) {

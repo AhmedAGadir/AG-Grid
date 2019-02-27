@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script> var __basePath = ''; </script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .button-group {
+            padding-bottom: 4px;
+            display: inline-block;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 13px;
+        }
+    </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@20.1.0/dist/ag-grid-enterprise.min.js"></script>
+</head>
+
+<body>
+
+    <div>
+        <span class="button-group">
+            <button onclick="saveFilterModel()">Save Filter Model</button>
+            <button onclick="clearFilters()">Clear Filters</button>
+            <button onclick="restoreFilterModel()">Restore from Save</button>
+        </span>
+    </div>
+    <div id="myGrid" style="height: 100%;" class="ag-theme-balham-dark"></div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

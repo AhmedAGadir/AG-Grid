@@ -1,31 +1,20 @@
-function countryCodes() {
+function countries() {
     var listOfCountries = ['United States', 'Russia', 'Australia', 'Canada', 'Norway', 'China', 'Zimbabwe', 'Netherlands', 'South Korea', 'Croatia', 'France', 'Japan', 'Hungary', 'Germany', 'Poland', 'South Africa', 'Sweden', 'Ukraine', 'Italy', 'Czech Republic', 'Austria', 'Finland', 'Romania', 'Great Britain', 'Jamaica', 'Singapore', 'Belarus', 'Chile', 'Spain', 'Tunisia', 'Brazil', 'Slovakia', 'Costa Rica', 'Bulgaria', 'Switzerland', 'New Zealand', 'Estonia', 'Kenya', 'Ethiopia', 'Trinidad and Tobago', 'Turkey', 'Morocco', 'Bahamas', 'Slovenia', 'Armenia', 'Azerbaijan', 'India', 'Puerto Rico', 'Egypt', 'Kazakhstan', 'Iran', 'Georgia', 'Lithuania', 'Cuba', 'Colombia', 'Mongolia', 'Uzbekistan', 'North Korea', 'Tajikistan', 'Kyrgyzstan', 'Greece', 'Macedonia', 'Moldova', 'Chinese Taipei', 'Indonesia', 'Thailand', 'Vietnam', 'Latvia', 'Venezuela', 'Mexico', 'Nigeria', 'Qatar', 'Serbia', 'Serbia and Montenegro', 'Hong Kong', 'Denmark', 'Portugal', 'Argentina', 'Afghanistan', 'Gabon', 'Dominican Republic', 'Belgium', 'Kuwait', 'United Arab Emirates', 'Cyprus', 'Israel', 'Algeria', 'Montenegro', 'Iceland', 'Paraguay', 'Cameroon', 'Saudi Arabia', 'Ireland', 'Malaysia', 'Uruguay', 'Togo', 'Mauritius', 'Syria', 'Botswana', 'Guatemala', 'Bahrain', 'Grenada', 'Uganda', 'Sudan', 'Ecuador', 'Panama', 'Eritrea', 'Sri Lanka', 'Mozambique', 'Barbados'];
-    var listOfCountryCodes = ["UN", "RU", "AU", "CA", "NO", "CH", "ZI", "NE", "SO", "CR", "FR", "JA", "HU", "GE", "PO", "SW", "UK", "IT", "CZ", "FI", "RO", "GR", "SI", "BE", "SP", "TU", "BR", "SL", "CO", "BU", "ES", "KE", "ET", "TR", "MO", "BA", "AR", "AZ", "IN", "PU", "EG", "KA", "IR", "LI", "CU", "UZ", "TA", "KY", "MA", "TH", "VI", "LA", "VE", "ME", "NI", "QA", "SE", "HO", "DE", "AF", "GA", "DO", "KU", "CY", "IS", "AL", "IC", "PA", "SA", "UR", "TO", "SY", "BO", "GU", "UG", "SU", "EC", "ER", "SR"]
-    return listOfCountryCodes;
+    return listOfCountries;
 }
 
 var columnDefs = [
-    { field: 'athlete' },
+    { field: 'athlete', filter: false },
     {
         headerName: 'Country',
         field: 'country',
-        cellRenderer: 'countryCellRenderer',
         filter: 'agSetColumnFilter',
-        keyCreator: params => params.value.code,
         filterParams: {
             newRowsAction: 'keep',
             suppressSorting: true,
-            values: params => {
-                setTimeout(() => {
-                    params.success(countryCodes());
-                }, 2000);
-            },
-            // cell renderer is not neccessary
-            // cellRenderer: params => {
-            //     // because we're using keyCreator only the country code is passed here (not the whole complex object)
-            //     return params.value;
-            // }
+            values: params => params.success(countries())
         },
+        menuTabs: ['filterMenuTab', 'generalMenuTab', 'columnsMenuTab']
     },
 ];
 
@@ -34,55 +23,58 @@ var gridOptions = {
         width: 100,
         sortable: true,
         resizable: true,
-        filter: true,
-        menuTabs: ['filterMenuTab']
+
     },
     columnDefs: columnDefs,
-    components: {
-        countryCellRenderer: countryCellRenderer,
-    },
     rowModelType: 'serverSide',
     animateRows: true,
-    // debug: true,
     enableRangeSelection: true,
-    // restrict to 2 server side calls concurrently
-    maxConcurrentDatasourceRequests: 2,
-    cacheBlockSize: 100,
-    maxBlocksInCache: 2,
+    postProcessPopup: postProcessPopup,
     onFirstDataRendered(params) {
         params.api.sizeColumnsToFit();
     }
 };
 
-function countryCellRenderer(params) {
-    if (!params.value) {
-        return
+let listenerAdded = false;
+function postProcessPopup(params) {
+    if (params.type === 'columnMenu') {
+        setTimeout(() => {
+            let miniFilter = params.ePopup.querySelector('input[type="text"]');
+            if (listenerAdded) {
+                miniFilter.value = window.miniFilterText;
+            } else {
+                miniFilter.addEventListener('input', e => {
+                    window.miniFilterText = e.target.value;
+                });
+                listenerAdded = true;
+            }
+        }, 0);
     }
-    return params.value.name + ' (' + params.value.code + ')';
 }
 
-function patchData(data) {
-    // hack the data, replace each country with an object of country name and code
-    data.forEach(function (row) {
-        var countryName = row.country;
-        var countryCode = countryName.substring(0, 2).toUpperCase();
-        row.country = {
-            name: countryName,
-            code: countryCode,
-        };
-    });
+function saveFilterModel() {
+    window.savedModel = gridOptions.api.getFilterModel();
+    window.savedMiniFilter = window.miniFilterText;
 }
 
-// setup the grid after the page has finished loading
+function clearFilters() {
+    gridOptions.api.setFilterModel(null);
+    gridOptions.api.onFilterChanged();
+    window.miniFilterText = '';
+}
+
+function restoreFilterModel() {
+    gridOptions.api.setFilterModel(window.savedModel);
+    window.miniFilterText = window.savedMiniFilter;
+    gridOptions.api.onFilterChanged();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 
-    // do http request to get our sample data - not using any framework to keep the example self contained.
-    // you will probably use a framework like JQuery, Angular or something else to do your HTTP calls.
     agGrid.simpleHttpRequest({ url: 'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinners.json' })
         .then(function (data) {
-            patchData(data);
             var fakeServer = createFakeServer(data);
             var datasource = createServerSideDatasource(fakeServer, gridOptions);
             gridOptions.api.setServerSideDatasource(datasource);
@@ -172,7 +164,7 @@ function createFakeServer(data) {
             var item = data[i];
 
             if (filterModel.country) {
-                if (filterModel.country.values.indexOf(item.country.code) < 0) {
+                if (filterModel.country.values.indexOf(item.country) < 0) {
                     continue;
                 }
             }

@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<script> var __basePath = ''; </script>
-<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"/>
-    <script src="https://unpkg.com/ag-grid-enterprise@20.0.0/dist/ag-grid-enterprise.min.js"></script>    <link rel="stylesheet" href="style.css">
+    <script> var __basePath = ''; </script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" />
+    <script src="https://unpkg.com/ag-grid-enterprise@20.0.0/dist/ag-grid-enterprise.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div style="height: 100%; padding-top: 30px; box-sizing: border-box;">
-    <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
-</div>
+    <div style="height: 100%; padding-top: 30px; box-sizing: border-box;">
+        <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+    </div>
 
-<div style="position: absolute; top: 0px; left: 0px;">
-    <button onclick="addNewGroup()">Add New Group</button>
-    <button onclick="moveSelectedNodeToTarget(9)">Move Selected to 'stuff'</button>
-    <button onclick="removeSelected()">Remove Selected</button>
-</div>
+    <div style="position: absolute; top: 0px; left: 0px;">
+        <button onclick="moveSelectedNodeToTarget(9)">Move Selected to 'stuff'</button>
+    </div>
     <script src="main.js"></script>
 </body>
+
 </html>
