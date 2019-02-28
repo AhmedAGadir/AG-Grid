@@ -1,45 +1,28 @@
-// function RichTextRenderer() { }
+function CountryCellRenderer() {}
 
-// RichTextRenderer.prototype.init = function (params) {
-//     var offset = 120;
-//     var img = document.createElement('img');
-//     img.src = params.data.imageUrl;
-//     img.addEventListener('load', () => {
-//         params.node.setRowHeight(img.height + offset);
-//         params.api.onRowHeightChanged();
-//     })
-
-//     this.eGui = document.createElement('div');
-//     this.eGui.innerHTML = getRichText();
-//     this.eGui.appendChild(img);
-// }
-
-// RichTextRenderer.prototype.getGui = function () {
-//     return this.eGui;
-// }
-
-// function getRichText() {
-//     const str = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum deserunt maiores nobis, tempora repellat libero asperiores blanditiis dignissimos dolore dolorem excepturi perspiciatis. Necessitatibus officiis error nisi veritatis delectus, ipsum et.Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum deserunt maiores nobis, tempora repellat libero asperiores blanditiis dignissimos dolore dolorem excepturi perspiciatis. Necessitatibus officiis error nisi veritatis delectus, ipsum et.';
-//     const randInd = Math.floor(Math.random() * str.length);
-//     const richText = `
-//     <div style="white-space: normal !important">
-//         ${str.slice(0, randInd)}
-//     </div>
-//   `
-//     return richText;
-// }
-
-function countryCellRenderer(params) {
+CountryCellRenderer.prototype.init = function(params) {
     if (params.value === undefined || params.value === null) {
         return '';
-    } else {
-        var flag = '<img border="0" width="15" height="10" src="https://flags.fmcdn.net/data/flags/mini/' + COUNTRY_CODES[params.value] + '.png">';
-        return flag + ' ' + params.value;
     }
+    this.params = params;
+    this.eGui = document.createElement('span');
+    let n = Math.floor(Math.random() * 4) + 1
+    for (let i = 0; i < n; i++) {
+        this.eGui.appendChild(this.createImg(params.value))
+    }    
 }
 
-var COUNTRY_CODES = {
-    Ireland: "ie",
-    "United Kingdom": "gb",
-    "USA": "us"
-};
+CountryCellRenderer.prototype.getGui = function() {
+    return this.eGui;
+} 
+
+CountryCellRenderer.prototype.createImg = function(value) {
+    let flagImg = document.createElement('img');
+    flagImg.src = 'https://flags.fmcdn.net/data/flags/mini/' + COUNTRY_CODES[value] + '.png';
+    flagImg.style.cssText = "border: none; width: 30px; height=20px; margin: 0 2px";
+    flagImg.addEventListener('load', this.params.onImageLoaded);
+
+    return flagImg;
+}
+
+
