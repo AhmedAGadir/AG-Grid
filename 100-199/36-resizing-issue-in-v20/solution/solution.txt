@@ -1,0 +1,9 @@
+user was using an external library
+
+adding the following css fixed the issue:
+
+.p-col {
+    overflow: hidden
+}
+
+see: https://www.ag-grid.com/javascript-grid-responsiveness/
