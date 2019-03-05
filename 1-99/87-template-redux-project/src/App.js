@@ -50,8 +50,8 @@ class App extends Component {
           ]}
           rowData={this.props.rowData}
           defaultColDef={{ width: 150 }}
-          onGridReady={this.onGridReady}
-          deltaRowMode={true}
+          onGridReady={this.onGridReady.bind(this)}
+          deltaRowDataMode={true}
           getRowNodeId={data => data.id}>
         </AgGridReact>
       </div>

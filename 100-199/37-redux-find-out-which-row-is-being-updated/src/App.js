@@ -59,7 +59,7 @@ class App extends Component {
             rowData={this.props.rowData}
             defaultColDef={{ width: 150, editable: true }}
             onGridReady={this.onGridReady.bind(this)}
-            deltaRowMode={true}
+            deltaRowDataMode={true}
             getRowNodeId={data => data.id}
             onCellValueChanged={this.onCellValueChanged.bind(this)}
             onRowDataUpdated={params => {

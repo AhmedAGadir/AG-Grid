@@ -147,7 +147,7 @@ class App extends Component {
             rowData={this.props.rowData}
             defaultColDef={{ width: 150 }}
             onGridReady={this.onGridReady}
-            deltaRowMode={true}
+            deltaRowDataMode={true}
             getRowNodeId={data => data.id}>
           </AgGridReact>
         </div>

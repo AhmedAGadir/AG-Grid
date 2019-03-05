@@ -110,7 +110,7 @@ var gridOptions = {
     defaultColDef: {
         width: 150,
     },
-    deltaRowMode: true,
+    deltaRowDataMode: true,
     getRowNodeId: data => data.id,
     rowData: immutableStore.rowData,
     onGridReady: () => {

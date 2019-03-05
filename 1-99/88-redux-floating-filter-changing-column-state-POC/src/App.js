@@ -59,7 +59,7 @@ class App extends Component {
             rowData={this.props.rowData}
             onGridReady={this.onGridReady}
             getRowNodeId={data => data.id}
-            deltaRowMode={true}
+            deltaRowDataMode={true}
             floatingFilter={true}
             enableColResize={true} />
         </div>
