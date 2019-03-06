@@ -41,6 +41,7 @@ class App extends Component {
       Object.keys(this.props.updatedRow).some(field => prevProps.updatedRow[field] !== this.props.updatedRow[field]);
 
     if (isUpdatedRow) {
+      // custom event 
       this.gridApi.eventService.dispatchEvent({ type: 'reduxRowUpdated', data: this.props.updatedRow });
     }
   }
