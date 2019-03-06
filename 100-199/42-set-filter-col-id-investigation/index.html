@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@20.0.0/dist/ag-grid-enterprise.min.js"></script>    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div>
+    <span class="button-group">
+        <button onclick="saveFilterModel()">Save Filter Model</button>
+        <button onclick="restoreFilterModel()">Restore from Save</button>
+        <button onclick="clearFilters()">Clear Filters</button>
+    </span>
+</div>
+<div>
+    <span>
+        <button onclick="restoreFromHardCoded()">Name = 'Mich%', Country = ['Ireland', 'United States'], Age < 30, Date < 01/01/2010</button>
+    </span>
+</div>
+<div>
+    <span class="button-group">
+        Saved Filters: <span id="savedFilters">[]</span>
+    </span>
+</div>
+
+<div id="myGrid" class="ag-theme-balham" style="height: calc(100% - 70px);"></div>
+    <script src="main.js"></script>
+</body>
+</html>
