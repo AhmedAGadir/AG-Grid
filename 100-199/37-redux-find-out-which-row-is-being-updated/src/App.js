@@ -8,7 +8,7 @@ import 'ag-grid-enterprise';
 
 import { connect } from 'react-redux';
 import * as actions from './store/actions';
-import uuidv4 from 'uuid';;
+import uuidv4 from 'uuid';
 
 class App extends Component {
 
@@ -16,8 +16,7 @@ class App extends Component {
     fetch('https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json')
       .then(res => res.json())
       .then(data => {
-        var idSequence = 0;
-        data.forEach(d => d.id = idSequence++);
+        data.forEach(d => d.id = uuidv4());
         this.props.onInitRowData(data);
       })
       .catch(error => {
@@ -28,12 +27,29 @@ class App extends Component {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+
+    // should be able to add this directly to the AGGridReact component but cant (is this a bug?)
+    this.gridApi.addEventListener('reduxRowUpdated', this.onReduxRowUpdated.bind(this));
   }
 
-  onCellValueChanged(params) {
-    console.log('onCellValueChanged')
-    debugger;
+  componentDidUpdate(prevProps) {
+    if (!this.props.updatedRow) {
+      return;
+    }
+
+    const isUpdatedRow = !prevProps.updatedRow ||
+      Object.keys(this.props.updatedRow).some(field => prevProps.updatedRow[field] !== this.props.updatedRow[field]);
+
+    if (isUpdatedRow) {
+      this.gridApi.eventService.dispatchEvent({ type: 'reduxRowUpdated', data: this.props.updatedRow });
+    }
   }
+
+  onReduxRowUpdated(params) {
+    const updatedRow = this.gridApi.getRowNode(params.data.id);
+    console.log('row updated via redux:', updatedRow);
+  }
+
 
   render() {
     return (
@@ -60,12 +76,7 @@ class App extends Component {
             defaultColDef={{ width: 150, editable: true }}
             onGridReady={this.onGridReady.bind(this)}
             deltaRowDataMode={true}
-            getRowNodeId={data => data.id}
-            onCellValueChanged={this.onCellValueChanged.bind(this)}
-            onRowDataUpdated={params => {
-              console.log('onRowDataUpdated')
-              debugger;
-            }}>
+            getRowNodeId={data => data.id}>
           </AgGridReact>
         </div>
       </Fragment>
@@ -75,7 +86,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    rowData: state.rowData
+    rowData: state.rowData,
+    updatedRow: state.updatedRow
   }
 }
 

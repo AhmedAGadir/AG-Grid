@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
     rowData: null,
+    updatedRow: null
 }
 
 const reducer = (prevState = initialState, action) => {
@@ -12,12 +13,13 @@ const reducer = (prevState = initialState, action) => {
                 rowData: action.rowData
             };
         case actionTypes.UPDATE_RAND_ROW:
-            // const randIndex = Math.floor(Math.random() * prevState.rowData.length);
+            const randIndex = Math.floor(Math.random() * prevState.rowData.length);
             const updatedRowData = prevState.rowData.map(row => ({ ...row }));
-            updatedRowData[0].athlete = 'Bob';
+            updatedRowData[randIndex].athlete = 'FooBar';
             return {
                 ...prevState,
-                rowData: updatedRowData
+                rowData: updatedRowData,
+                updatedRow: updatedRowData[randIndex]
             }
         default: return prevState;
     }
