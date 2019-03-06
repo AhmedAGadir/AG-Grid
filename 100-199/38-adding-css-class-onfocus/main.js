@@ -15,37 +15,37 @@ var gridOptions = {
         width: 150,
         cellClassRules: {
             'focused': params => {
-                if (!focusedCells.current) {
+                if (!focusedCell.current) {
                     return false;
                 }
-                return params.rowIndex === focusedCells.current.rowIndex
-                    && params.colDef.field === focusedCells.current.column.colDef.field
+                return params.rowIndex === focusedCell.current.rowIndex
+                    && params.colDef.field === focusedCell.current.column.colDef.field
             }
         }
     },
     rowData: null,
     onCellFocused: params => {
         // update focused cells
-        focusedCells.previous = focusedCells.current;
-        focusedCells.current = params.api.getFocusedCell();
+        focusedCell.previous = focusedCell.current;
+        focusedCell.current = params.api.getFocusedCell();
 
         // refresh cells
-        if (focusedCells.current) {
+        if (focusedCell.current) {
             params.api.refreshCells({
-                rowNodes: [params.api.getRowNode(focusedCells.current.rowIndex)],
-                columns: [focusedCells.current.column.colDef.field]
+                rowNodes: [params.api.getRowNode(focusedCell.current.rowIndex)],
+                columns: [focusedCell.current.column.colDef.field]
             })
         }
-        if (focusedCells.previous) {
+        if (focusedCell.previous) {
             params.api.refreshCells({
-                rowNodes: [params.api.getRowNode(focusedCells.previous.rowIndex)],
-                columns: [focusedCells.previous.column.colDef.field]
+                rowNodes: [params.api.getRowNode(focusedCell.previous.rowIndex)],
+                columns: [focusedCell.previous.column.colDef.field]
             })
         }
     }
 };
 
-const focusedCells = {
+const focusedCell = {
     current: null,
     previous: null
 }
