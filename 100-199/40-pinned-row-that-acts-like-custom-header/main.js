@@ -21,53 +21,43 @@ var gridOptions = {
         filter: true,
         resizable: true,
         pinnedRowCellRenderer: 'customPinnedRowRenderer',
+
     },
     columnDefs: columnDefs,
     rowData: null,
     getRowStyle: function (params) {
         if (params.node.rowPinned) {
             return {
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                backgroundColor: '#f5f7f7',
+                color: 'rgba(0, 0, 0, 0.164)'
+                // color: 'rgba(0, 0, 0, 0.54)
             };
         }
     },
-    // no rows to pin to start with
-    pinnedTopRowData: createData(1, 'Top'),
-    onFirstDataRendered(params) {
-        params.api.sizeColumnsToFit();
-    },
+    pinnedTopRowData: createPinnedTopRow(),
+    // onFirstDataRendered(params) {
+    //     params.api.sizeColumnsToFit();
+    // },
     components: {
         customPinnedRowRenderer: CustomPinnedRowRenderer
+    },
+    onSortChanged: params => {
+        // console.log(params.api.getSortModel()[0])
+        const pinnedRow = params.api.getPinnedTopRow(0);
+        params.api.refreshCells({ rowNodes: [pinnedRow], force: true })
     }
 };
 
-function onPinnedRowTopCount() {
-    var headerRowsToFloat = document.getElementById('top-row-count').value;
-    console.log('xxxx', headerRowsToFloat);
-    var count = Number(headerRowsToFloat);
-    var rows = createData(count, 'Top');
-    gridOptions.api.setPinnedTopRowData(rows);
-}
-
-function onPinnedRowBottomCount() {
-    var footerRowsToFloat = document.getElementById('bottom-row-count').value;
-    var count = Number(footerRowsToFloat);
-    var rows = createData(count, 'Bottom');
-    gridOptions.api.setPinnedBottomRowData(rows);
-}
-
-function createData(count, prefix) {
-    var result = [];
-    for (var i = 0; i < count; i++) {
-        result.push({
-            athlete: prefix + ' Athlete ' + i,
-            age: prefix + ' Age ' + i,
-            country: prefix + ' Country ' + i,
-            year: prefix + ' Year ' + i,
-            date: prefix + ' Date ' + i,
-            sport: prefix + ' Sport ' + i
-        });
-    }
+function createPinnedTopRow() {
+    var result = [{
+        athlete: null,
+        age: null,
+        country: null,
+        year: null,
+        date: null,
+        sport: null
+    }];
     return result;
 }
 
