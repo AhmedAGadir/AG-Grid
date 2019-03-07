@@ -71,7 +71,7 @@ class App extends Component {
             columnDefs={[
               { headerName: 'Athlete', field: 'athlete' },
               { headerName: 'Age', field: 'age' },
-              { headerName: 'Number Of Times Updates', field: 'updates', width: 200 }
+              { headerName: 'Number Of Times Updated', field: 'updates', width: 200 }
             ]}
             rowData={this.props.rowData}
             defaultColDef={{ width: 150, editable: true }}
