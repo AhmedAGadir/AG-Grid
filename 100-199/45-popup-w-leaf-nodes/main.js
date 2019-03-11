@@ -67,7 +67,6 @@ PopupCellRenderer.prototype.openInnerGrid = function () {
     }
     localStorage.setItem('rowData', JSON.stringify(rowsToStore));
     popupWindow('./popup.html', 'innerGrid', 1000, 500);
-    // window.open('./popup.html', 'innerGrid', 'width=1000,height=500')
 }
 
 PopupCellRenderer.prototype.getGui = function () {
