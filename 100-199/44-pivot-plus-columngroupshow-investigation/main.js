@@ -68,7 +68,7 @@ var gridOptions = {
 
     },
     onGridReady: params => {
-        debugger
+        // debugger
         // ToolPanelColumnComp.addEventListener('checkBoxChanged, params => console.log(123))
     }
 };
