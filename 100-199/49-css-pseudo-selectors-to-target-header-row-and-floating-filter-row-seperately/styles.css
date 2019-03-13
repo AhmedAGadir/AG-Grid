@@ -1,0 +1,9 @@
+/* CSS */
+
+.ag-header-row:nth-of-type(1) {
+    background: blue;
+}
+
+.ag-header-row:nth-of-type(2) {
+    background: yellow;
+}
