@@ -1,0 +1,8 @@
+.ag-floating-bottom-container>.ag-row {
+    overflow: scroll
+}
+
+.rowPinned {
+    white-space: normal;
+    overflow: visible;
+}
