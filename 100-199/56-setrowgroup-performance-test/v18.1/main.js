@@ -1,7 +1,7 @@
 var gridOptions = {
     columnDefs: [
         { headerName: 'Athlete', field: 'athlete' },
-        { headerName: 'Country', field: 'country' },
+        { headerName: 'Country', field: 'country', enableRowGroup: true },
         { headerName: 'Sport', field: 'sport' },
         { headerName: 'Age', field: 'age' },
         { headerName: 'Year', field: 'year' },
@@ -15,6 +15,7 @@ var gridOptions = {
         width: 150,
     },
     rowData: null,
+    sideBar: true
 };
 
 document.addEventListener('DOMContentLoaded', function () {
