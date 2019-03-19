@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function updateHeader() {
-    console.log(123)
-    store.columnDefs.push({ headerName: 'Test', field: 'test', colId: 'test' });
+    store.columnDefs[0] = { headerName: 'Test', field: 'athlete', colId: 'athlete' };
+    gridOptions.api.setColumnDefs(store.columnDefs);
+    gridOptions.api.sizeColumnsToFit();
 }
