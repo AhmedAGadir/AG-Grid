@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import * as actions from './store/actions';
 import uuidv4 from 'uuid';
 
+import MyGroupCellRenderer from './components/MyGroupCellRenderer';
+import MyDetailCellRenderer from './components/MyDetailCellRenderer';
+
 class App extends Component {
 
   componentDidMount() {
@@ -29,13 +32,6 @@ class App extends Component {
     this.gridColumnApi = params.columnApi;
 
     this.gridApi.sizeColumnsToFit();
-
-    setTimeout(() => {
-      var rowCount = 0;
-      this.gridApi.forEachNode(function (node) {
-        node.setExpanded(rowCount++ === 1);
-      });
-    }, 500);
   }
 
   render() {
@@ -49,29 +45,35 @@ class App extends Component {
         <AgGridReact
           columnDefs={[
             // group cell renderer needed for expand / collapse icons
-            { field: 'name', cellRenderer: 'agGroupCellRenderer' },
+            {
+              headerName: 'Expander',
+              maxWidth: 100,
+              cellRendererFramework: MyGroupCellRenderer,
+            },
+            { field: 'name' },
             { field: 'account' },
             { field: 'calls' },
             { field: 'minutes', valueFormatter: "x.toLocaleString() + 'm'" }
           ]}
           masterDetail={true}
-          detailCellRendererParams={{
-            detailGridOptions: {
-              columnDefs: [
-                { field: 'callId' },
-                { field: 'direction' },
-                { field: 'number' },
-                { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
-                { field: 'switchCode' }
-              ],
-              onFirstDataRendered(params) {
-                params.api.sizeColumnsToFit();
-              }
-            },
-            getDetailRowData: function (params) {
-              params.successCallback(params.data.callRecords);
-            }
-          }}
+          detailCellRendererFramework={MyDetailCellRenderer}
+          // detailCellRendererParams={{
+          //   detailGridOptions: {
+          //     columnDefs: [
+          //       { field: 'callId' },
+          //       { field: 'direction' },
+          //       { field: 'number' },
+          //       { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
+          //       { field: 'switchCode' }
+          //     ],
+          //     onFirstDataRendered(params) {
+          //       params.api.sizeColumnsToFit();
+          //     }
+          //   },
+          //   getDetailRowData: function (params) {
+          //     params.successCallback(params.data.callRecords);
+          //   }
+          // }}
           rowData={this.props.rowData}
           defaultColDef={{ width: 150 }}
           onGridReady={this.onGridReady.bind(this)}
