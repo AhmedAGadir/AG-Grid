@@ -6,13 +6,10 @@ import { AgGridReact } from 'ag-grid-react';
 // import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 // import 'ag-grid-enterprise';
 
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 // import * as actions from './store/actions';
 
 class MyDetailCellRenderer extends Component {
-
-    componentDidMount() {
-    }
 
     onGridReady(params) {
         var detailGridId = this.props.node.id;
@@ -26,14 +23,9 @@ class MyDetailCellRenderer extends Component {
         params.api.sizeColumnsToFit();
     }
 
-    logRowData() {
-        console.log(this.props.rowData);
-    }
-
     render() {
         return (
             <div style={{ height: '100%' }}>
-                <button onClick={this.logRowData.bind(this)}>Log Row Data</button>
                 <div style={{ padding: '30px', height: "100%" }}>
                     <AgGridReact
                         columnDefs={[
@@ -55,11 +47,4 @@ class MyDetailCellRenderer extends Component {
     }
 }
 
-
-const mapStateToProps = state => {
-    return {
-        rowData: state.rowData
-    }
-}
-
-export default connect(mapStateToProps)(MyDetailCellRenderer);
+export default MyDetailCellRenderer;

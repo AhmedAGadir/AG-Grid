@@ -47,7 +47,7 @@ class App extends Component {
             {
               headerName: 'Expander',
               maxWidth: 100,
-              cellRendererFramework: MyGroupCellRenderer,
+              cellRendererFramework: MyGroupCellRenderer
             },
             { field: 'name' },
             { field: 'account' },
