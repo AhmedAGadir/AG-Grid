@@ -44,7 +44,6 @@ class App extends Component {
         }}>
         <AgGridReact
           columnDefs={[
-            // group cell renderer needed for expand / collapse icons
             {
               headerName: 'Expander',
               maxWidth: 100,
@@ -57,23 +56,6 @@ class App extends Component {
           ]}
           masterDetail={true}
           detailCellRendererFramework={MyDetailCellRenderer}
-          // detailCellRendererParams={{
-          //   detailGridOptions: {
-          //     columnDefs: [
-          //       { field: 'callId' },
-          //       { field: 'direction' },
-          //       { field: 'number' },
-          //       { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
-          //       { field: 'switchCode' }
-          //     ],
-          //     onFirstDataRendered(params) {
-          //       params.api.sizeColumnsToFit();
-          //     }
-          //   },
-          //   getDetailRowData: function (params) {
-          //     params.successCallback(params.data.callRecords);
-          //   }
-          // }}
           rowData={this.props.rowData}
           defaultColDef={{ width: 150 }}
           onGridReady={this.onGridReady.bind(this)}
