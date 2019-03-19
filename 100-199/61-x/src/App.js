@@ -40,7 +40,6 @@ class App extends Component {
         className="ag-theme-balham"
         style={{
           height: '90vh',
-          // width: '100%'
         }}>
         <AgGridReact
           columnDefs={[
