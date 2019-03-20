@@ -11,7 +11,7 @@ import * as actions from './store/actions';
 import uuidv4 from 'uuid';
 
 import MyGroupCellRenderer from './components/MyGroupCellRenderer';
-import MyDetailCellRenderer from './components/MyDetailCellRenderer';
+import MyDetailCellRenderer from './components/MyDetailCellRenderer/MyDetailCellRenderer';
 
 class App extends Component {
 

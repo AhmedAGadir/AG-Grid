@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import './MyDetailCellRenderer.css'
-
 import { AgGridReact } from 'ag-grid-react';
-// import 'ag-grid-community/dist/styles/ag-grid.css';
-// import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-// import 'ag-grid-enterprise';
-
-// import { connect } from 'react-redux';
-// import * as actions from './store/actions';
+import './MyDetailCellRenderer.css'
 
 class MyDetailCellRenderer extends Component {
 
@@ -25,8 +18,14 @@ class MyDetailCellRenderer extends Component {
 
     render() {
         return (
-            <div style={{ height: '100%' }}>
-                <div style={{ padding: '30px', height: "100%" }}>
+            <div className="detail-cell-renderer">
+                <div>
+                    <button>Grid Tab 1</button>
+                    <button>Non Grid Tab</button>
+                    <button>Grid Tab 2</button>
+                    <button>Nested Component Tab</button>
+                </div>
+                <div>
                     <AgGridReact
                         columnDefs={[
                             { field: 'callId', editable: true },
