@@ -8,23 +8,22 @@ import 'ag-grid-enterprise';
 
 import { connect } from 'react-redux';
 import * as actions from './store/actions';
-import uuidv4 from 'uuid';
 
+import { rows, tabDetails } from './gridData';
+import uuidv4 from 'uuid';
 import MyGroupCellRenderer from './components/MyGroupCellRenderer';
 import MyDetailCellRenderer from './components/MyDetailCellRenderer/MyDetailCellRenderer';
 
 class App extends Component {
 
   componentDidMount() {
-    fetch('https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json')
-      .then(res => res.json())
-      .then(data => {
-        data.forEach(d => d.id = uuidv4())
-        this.props.onInitRowData(data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    var rowData = rows.map(row => ({
+      ...row,
+      id: uuidv4(),
+      detailData: tabDetails[row.mainCol1]
+    }));
+
+    this.props.onInitRowData(rowData);
   }
 
   onGridReady(params) {
@@ -48,13 +47,14 @@ class App extends Component {
               maxWidth: 100,
               cellRendererFramework: MyGroupCellRenderer
             },
-            { field: 'name' },
-            { field: 'account' },
-            { field: 'calls' },
-            { field: 'minutes', valueFormatter: "x.toLocaleString() + 'm'" }
+            { headerName: 'Main Col1', field: 'mainCol1' },
+            { headerName: 'Main Col2', field: 'mainCol2' },
           ]}
           masterDetail={true}
           detailCellRendererFramework={MyDetailCellRenderer}
+          detailCellRendererParams={{
+            getRowData: () => this.props.rowData
+          }}
           rowData={this.props.rowData}
           defaultColDef={{ width: 150 }}
           onGridReady={this.onGridReady.bind(this)}

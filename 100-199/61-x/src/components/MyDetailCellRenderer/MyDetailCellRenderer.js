@@ -1,45 +1,48 @@
 import React, { Component } from 'react';
-import { AgGridReact } from 'ag-grid-react';
+// import { AgGridReact } from 'ag-grid-react';
+
+import MyFirstDetailGridTab from './tabs/MyFirstDetailGridTab/MyFirstDetailGridTab';
+import MyNonGridTab from './tabs/MyNonGridTab/MyNonGridTab';
+import MySecondDetailGridTab from './tabs/MySecondDetailGridTab/MySecondDetailGridTab';
+import MySelectedComponentTab from './tabs/MySelectedComponentTab/MySelectedComponentTab';
+
 import './MyDetailCellRenderer.css'
 
 class MyDetailCellRenderer extends Component {
-
-    onGridReady(params) {
-        var detailGridId = this.props.node.id;
-        var gridInfo = {
-            id: detailGridId,
-            api: params.api,
-            columnApi: params.columnApi
-        }
-        this.props.api.addDetailGridInfo(detailGridId, gridInfo);
-
-        params.api.sizeColumnsToFit();
+    state = {
+        selectedComponent: 'gridTab1'
     }
 
     render() {
+        let selected;
+        switch (this.state.selectedComponent) {
+            case 'gridTab1':
+                selected = <MyFirstDetailGridTab api={this.props.api} rowData={this.props.data.detailData.gridTab1Data} />;
+                break;
+            case 'nonGridTab':
+                selected = <MyNonGridTab />
+                break;
+            case 'gridTab2':
+                selected = <MySecondDetailGridTab />
+                break;
+            case 'nestedComponentTab':
+                selected = <MySelectedComponentTab />
+                break;
+            default:
+                selected = null;
+        }
+
         return (
             <div className="detail-cell-renderer">
                 <div>
-                    <button>Grid Tab 1</button>
-                    <button>Non Grid Tab</button>
-                    <button>Grid Tab 2</button>
-                    <button>Nested Component Tab</button>
+                    <button className="btn btn-primary" onClick={() => console.log('rowData:', this.props.getRowData())}>Log Row Data</button>
+                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'gridTab1' })}>Grid Tab 1</button>
+                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'nonGridTab' })}>Non Grid Tab</button>
+                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'gridTab2' })}>Grid Tab 2</button>
+                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'nestedComponentTab' })}>Nested Component Tab</button>
                 </div>
                 <div>
-                    <AgGridReact
-                        columnDefs={[
-                            { field: 'callId', editable: true },
-                            { field: 'direction' },
-                            { field: 'number' },
-                            { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
-                            { field: 'switchCode' }
-                        ]}
-                        rowData={this.props.data.callRecords}
-                        onGridReady={this.onGridReady.bind(this)}
-                        deltaRowDataMode={true}
-                        getRowNodeId={data => data.callId}
-                    >
-                    </AgGridReact>
+                    {selected}
                 </div>
             </div>
         )
