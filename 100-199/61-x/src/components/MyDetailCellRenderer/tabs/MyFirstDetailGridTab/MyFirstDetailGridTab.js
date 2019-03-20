@@ -2,16 +2,6 @@ import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 class myFirstDetailGridTab extends Component {
-    state = {
-        columnDefs: [
-            { headerName: 'Detail Column 1', field: 'col1' },
-            { headerName: 'Detail Column 2', field: 'col2' },
-            { headerName: 'Detail Column 3', field: 'col3' }
-        ],
-        filterModel: null,
-        sortModel: null,
-    }
-
     onGridReady(params) {
         // var detailGridId = this.props.node.id;
         // var gridInfo = {
@@ -21,10 +11,28 @@ class myFirstDetailGridTab extends Component {
         // }
         // this.props.api.addDetailGridInfo(detailGridId, gridInfo);
 
-        params.api.sizeColumnsToFit();
+        var sortModel = this.props.getSortModel(this.props.rowIndex);
+        if (sortModel) {
+            params.api.setSortModel(sortModel);
+        }
+
+        var filterModel = this.props.getFilterModel(this.props.rowIndex);
+        if (filterModel) {
+            params.api.setFilterModel(filterModel);
+        }
 
         this.props.node.setRowHeight(this.calculateDetailRowHeight());
         this.props.api.onRowHeightChanged();
+
+        params.api.sizeColumnsToFit();
+    }
+
+    onFilterChanged(params) {
+        this.props.setFilterModel(params.api.getFilterModel());
+    }
+
+    onSortChanged(params) {
+        this.props.setSortModel(params.api.getSortModel());
     }
 
     calculateDetailRowHeight() {
@@ -32,7 +40,6 @@ class myFirstDetailGridTab extends Component {
             var offset = 55; // 15px padding + 15px padding + 25px button row height
             var allDetailRowHeight = this.props.data.detailData.gridTab1Data.length * 25;
             var detailGridHeight = allDetailRowHeight + 28;
-            console.log(detailGridHeight + offset)
             return detailGridHeight + offset;
         } else {
             return 60;
@@ -42,7 +49,11 @@ class myFirstDetailGridTab extends Component {
     render() {
         return (
             <AgGridReact
-                columnDefs={this.state.columnDefs}
+                columnDefs={[
+                    { headerName: 'Detail Column 1', field: 'col1' },
+                    { headerName: 'Detail Column 2', field: 'col2' },
+                    { headerName: 'Detail Column 3', field: 'col3' }
+                ]}
                 defaultColDef={{
                     sortable: true,
                     filter: true,
@@ -52,9 +63,10 @@ class myFirstDetailGridTab extends Component {
                 rowData={this.props.data.detailData.gridTab1Data}
                 onGridReady={this.onGridReady.bind(this)}
                 deltaRowDataMode={true}
-                deltaColumnMode={true}
                 getRowNodeId={data => data.col1}
                 domLayout="autoHeight"
+                onFilterChanged={this.onFilterChanged.bind(this)}
+                onSortChanged={this.onSortChanged.bind(this)}
             >
             </AgGridReact>
         )

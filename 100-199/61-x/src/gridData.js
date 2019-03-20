@@ -12,88 +12,27 @@ export const rows = [
 export const tabDetails = {
     1233242: {
         gridTab1Data: [
-            { col1: 123, col2: 'Test', col3: 'Test3' },
-            { col1: 234, col2: 'Test6', col3: 'Test7' },
-            { col1: 2345, col2: 'Test6', col3: 'Test7' },
-            { col1: 2346, col2: 'Test6', col3: 'Test7' },
-            { col1: 2347, col2: 'Test6', col3: 'Test7' },
-            { col1: 2348, col2: 'Test6', col3: 'Test7' },
-            { col1: 2349, col2: 'Test6', col3: 'Test7' },
-            { col1: 2340, col2: 'Test6', col3: 'Test7' },
-            { col1: 2344, col2: 'Test6', col3: 'Test7' },
-            { col1: 2343, col2: 'Test6', col3: 'Test7' },
-            { col1: 2342, col2: 'Test6', col3: 'Test7' },
-            { col1: 2341, col2: 'Test6', col3: 'Test7' },
-            { col1: 23445, col2: 'Test6', col3: 'Test7' },
-            { col1: 23455, col2: 'Test6', col3: 'Test7' },
-            { col1: 23477, col2: 'Test6', col3: 'Test7' },
-            { col1: 23488, col2: 'Test6', col3: 'Test7' },
-
+            { col1: 123, col2: 'Test1', col3: 'foo' },
+            { col1: 234, col2: 'Test2', col3: 'bar' },
         ],
         nonGridTabData: { name: 'test', id: 121, imageURL: 'https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$' },
         nested: [{ col1: 2, col2: 3 }]
     },
     13242342: {
         gridTab1Data: [
-            { col1: 345, col2: 'Test2', col3: 'Test4' },
-            { col1: 456, col2: 'Test8', col3: 'Test9' },
+            { col1: 345, col2: 'Test3', col3: 'baz' },
+            { col1: 456, col2: 'Test4', col3: 'fred' },
+            { col1: 678, col2: 'Test5', col3: 'qux' },
+            { col1: 789, col2: 'Test6', col3: 'wuux' },
+            { col1: 987, col2: 'Test7', col3: 'corge' },
+            { col1: 876, col2: 'Test8', col3: 'grault' },
+            { col1: 765, col2: 'Test9', col3: 'garply' },
+            { col1: 654, col2: 'Test10', col3: 'waldo' },
+            { col1: 543, col2: 'Test11', col3: 'plugh' },
+            { col1: 432, col2: 'Test12', col3: 'thud' },
+            { col1: 321, col2: 'Test13', col3: 'fulan' },
         ],
         nonGridTabData: { name: 'test', id: 121, imageURL: 'https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$' },
         nested: [{ col1: 5, col2: 6 }]
     }
 }
-
-var res = [
-    {
-        "mainCol1": 1233242,
-        "mainCol2": "GEO EXPRESS",
-        "id": "69336d0c-3951-4314-9503-0d020333fd38",
-        "detailData": {
-            "gridTab1Data": [
-                {
-                    "col1": 1
-                },
-                {
-                    "col2": 2
-                }
-            ],
-            "nonGridTabData": {
-                "name": "test",
-                "id": 121,
-                "imageURL": "https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$"
-            },
-            "nested": [
-                {
-                    "col1": 2,
-                    "col2": 3
-                }
-            ]
-        }
-    },
-    {
-        "mainCol1": 13242342,
-        "mainCol2": "TEST MARKETING NAME",
-        "id": "6ae0ff01-a7f3-47c3-aadc-392824967ace",
-        "detailData": {
-            "gridTab1Data": [
-                {
-                    "col1": 4
-                },
-                {
-                    "col2": 5
-                }
-            ],
-            "nonGridTabData": {
-                "name": "test",
-                "id": 121,
-                "imageURL": "https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$"
-            },
-            "nested": [
-                {
-                    "col1": 5,
-                    "col2": 6
-                }
-            ]
-        }
-    }
-]

@@ -10,7 +10,7 @@ import './MyDetailCellRenderer.css'
 
 class MyDetailCellRenderer extends Component {
     state = {
-        selectedComponent: 'gridTab1'
+        selectedComponent: 'gridTab1',
     }
 
     render() {
