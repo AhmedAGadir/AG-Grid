@@ -11,12 +11,13 @@ class myFirstDetailGridTab extends Component {
         // }
         // this.props.api.addDetailGridInfo(detailGridId, gridInfo);
 
-        var sortModel = this.props.getSortModel(this.props.rowIndex);
+
+        var sortModel = this.props.getSortModel('gridTab1', this.props.rowIndex);
         if (sortModel) {
             params.api.setSortModel(sortModel);
         }
 
-        var filterModel = this.props.getFilterModel(this.props.rowIndex);
+        var filterModel = this.props.getFilterModel('gridTab1', this.props.rowIndex);
         if (filterModel) {
             params.api.setFilterModel(filterModel);
         }
@@ -27,12 +28,12 @@ class myFirstDetailGridTab extends Component {
         params.api.sizeColumnsToFit();
     }
 
-    onFilterChanged(params) {
-        this.props.setFilterModel(params.api.getFilterModel());
+    onSortChanged(params) {
+        this.props.setSortModel('gridTab1', params.api.getSortModel());
     }
 
-    onSortChanged(params) {
-        this.props.setSortModel(params.api.getSortModel());
+    onFilterChanged(params) {
+        this.props.setFilterModel('gridTab1', params.api.getFilterModel());
     }
 
     calculateDetailRowHeight() {
@@ -65,8 +66,8 @@ class myFirstDetailGridTab extends Component {
                 deltaRowDataMode={true}
                 getRowNodeId={data => data.col1}
                 domLayout="autoHeight"
-                onFilterChanged={this.onFilterChanged.bind(this)}
                 onSortChanged={this.onSortChanged.bind(this)}
+                onFilterChanged={this.onFilterChanged.bind(this)}
             >
             </AgGridReact>
         )

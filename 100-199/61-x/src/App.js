@@ -23,6 +23,7 @@ class App extends Component {
       detailData: tabDetails[row.mainCol1]
     }));
 
+    debugger;
     this.props.onInitRowData(rowData);
   }
 
@@ -56,6 +57,12 @@ class App extends Component {
             ]}
             masterDetail={true}
             detailCellRendererFramework={MyDetailCellRenderer}
+            detailCellRendererParams={{
+              getSortModel: this.props.onGetSortModel,
+              setSortModel: this.props.onSetSortModel,
+              getFilterModel: this.props.onGetFilterModel,
+              setFilterModel: this.props.onSetFilterModel
+            }}
             rowData={this.props.rowData}
             defaultColDef={{ width: 150 }}
             onGridReady={this.onGridReady.bind(this)}
@@ -77,6 +84,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onInitRowData: rowData => dispatch(actions.initRowData(rowData)),
+    onGetSortModel: (tab, rowIndex) => dispatch(actions.getSortModel(tab, rowIndex)),
+    onGetFilterModel: (tab, rowIndex) => dispatch(actions.getFilterModel(tab, rowIndex)),
+    onSetSortModel: (tab, sortModel) => dispatch(actions.setSortModel(tab, sortModel)),
+    onSetFilterModel: (tab, filterModel) => dispatch(actions.setFilterModel(tab, filterModel))
   }
 }
 
