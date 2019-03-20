@@ -35,11 +35,10 @@ class MyDetailCellRenderer extends Component {
         return (
             <div className="detail-cell-renderer">
                 <div>
-                    <button className="btn btn-primary" onClick={() => console.log('rowData:', this.props.getRowData())}>Log Row Data</button>
-                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'gridTab1' })}>Grid Tab 1</button>
-                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'nonGridTab' })}>Non Grid Tab</button>
-                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'gridTab2' })}>Grid Tab 2</button>
-                    <button className="btn btn-primary" onClick={() => this.setState({ selectedComponent: 'nestedComponentTab' })}>Nested Component Tab</button>
+                    <button onClick={() => this.setState({ selectedComponent: 'gridTab1' })}>Grid Tab 1</button>
+                    <button onClick={() => this.setState({ selectedComponent: 'nonGridTab' })}>Non Grid Tab</button>
+                    <button onClick={() => this.setState({ selectedComponent: 'gridTab2' })}>Grid Tab 2</button>
+                    <button onClick={() => this.setState({ selectedComponent: 'nestedComponentTab' })}>Nested Component Tab</button>
                 </div>
                 <div>
                     {selected}

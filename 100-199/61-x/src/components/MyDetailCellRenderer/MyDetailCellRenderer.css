@@ -13,7 +13,6 @@
 
 .detail-cell-renderer button {
     margin: 0 5px;
-    padding: 5px 10px;
 }
 
 .detail-cell-renderer>div:nth-of-type(2) {

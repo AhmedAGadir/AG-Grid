@@ -19,7 +19,10 @@ export const tabDetails = {
         nested: [{ col1: 2, col2: 3 }]
     },
     13242342: {
-        gridTab1Data: [{ col1: 4 }, { col2: 5 }],
+        gridTab1Data: [
+            { col1: 345, col2: 'Test2', col3: 'Test4' },
+            { col1: 456, col2: 'Test8', col3: 'Test9' },
+        ],
         nonGridTabData: { name: 'test', id: 121, imageURL: 'https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$' },
         nested: [{ col1: 5, col2: 6 }]
     }

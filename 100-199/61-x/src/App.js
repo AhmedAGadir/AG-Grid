@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 
 import { AgGridReact } from 'ag-grid-react';
@@ -35,33 +35,35 @@ class App extends Component {
 
   render() {
     return (
-      <div
-        className="ag-theme-balham"
-        style={{
-          height: '90vh',
-        }}>
-        <AgGridReact
-          columnDefs={[
-            {
-              headerName: 'Expander',
-              maxWidth: 100,
-              cellRendererFramework: MyGroupCellRenderer
-            },
-            { headerName: 'Main Col1', field: 'mainCol1' },
-            { headerName: 'Main Col2', field: 'mainCol2' },
-          ]}
-          masterDetail={true}
-          detailCellRendererFramework={MyDetailCellRenderer}
-          detailCellRendererParams={{
-            getRowData: () => this.props.rowData
-          }}
-          rowData={this.props.rowData}
-          defaultColDef={{ width: 150 }}
-          onGridReady={this.onGridReady.bind(this)}
-          deltaRowDataMode={true}
-          getRowNodeId={data => data.id}>
-        </AgGridReact>
-      </div >
+      <Fragment>
+        <button
+          style={{ margin: '10px', fontSize: '12px' }}
+          onClick={() => console.log(this.props.rowData)}>Log All Row Data</button>
+        <div
+          className="ag-theme-balham"
+          style={{
+            height: '90vh',
+          }}>
+          <AgGridReact
+            columnDefs={[
+              {
+                headerName: 'Expander',
+                maxWidth: 100,
+                cellRendererFramework: MyGroupCellRenderer
+              },
+              { headerName: 'Main Col1', field: 'mainCol1' },
+              { headerName: 'Main Col2', field: 'mainCol2' },
+            ]}
+            masterDetail={true}
+            detailCellRendererFramework={MyDetailCellRenderer}
+            rowData={this.props.rowData}
+            defaultColDef={{ width: 150 }}
+            onGridReady={this.onGridReady.bind(this)}
+            deltaRowDataMode={true}
+            getRowNodeId={data => data.id}>
+          </AgGridReact>
+        </div >
+      </Fragment>
     );
   }
 }
