@@ -20,7 +20,25 @@ class App extends Component {
     var rowData = rows.map(row => ({
       ...row,
       id: uuidv4(),
-      detailData: tabDetails[row.mainCol1]
+      detailData: {
+        gridTab1: {
+          filterModel: null,
+          sortModel: null,
+          data: tabDetails[row.mainCol1].gridTab1Data.map(d => ({ ...d, id: uuidv4() }))
+        },
+        nonGridTab: {
+          ...tabDetails[row.mainCol1].nonGridTabData
+        },
+        gridTab2: {
+          filterModel: null,
+          sortModel: null,
+          data: tabDetails[row.mainCol1].gridTab2Data.map(d => ({ ...d, id: uuidv4() }))
+        },
+        nestedComponentTab: {
+
+        }
+
+      }
     }));
 
     debugger;
