@@ -12,15 +12,15 @@ class myFirstDetailGridTab extends Component {
         // this.props.api.addDetailGridInfo(detailGridId, gridInfo);
 
 
-        var sortModel = this.props.getSortModel('gridTab1', this.props.rowIndex);
-        if (sortModel) {
-            params.api.setSortModel(sortModel);
-        }
+        // var sortModel = this.props.getSortModel('gridTab1', this.props.rowIndex);
+        // if (sortModel) {
+        //     params.api.setSortModel(sortModel);
+        // }
 
-        var filterModel = this.props.getFilterModel('gridTab1', this.props.rowIndex);
-        if (filterModel) {
-            params.api.setFilterModel(filterModel);
-        }
+        // var filterModel = this.props.getFilterModel('gridTab1', this.props.rowIndex);
+        // if (filterModel) {
+        //     params.api.setFilterModel(filterModel);
+        // }
 
         this.props.node.setRowHeight(this.calculateDetailRowHeight());
         this.props.api.onRowHeightChanged();

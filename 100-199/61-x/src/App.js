@@ -33,15 +33,10 @@ class App extends Component {
           filterModel: null,
           sortModel: null,
           data: tabDetails[row.mainCol1].gridTab2Data.map(d => ({ ...d, id: uuidv4() }))
-        },
-        nestedComponentTab: {
-
         }
-
       }
     }));
 
-    debugger;
     this.props.onInitRowData(rowData);
   }
 
