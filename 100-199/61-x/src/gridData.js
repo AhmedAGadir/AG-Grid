@@ -14,6 +14,21 @@ export const tabDetails = {
         gridTab1Data: [
             { col1: 123, col2: 'Test', col3: 'Test3' },
             { col1: 234, col2: 'Test6', col3: 'Test7' },
+            { col1: 2345, col2: 'Test6', col3: 'Test7' },
+            { col1: 2346, col2: 'Test6', col3: 'Test7' },
+            { col1: 2347, col2: 'Test6', col3: 'Test7' },
+            { col1: 2348, col2: 'Test6', col3: 'Test7' },
+            { col1: 2349, col2: 'Test6', col3: 'Test7' },
+            { col1: 2340, col2: 'Test6', col3: 'Test7' },
+            { col1: 2344, col2: 'Test6', col3: 'Test7' },
+            { col1: 2343, col2: 'Test6', col3: 'Test7' },
+            { col1: 2342, col2: 'Test6', col3: 'Test7' },
+            { col1: 2341, col2: 'Test6', col3: 'Test7' },
+            { col1: 23445, col2: 'Test6', col3: 'Test7' },
+            { col1: 23455, col2: 'Test6', col3: 'Test7' },
+            { col1: 23477, col2: 'Test6', col3: 'Test7' },
+            { col1: 23488, col2: 'Test6', col3: 'Test7' },
+
         ],
         nonGridTabData: { name: 'test', id: 121, imageURL: 'https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$' },
         nested: [{ col1: 2, col2: 3 }]

@@ -17,7 +17,7 @@ class MyDetailCellRenderer extends Component {
         let selected;
         switch (this.state.selectedComponent) {
             case 'gridTab1':
-                selected = <MyFirstDetailGridTab api={this.props.api} rowData={this.props.data.detailData.gridTab1Data} />;
+                selected = <MyFirstDetailGridTab {...this.props} />;
                 break;
             case 'nonGridTab':
                 selected = <MyNonGridTab />
