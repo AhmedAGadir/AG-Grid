@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log('shouldComponentUpdate[app.js]');
+    // console.log('shouldComponentUpdate[app.js]');
 
     if (!this.props.rowData) {
       return true;
@@ -30,9 +30,17 @@ class App extends Component {
     });
     console.log('hasSortingChanged', hasSortingChanged);
 
+    if (hasSortingChanged) {
+      return false;
+    }
+
     const hasFilterChanged = this.props.rowData.some((prevRow, ind) => {
       return this.hasTabFilterChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabFilterChanged('gridTab2', prevRow, nextProps, ind);
     })
+
+    if (hasFilterChanged) {
+      return false;
+    }
 
     console.log('hasFilterChanged', hasFilterChanged);
 
@@ -42,9 +50,7 @@ class App extends Component {
 
 
 
-
-
-    return true;
+    return true
   }
 
   hasTabSortingChanged(tab, prevRow, nextProps, ind) {
@@ -55,8 +61,6 @@ class App extends Component {
       return false
     } else {
       return prevSortModel.length !== nextSortModel.length ||
-        prevSortModel.length === 0 && nextSortModel.length !== 0 ||
-        prevSortModel.length !== 0 && nextSortModel.length === 0 ||
         prevSortModel[0].colId !== nextSortModel[0].colId ||
         prevSortModel[0].sort !== nextSortModel[0].sort
     }
@@ -66,16 +70,22 @@ class App extends Component {
     const prevFilterModel = prevRow.detail[tab].filterModel;
     const nextFilterModel = nextProps.rowData[ind].detail[tab].filterModel;
 
-    const prevFilterModelKeys = Object.keys(prevFilterModel)
-    const nextFilterModelKeys = Object.keys(nextFilterModel)
-
+    const prevFilterModelKeys = Object.keys(prevFilterModel);
+    const nextFilterModelKeys = Object.keys(nextFilterModel);
 
     if (prevFilterModelKeys.length === 0 && nextFilterModelKeys.length === 0) {
       return false
+    } else if (prevFilterModelKeys.length !== nextFilterModelKeys.length !== 0) {
+      return true
     } else {
-      debugger;
+      return prevFilterModelKeys.some(key => !nextFilterModel.hasOwnProperty(key) ||
+        prevFilterModel[key].values.join(' ') !== nextFilterModel[key].values.join(' ')
+      ) || nextFilterModelKeys.some(key => !prevFilterModel.hasOwnProperty(key) ||
+        prevFilterModel[key].values.join(' ') !== nextFilterModel[key].values.join(' ')
+      )
     }
   }
+
 
   onGridReady(params) {
     this.gridApi = params.api;

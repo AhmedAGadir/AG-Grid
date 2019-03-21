@@ -16,11 +16,11 @@ class MyFirstDetailGridTab extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        console.log('shouldComponentUpdate', 'myFirstDetailGridTab')
+        // console.log('shouldComponentUpdate', 'myFirstDetailGridTab')
     }
 
     onGridReady(params) {
-        console.log('onGridReady', params.api.getSortModel(), params.api.getFilterModel());
+        // console.log('onGridReady', params.api.getSortModel(), params.api.getFilterModel());
 
 
 
@@ -55,8 +55,9 @@ class MyFirstDetailGridTab extends Component {
 
     initSortModel() {
         let sortModel = this.props.rowData[this.masterIndex].detail.gridTab1.sortModel;
+        console.log(this.props.rowData)
+        console.log('sort', sortModel)
         if (sortModel.length > 0) {
-            console.log('setting up the grids sort', sortModel)
             this.sortingFromInit = true;
             this.detailApi.setSortModel(sortModel);
             setTimeout(() => this.sortingFromInit = false, 0);
@@ -65,8 +66,8 @@ class MyFirstDetailGridTab extends Component {
 
     initFilterModel() {
         let filterModel = this.props.rowData[this.masterIndex].detail.gridTab1.filterModel;
+        console.log('filter', filterModel)
         if (Object.keys(filterModel).length > 0) {
-            console.log('setting up the grids filter', filterModel)
             this.filteringFromInit = true;
             this.detailApi.setFilterModel(filterModel);
             setTimeout(() => this.filteringFromInit = false, 0);

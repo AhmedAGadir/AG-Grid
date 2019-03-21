@@ -12,11 +12,11 @@ class MyDetailCellRenderer extends Component {
     }
 
     componentWillMount() {
-        console.log('componentWillMount', 'MyDetailCellRenderer')
+        // console.log('componentWillMount', 'MyDetailCellRenderer')
     }
 
     shouldComponentUpdate(nextProps) {
-        console.log('shouldComponentUpdate', 'MyDetailCellRenderer')
+        // console.log('shouldComponentUpdate', 'MyDetailCellRenderer')
     }
 
     render() {
