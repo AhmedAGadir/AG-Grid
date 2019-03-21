@@ -26,10 +26,15 @@ class App extends Component {
     }
 
     const hasSortingChanged = this.props.rowData.some((prevRow, ind) => {
-      return this.hasTabSortingChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabSortingChanged('gridTab1', prevRow, nextProps, ind)
+      return this.hasTabSortingChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabSortingChanged('gridTab2', prevRow, nextProps, ind);
     });
-
     console.log('hasSortingChanged', hasSortingChanged);
+
+    const hasFilterChanged = this.props.rowData.some((prevRow, ind) => {
+      return this.hasTabFilterChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabFilterChanged('gridTab2', prevRow, nextProps, ind);
+    })
+
+    console.log('hasFilterChanged', hasFilterChanged);
 
     // if any sorting or filtering have changed then dont re-render
 
@@ -43,14 +48,32 @@ class App extends Component {
   }
 
   hasTabSortingChanged(tab, prevRow, nextProps, ind) {
-    if (prevRow.detail[tab].sortModel.length === 0 && nextProps.rowData[ind].detail[tab].sortModel.length === 0) {
+    const prevSortModel = prevRow.detail[tab].sortModel;
+    const nextSortModel = nextProps.rowData[ind].detail[tab].sortModel;
+
+    if (prevSortModel.length === 0 && nextSortModel.length === 0) {
       return false
     } else {
-      return prevRow.detail[tab].sortModel.length !== nextProps.rowData[ind].detail[tab].sortModel.length ||
-        prevRow.detail[tab].sortModel.length === 0 && nextProps.rowData[ind].detail[tab].sortModel.length !== 0 ||
-        prevRow.detail[tab].sortModel.length !== 0 && nextProps.rowData[ind].detail[tab].sortModel.length === 0 ||
-        prevRow.detail[tab].sortModel[0].colId !== nextProps.rowData[ind].detail[tab].sortModel[0].colId ||
-        prevRow.detail[tab].sortModel[0].sort !== nextProps.rowData[ind].detail[tab].sortModel[0].sort
+      return prevSortModel.length !== nextSortModel.length ||
+        prevSortModel.length === 0 && nextSortModel.length !== 0 ||
+        prevSortModel.length !== 0 && nextSortModel.length === 0 ||
+        prevSortModel[0].colId !== nextSortModel[0].colId ||
+        prevSortModel[0].sort !== nextSortModel[0].sort
+    }
+  }
+
+  hasTabFilterChanged(tab, prevRow, nextProps, ind) {
+    const prevFilterModel = prevRow.detail[tab].filterModel;
+    const nextFilterModel = nextProps.rowData[ind].detail[tab].filterModel;
+
+    const prevFilterModelKeys = Object.keys(prevFilterModel)
+    const nextFilterModelKeys = Object.keys(nextFilterModel)
+
+
+    if (prevFilterModelKeys.length === 0 && nextFilterModelKeys.length === 0) {
+      return false
+    } else {
+      debugger;
     }
   }
 
