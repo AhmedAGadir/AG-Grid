@@ -17,7 +17,6 @@ class MyDetailCellRenderer extends Component {
 
     shouldComponentUpdate(nextProps) {
         console.log('shouldComponentUpdate', 'MyDetailCellRenderer')
-        debugger;
     }
 
     render() {

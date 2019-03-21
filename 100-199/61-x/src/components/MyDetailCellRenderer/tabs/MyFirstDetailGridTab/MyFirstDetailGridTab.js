@@ -21,13 +21,25 @@ class MyFirstDetailGridTab extends Component {
 
     onGridReady(params) {
         console.log('onGridReady', params.api.getSortModel(), params.api.getFilterModel());
-        // var detailGridId = this.props.node.id;
-        // var gridInfo = {
-        //     id: detailGridId,
-        //     api: params.api,
-        //     columnApi: params.columnApi
-        // }
-        // this.masterApi.addDetailGridInfo(detailGridId, gridInfo);
+
+
+
+
+
+        // how is this gonna work with 2 subgrids ? 
+
+        var detailGridId = this.masterNode.id;
+        var gridInfo = {
+            id: detailGridId,
+            api: params.api,
+            columnApi: params.columnApi
+        }
+        this.masterApi.addDetailGridInfo(detailGridId, gridInfo);
+
+
+
+
+
 
         this.masterIndex = this.props.rowData.findIndex(row => row.id === this.props.data.id);
         this.detailApi = params.api
@@ -69,7 +81,7 @@ class MyFirstDetailGridTab extends Component {
     }
 
     onFilterChanged() {
-        if (this.filteringFromInit) {
+        if (!this.filteringFromInit) {
             console.log('setting up reduxs filter', this.detailApi.getFilterModel());
             this.props.setFilterModel(this.masterIndex, 'gridTab1', this.detailApi.getFilterModel());
         }

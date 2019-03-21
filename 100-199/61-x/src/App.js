@@ -18,10 +18,40 @@ class App extends Component {
     this.props.onInitRowData();
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps) {
     console.log('shouldComponentUpdate[app.js]');
-    // debugger;
+
+    if (!this.props.rowData) {
+      return true;
+    }
+
+    const hasSortingChanged = this.props.rowData.some((prevRow, ind) => {
+      return this.hasTabSortingChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabSortingChanged('gridTab1', prevRow, nextProps, ind)
+    });
+
+    console.log('hasSortingChanged', hasSortingChanged);
+
+    // if any sorting or filtering have changed then dont re-render
+
+
+
+
+
+
+
     return true;
+  }
+
+  hasTabSortingChanged(tab, prevRow, nextProps, ind) {
+    if (prevRow.detail[tab].sortModel.length === 0 && nextProps.rowData[ind].detail[tab].sortModel.length === 0) {
+      return false
+    } else {
+      return prevRow.detail[tab].sortModel.length !== nextProps.rowData[ind].detail[tab].sortModel.length ||
+        prevRow.detail[tab].sortModel.length === 0 && nextProps.rowData[ind].detail[tab].sortModel.length !== 0 ||
+        prevRow.detail[tab].sortModel.length !== 0 && nextProps.rowData[ind].detail[tab].sortModel.length === 0 ||
+        prevRow.detail[tab].sortModel[0].colId !== nextProps.rowData[ind].detail[tab].sortModel[0].colId ||
+        prevRow.detail[tab].sortModel[0].sort !== nextProps.rowData[ind].detail[tab].sortModel[0].sort
+    }
   }
 
   onGridReady(params) {
