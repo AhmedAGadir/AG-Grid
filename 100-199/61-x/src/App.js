@@ -9,35 +9,13 @@ import 'ag-grid-enterprise';
 import { connect } from 'react-redux';
 import * as actions from './store/actions';
 
-import { rows, tabDetails } from './gridData';
-import uuidv4 from 'uuid';
 import MyGroupCellRenderer from './components/MyGroupCellRenderer';
 import MyDetailCellRenderer from './components/MyDetailCellRenderer/MyDetailCellRenderer';
 
 class App extends Component {
 
   componentDidMount() {
-    var rowData = rows.map(row => ({
-      ...row,
-      id: uuidv4(),
-      detailData: {
-        gridTab1: {
-          filterModel: null,
-          sortModel: null,
-          data: tabDetails[row.mainCol1].gridTab1Data.map(d => ({ ...d, id: uuidv4() }))
-        },
-        nonGridTab: {
-          ...tabDetails[row.mainCol1].nonGridTabData
-        },
-        gridTab2: {
-          filterModel: null,
-          sortModel: null,
-          data: tabDetails[row.mainCol1].gridTab2Data.map(d => ({ ...d, id: uuidv4() }))
-        }
-      }
-    }));
-
-    this.props.onInitRowData(rowData);
+    this.props.onInitRowData();
   }
 
   onGridReady(params) {
@@ -71,9 +49,8 @@ class App extends Component {
             masterDetail={true}
             detailCellRendererFramework={MyDetailCellRenderer}
             detailCellRendererParams={{
-              getSortModel: this.props.onGetSortModel,
+              rowData: this.props.rowData,
               setSortModel: this.props.onSetSortModel,
-              getFilterModel: this.props.onGetFilterModel,
               setFilterModel: this.props.onSetFilterModel
             }}
             rowData={this.props.rowData}
@@ -96,11 +73,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onInitRowData: rowData => dispatch(actions.initRowData(rowData)),
-    onGetSortModel: (tab, rowIndex) => dispatch(actions.getSortModel(tab, rowIndex)),
-    onGetFilterModel: (tab, rowIndex) => dispatch(actions.getFilterModel(tab, rowIndex)),
-    onSetSortModel: (tab, sortModel) => dispatch(actions.setSortModel(tab, sortModel)),
-    onSetFilterModel: (tab, filterModel) => dispatch(actions.setFilterModel(tab, filterModel))
+    onInitRowData: () => dispatch(actions.initRowData()),
+    onSetSortModel: (rowIndex, tab, sortModel) => dispatch(actions.setSortModel(rowIndex, tab, sortModel)),
+    onSetFilterModel: (rowIndex, tab, filterModel) => dispatch(actions.setFilterModel(rowIndex, tab, filterModel))
   }
 }
 
