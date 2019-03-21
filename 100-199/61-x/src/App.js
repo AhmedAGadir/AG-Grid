@@ -18,6 +18,12 @@ class App extends Component {
     this.props.onInitRowData();
   }
 
+  shouldComponentUpdate() {
+    console.log('shouldComponentUpdate[app.js]');
+    // debugger;
+    return true;
+  }
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -34,7 +40,7 @@ class App extends Component {
         <div
           className="ag-theme-balham"
           style={{
-            height: '90vh',
+            height: '100vh',
           }}>
           <AgGridReact
             columnDefs={[

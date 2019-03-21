@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
-class myFirstDetailGridTab extends Component {
+class MyFirstDetailGridTab extends Component {
+
+    constructor(props) {
+        super(props);
+        this.sortingFromInit = false;
+        this.filteringFromInit = false;
+    }
 
     componentWillMount() {
+        console.log('componentWillMount', 'myFirstDetailGridTab')
         this.masterApi = this.props.api;
         this.masterNode = this.props.node
+    }
 
+    shouldComponentUpdate(nextProps) {
+        console.log('shouldComponentUpdate', 'myFirstDetailGridTab')
     }
 
     onGridReady(params) {
-        console.log('onGridReady')
+        console.log('onGridReady', params.api.getSortModel(), params.api.getFilterModel());
         // var detailGridId = this.props.node.id;
         // var gridInfo = {
         //     id: detailGridId,
@@ -32,31 +42,37 @@ class myFirstDetailGridTab extends Component {
     }
 
     initSortModel() {
-        console.log('initSortModel')
         let sortModel = this.props.rowData[this.masterIndex].detail.gridTab1.sortModel;
-        if (sortModel) {
-            console.log(sortModel)
+        if (sortModel.length > 0) {
+            console.log('setting up the grids sort', sortModel)
+            this.sortingFromInit = true;
             this.detailApi.setSortModel(sortModel);
+            setTimeout(() => this.sortingFromInit = false, 0);
         }
     }
 
     initFilterModel() {
-        console.log('initFilterModel')
         let filterModel = this.props.rowData[this.masterIndex].detail.gridTab1.filterModel;
-        if (filterModel) {
-            console.log(filterModel)
+        if (Object.keys(filterModel).length > 0) {
+            console.log('setting up the grids filter', filterModel)
+            this.filteringFromInit = true;
             this.detailApi.setFilterModel(filterModel);
+            setTimeout(() => this.filteringFromInit = false, 0);
         }
     }
 
     onSortChanged() {
-        console.log('onSortChanged')
-        this.props.setSortModel(this.masterIndex, 'gridTab1', this.detailApi.getSortModel());
+        if (!this.sortingFromInit) {
+            console.log('setting up reduxs sort', this.detailApi.getSortModel());
+            this.props.setSortModel(this.masterIndex, 'gridTab1', this.detailApi.getSortModel());
+        }
     }
 
     onFilterChanged() {
-        console.log('onFilterChanged')
-        this.props.setFilterModel(this.masterIndex, 'gridTab1', this.detailApi.getFilterModel());
+        if (this.filteringFromInit) {
+            console.log('setting up reduxs filter', this.detailApi.getFilterModel());
+            this.props.setFilterModel(this.masterIndex, 'gridTab1', this.detailApi.getFilterModel());
+        }
     }
 
     calculateDetailRowHeight() {
@@ -97,4 +113,4 @@ class myFirstDetailGridTab extends Component {
     }
 }
 
-export default myFirstDetailGridTab;
+export default MyFirstDetailGridTab;

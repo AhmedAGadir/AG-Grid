@@ -13,16 +13,16 @@ const initRowData = (prevState) => ({
         id: uuidv4(),
         detail: {
             gridTab1: {
-                sortModel: null,
-                filterModel: null,
+                sortModel: [],
+                filterModel: {},
                 data: tabDetails[row.mainCol1].gridTab1Data.map(d => ({ ...d, id: uuidv4() }))
             },
             nonGridTab: {
                 ...tabDetails[row.mainCol1].nonGridTabData
             },
             gridTab2: {
-                sortModel: null,
-                filterModel: null,
+                sortModel: [],
+                filterModel: {},
                 data: tabDetails[row.mainCol1].gridTab2Data.map(d => ({ ...d, id: uuidv4() }))
             }
         }
@@ -36,7 +36,7 @@ const setSortModel = (prevState, action) => ({
         detail: {
             gridTab1: {
                 ...row.detail.gridTab1,
-                sortModel: action.rowIndex === ind && action.tab === 'gridTab1' ? action.sortModel : { ...row.detail.gridTab1.sortModel },
+                sortModel: action.rowIndex === ind && action.tab === 'gridTab1' ? action.sortModel : row.detail.gridTab1.sortModel.map(s => ({ ...s })),
                 filterModel: { ...row.detail.gridTab1.filterModel },
                 data: row.detail.gridTab1.data.map(d => ({ ...d }))
             },
@@ -45,7 +45,7 @@ const setSortModel = (prevState, action) => ({
             },
             gridTab2: {
                 ...row.detail.gridTab2,
-                sortModel: action.rowIndex === ind && action.tab === 'gridTab2' ? action.sortModel : { ...row.detail.gridTab1.sortModel },
+                sortModel: action.rowIndex === ind && action.tab === 'gridTab2' ? action.sortModel : row.detail.gridTab2.sortModel.map(s => ({ ...s })),
                 filterModel: { ...row.detail.gridTab2.filterModel },
                 data: row.detail.gridTab2.data.map(d => ({ ...d }))
             },
@@ -60,7 +60,7 @@ const setFilterModel = (prevState, action) => ({
         detail: {
             gridTab1: {
                 ...row.detail.gridTab1,
-                sortModel: { ...row.detail.gridTab1.sortModel },
+                sortModel: row.detail.gridTab1.sortModel.map(s => ({ ...s })),
                 filterModel: action.rowIndex === ind && action.tab === 'gridTab1' ? action.filterModel : { ...row.detail.gridTab1.filterModel },
                 data: row.detail.gridTab1.data.map(d => ({ ...d }))
             },
@@ -69,8 +69,8 @@ const setFilterModel = (prevState, action) => ({
             },
             gridTab2: {
                 ...row.detail.gridTab2,
-                sortModel: { ...row.detail.gridTab1.sortModel },
-                filterModel: action.rowIndex === ind && action.tab === 'gridTab2' ? action.filterModel : { ...row.detail.gridTab1.filterModel },
+                sortModel: row.detail.gridTab2.sortModel.map(s => ({ ...s })),
+                filterModel: action.rowIndex === ind && action.tab === 'gridTab2' ? action.filterModel : { ...row.detail.gridTab2.filterModel },
                 data: row.detail.gridTab2.data.map(d => ({ ...d }))
             },
         }

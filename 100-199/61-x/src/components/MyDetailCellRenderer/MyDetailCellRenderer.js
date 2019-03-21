@@ -11,6 +11,15 @@ class MyDetailCellRenderer extends Component {
         selectedComponent: 'gridTab1',
     }
 
+    componentWillMount() {
+        console.log('componentWillMount', 'MyDetailCellRenderer')
+    }
+
+    shouldComponentUpdate(nextProps) {
+        console.log('shouldComponentUpdate', 'MyDetailCellRenderer')
+        debugger;
+    }
+
     render() {
         let selected;
         switch (this.state.selectedComponent) {
