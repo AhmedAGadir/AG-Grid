@@ -18,6 +18,14 @@ class App extends Component {
     this.props.onInitRowData();
   }
 
+  componentWillMount() {
+    console.log('[componentWillMount]App')
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('[componentWillReceiveProps]App', nextProps)
+  }
+
   shouldComponentUpdate(nextProps) {
     if (!this.props.rowData) {
       return true;
@@ -32,7 +40,7 @@ class App extends Component {
     })
 
     if (hasSortingChanged || hasFilterChanged) {
-      return false;
+      // return false;
     }
     return true
   }

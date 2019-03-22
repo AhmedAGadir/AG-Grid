@@ -13,6 +13,14 @@ class MyDetailCellRenderer extends Component {
         this.props.api.onRowHeightChanged();
     }
 
+    componentWillMount() {
+        console.log('[componentWillMount]MyDetailCellRenderer')
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('[componentWillReceiveProps]MyDetailCellRenderer', nextProps)
+    }
+
     render() {
         let selected;
         switch (this.state.selectedComponent) {

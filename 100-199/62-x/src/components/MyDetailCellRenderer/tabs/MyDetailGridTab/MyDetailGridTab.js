@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 class MyDetailGridTab extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props)
         this.masterApi = this.props.api;
         this.masterNode = this.props.node
     }
@@ -29,7 +30,7 @@ class MyDetailGridTab extends Component {
         let numberDetailOfRows = 0
         this.detailApi.forEachNodeAfterFilter(node => numberDetailOfRows++);
         let innerGridHeight = (numberDetailOfRows * 25) + 28; // 28px for the header height
-        if (numberDetailOfRows === 0) {
+        if (numberDetailOfRows < 2) {
             innerGridHeight = 75;
         }
         let height =  innerGridHeight + offset;
