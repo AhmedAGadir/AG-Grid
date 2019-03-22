@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import MyFirstDetailGridTab from './tabs/MyFirstDetailGridTab/MyFirstDetailGridTab';
+import MyDetailGridTab from './tabs/MyDetailGridTab/MyDetailGridTab';
 import MyNonGridTab from './tabs/MyNonGridTab/MyNonGridTab';
-import MySecondDetailGridTab from './tabs/MySecondDetailGridTab/MySecondDetailGridTab';
 
 import './MyDetailCellRenderer.css'
 
@@ -11,25 +10,17 @@ class MyDetailCellRenderer extends Component {
         selectedComponent: 'gridTab1',
     }
 
-    componentWillMount() {
-        // console.log('componentWillMount', 'MyDetailCellRenderer')
-    }
-
-    shouldComponentUpdate(nextProps) {
-        // console.log('shouldComponentUpdate', 'MyDetailCellRenderer')
-    }
-
     render() {
         let selected;
         switch (this.state.selectedComponent) {
             case 'gridTab1':
-                selected = <MyFirstDetailGridTab {...this.props} gridParams={this.props.data.detail.gridTab1} />;
+                selected = <MyDetailGridTab {...this.props} gridParams={this.props.data.detail.gridTab1} tab="gridTab1" />;
                 break;
             case 'nonGridTab':
                 selected = <MyNonGridTab />
                 break;
             case 'gridTab2':
-                selected = <MySecondDetailGridTab />
+                selected = <MyDetailGridTab {...this.props} gridParams={this.props.data.detail.gridTab2} tab="gridTab2" />;
                 break;
             default:
                 selected = null;

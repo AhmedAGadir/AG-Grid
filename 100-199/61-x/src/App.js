@@ -28,28 +28,16 @@ class App extends Component {
     const hasSortingChanged = this.props.rowData.some((prevRow, ind) => {
       return this.hasTabSortingChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabSortingChanged('gridTab2', prevRow, nextProps, ind);
     });
-    console.log('hasSortingChanged', hasSortingChanged);
-
-    if (hasSortingChanged) {
-      return false;
-    }
 
     const hasFilterChanged = this.props.rowData.some((prevRow, ind) => {
       return this.hasTabFilterChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabFilterChanged('gridTab2', prevRow, nextProps, ind);
     })
 
-    if (hasFilterChanged) {
-      return false;
-    }
-
-    console.log('hasFilterChanged', hasFilterChanged);
 
     // if any sorting or filtering have changed then dont re-render
-
-
-
-
-
+    if (hasSortingChanged || hasFilterChanged) {
+      // return false;
+    }
     return true
   }
 

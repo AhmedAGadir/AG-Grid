@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
-class MyFirstDetailGridTab extends Component {
+class MyDetailGridTab extends Component {
 
     constructor(props) {
         super(props);
@@ -10,36 +10,20 @@ class MyFirstDetailGridTab extends Component {
     }
 
     componentWillMount() {
-        console.log('componentWillMount', 'myFirstDetailGridTab')
         this.masterApi = this.props.api;
         this.masterNode = this.props.node
     }
 
-    shouldComponentUpdate(nextProps) {
-        // console.log('shouldComponentUpdate', 'myFirstDetailGridTab')
-    }
-
     onGridReady(params) {
-        // console.log('onGridReady', params.api.getSortModel(), params.api.getFilterModel());
-
-
-
-
 
         // how is this gonna work with 2 subgrids ? 
-
-        var detailGridId = this.masterNode.id;
-        var gridInfo = {
-            id: detailGridId,
-            api: params.api,
-            columnApi: params.columnApi
-        }
-        this.masterApi.addDetailGridInfo(detailGridId, gridInfo);
-
-
-
-
-
+        // var detailGridId = this.masterNode.id;
+        // var gridInfo = {
+        //     id: detailGridId,
+        //     api: params.api,
+        //     columnApi: params.columnApi
+        // }
+        // this.masterApi.addDetailGridInfo(detailGridId, gridInfo);
 
         this.masterIndex = this.props.rowData.findIndex(row => row.id === this.props.data.id);
         this.detailApi = params.api
@@ -54,9 +38,7 @@ class MyFirstDetailGridTab extends Component {
     }
 
     initSortModel() {
-        let sortModel = this.props.rowData[this.masterIndex].detail.gridTab1.sortModel;
-        console.log(this.props.rowData)
-        console.log('sort', sortModel)
+        let sortModel = this.props.rowData[this.masterIndex].detail[this.props.tab].sortModel;
         if (sortModel.length > 0) {
             this.sortingFromInit = true;
             this.detailApi.setSortModel(sortModel);
@@ -65,8 +47,7 @@ class MyFirstDetailGridTab extends Component {
     }
 
     initFilterModel() {
-        let filterModel = this.props.rowData[this.masterIndex].detail.gridTab1.filterModel;
-        console.log('filter', filterModel)
+        let filterModel = this.props.rowData[this.masterIndex].detail[this.props.tab].filterModel;
         if (Object.keys(filterModel).length > 0) {
             this.filteringFromInit = true;
             this.detailApi.setFilterModel(filterModel);
@@ -76,15 +57,13 @@ class MyFirstDetailGridTab extends Component {
 
     onSortChanged() {
         if (!this.sortingFromInit) {
-            console.log('setting up reduxs sort', this.detailApi.getSortModel());
-            this.props.setSortModel(this.masterIndex, 'gridTab1', this.detailApi.getSortModel());
+            this.props.setSortModel(this.masterIndex, this.props.tab, this.detailApi.getSortModel());
         }
     }
 
     onFilterChanged() {
         if (!this.filteringFromInit) {
-            console.log('setting up reduxs filter', this.detailApi.getFilterModel());
-            this.props.setFilterModel(this.masterIndex, 'gridTab1', this.detailApi.getFilterModel());
+            this.props.setFilterModel(this.masterIndex, this.props.tab, this.detailApi.getFilterModel());
         }
     }
 
@@ -126,4 +105,4 @@ class MyFirstDetailGridTab extends Component {
     }
 }
 
-export default MyFirstDetailGridTab;
+export default MyDetailGridTab;
