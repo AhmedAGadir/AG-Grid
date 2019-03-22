@@ -17,7 +17,7 @@ class MyDetailCellRenderer extends Component {
                 selected = <MyDetailGridTab {...this.props} gridParams={this.props.data.detail.gridTab1} tab="gridTab1" />;
                 break;
             case 'nonGridTab':
-                selected = <MyNonGridTab />
+                selected = <MyNonGridTab {...this.props} imgUrl={this.props.data.detail.nonGridTab.imageURL} imgTitle={this.props.data.detail.nonGridTab.name} />
                 break;
             case 'gridTab2':
                 selected = <MyDetailGridTab {...this.props} gridParams={this.props.data.detail.gridTab2} tab="gridTab2" />;

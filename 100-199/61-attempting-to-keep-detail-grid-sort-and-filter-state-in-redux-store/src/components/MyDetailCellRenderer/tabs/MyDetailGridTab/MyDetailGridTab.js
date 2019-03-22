@@ -17,20 +17,11 @@ class MyDetailGridTab extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.tab !== this.props.tab) {
             this.initDetailRowHeight();
+            this.detailApi.clearFocusedCell();
         }
     }
 
     onGridReady(params) {
-
-        // how is this gonna work with 2 subgrids ? 
-        // var detailGridId = this.masterNode.id;
-        // var gridInfo = {
-        //     id: detailGridId,
-        //     api: params.api,
-        //     columnApi: params.columnApi
-        // }
-        // this.masterApi.addDetailGridInfo(detailGridId, gridInfo);
-
         this.masterIndex = this.props.rowData.findIndex(row => row.id === this.props.data.id);
         this.detailApi = params.api
 
