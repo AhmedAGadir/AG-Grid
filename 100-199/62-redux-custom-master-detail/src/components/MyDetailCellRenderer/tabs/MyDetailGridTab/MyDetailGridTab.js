@@ -18,11 +18,9 @@ class MyDetailGridTab extends Component {
     }
 
     onGridReady(params) {
-        this.masterIndex = this.props.rowData.findIndex(row => row.id === this.props.data.id);
         this.detailApi = params.api
-
-        this.initDetailRowHeight();
         this.detailApi.sizeColumnsToFit();
+        this.initDetailRowHeight();
     }
 
     initDetailRowHeight() {
