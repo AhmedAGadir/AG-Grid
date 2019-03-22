@@ -14,6 +14,12 @@ class MyDetailGridTab extends Component {
         this.masterNode = this.props.node
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.tab !== this.props.tab) {
+            this.initDetailRowHeight();
+        }
+    }
+
     onGridReady(params) {
 
         // how is this gonna work with 2 subgrids ? 
@@ -28,12 +34,9 @@ class MyDetailGridTab extends Component {
         this.masterIndex = this.props.rowData.findIndex(row => row.id === this.props.data.id);
         this.detailApi = params.api
 
-        this.masterNode.setRowHeight(this.calculateDetailRowHeight());
-        this.masterApi.onRowHeightChanged();
-
         this.initSortModel();
         this.initFilterModel();
-
+        this.initDetailRowHeight();
         this.detailApi.sizeColumnsToFit();
     }
 
@@ -67,15 +70,13 @@ class MyDetailGridTab extends Component {
         }
     }
 
-    calculateDetailRowHeight() {
-        if (this.masterNode && this.masterNode.detail) {
-            var offset = 55; // 15px padding + 15px padding + 25px button row height
-            var allDetailRowHeight = this.props.gridParams.data.length * 25;
-            var detailGridHeight = allDetailRowHeight + 28;
-            return detailGridHeight + offset;
-        } else {
-            return 60;
-        }
+    initDetailRowHeight() {
+        let offset = 55; // 15px padding + 15px padding + 25px button row height
+        let innerGridHeight = (this.props.gridParams.data.length * 25) + 28; // 28px for the header height
+        let height =  innerGridHeight + offset;
+
+        this.masterNode.setRowHeight(height);
+        this.masterApi.onRowHeightChanged();
     }
 
     render() {
@@ -93,6 +94,7 @@ class MyDetailGridTab extends Component {
                     cellEditor: 'agPopupTextCellEditor'
                 }}
                 rowData={this.props.gridParams.data}
+                rowHeight={25}
                 onGridReady={this.onGridReady.bind(this)}
                 deltaRowDataMode={true}
                 getRowNodeId={data => data.id}

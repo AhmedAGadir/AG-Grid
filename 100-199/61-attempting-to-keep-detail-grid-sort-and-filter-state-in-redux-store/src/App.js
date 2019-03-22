@@ -19,7 +19,6 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    // console.log('shouldComponentUpdate[app.js]');
 
     if (!this.props.rowData) {
       return true;
@@ -33,10 +32,11 @@ class App extends Component {
       return this.hasTabFilterChanged('gridTab1', prevRow, nextProps, ind) || this.hasTabFilterChanged('gridTab2', prevRow, nextProps, ind);
     })
 
-
-    // if any sorting or filtering have changed then dont re-render
+    // doing this doesnt work. if you dont update this component when sorting or filtering then it cant pass the updated state down to the detail grid
+    // and if you do update this component when sorting and filtering, then everything re-renders whenever you sort/filter a detail grid (which makes the UI jump around + is really inefficient)
+    // this is also peak because connecting the detail grid cell renderer directly to the redux store doesnt work
     if (hasSortingChanged || hasFilterChanged) {
-      // return false;
+      return false;
     }
     return true
   }

@@ -19,6 +19,15 @@ export const tabDetails = {
         gridTab2Data: [
             { col1: 'foo', col2: 'bar', col3: 'baz' },
             { col1: 'foo', col2: 'bar', col3: 'baz' },
+            { col1: 'foo', col2: 'bar', col3: 'baz' },
+            { col1: 'foo', col2: 'bar', col3: 'baz' },
+            { col1: 'buz', col2: 'bar', col3: 'baz' },
+            { col1: 'buz', col2: 'bar', col3: 'baz' },
+            { col1: 'buz', col2: 'bar', col3: 'baz' },
+            { col1: 'buz', col2: 'bar', col3: 'baz' },
+            { col1: 'bliz', col2: 'bar', col3: 'baz' },
+            { col1: 'bliz', col2: 'bar', col3: 'baz' },
+            { col1: 'bliz', col2: 'bar', col3: 'baz' },
         ]
     },
     13242342: {
