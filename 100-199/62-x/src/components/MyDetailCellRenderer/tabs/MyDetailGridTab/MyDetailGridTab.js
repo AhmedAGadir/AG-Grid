@@ -10,8 +10,8 @@ class MyDetailGridTab extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.tab !== this.props.tab) {
             this.initDetailRowHeight();
-            this.detailApi.setFilterModel({});
-            this.detailApi.setSortModel([]);
+            this.detailApi.setFilterModel(null);
+            this.detailApi.setSortModel(null);
             this.detailApi.clearFocusedCell();
         }
     }
@@ -33,8 +33,7 @@ class MyDetailGridTab extends Component {
             innerGridHeight = 75;
         }
         let height =  innerGridHeight + offset;
-
-        this.props.setDetailRowHeight(height)
+        this.props.setDetailRowHeight(height);
     }
 
     onFilterChanged() {
