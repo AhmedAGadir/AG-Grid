@@ -5,9 +5,8 @@ const myNonGridTab = props => {
 
     let onImgLoad = (event, props) => {
         let imgHeight = event.target.height
-        let offset = 55; // 15px padding + 15px padding + 25px button row height
-        props.node.setRowHeight(imgHeight + offset);
-        props.api.onRowHeightChanged();
+        let offset = 60; // 15px padding + 15px padding + 30px button row height
+        props.setDetailRowHeight(imgHeight + offset)
     }
 
     return (

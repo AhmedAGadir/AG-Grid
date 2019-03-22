@@ -62,12 +62,11 @@ class MyDetailGridTab extends Component {
     }
 
     initDetailRowHeight() {
-        let offset = 55; // 15px padding + 15px padding + 25px button row height
+        let offset = 60; // 15px padding + 15px padding + 30px button row height
         let innerGridHeight = (this.props.gridParams.data.length * 25) + 28; // 28px for the header height
         let height =  innerGridHeight + offset;
 
-        this.masterNode.setRowHeight(height);
-        this.masterApi.onRowHeightChanged();
+        this.props.setDetailRowHeight(height)
     }
 
     render() {

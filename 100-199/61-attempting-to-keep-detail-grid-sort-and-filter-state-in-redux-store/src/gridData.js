@@ -44,7 +44,7 @@ export const tabDetails = {
             { col1: 'bliz', col2: 'bar', col3: 'baz' },
             { col1: 'bliz', col2: 'bar', col3: 'baz' },
         ],
-        nonGridTabData: { name: 'foobar', imageURL: 'https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$' },
+        nonGridTabData: { name: 'barfoo', imageURL: 'https://s7d2.scene7.com/is/image/academy/10340208?$grid-desktop$' },
         gridTab2Data: [
             { col1: 'foo', col2: 'bar', col3: 'baz' },
             { col1: 'foo', col2: 'bar', col3: 'baz' },

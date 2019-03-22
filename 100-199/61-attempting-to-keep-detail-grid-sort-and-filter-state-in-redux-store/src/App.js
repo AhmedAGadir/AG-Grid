@@ -19,7 +19,6 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-
     if (!this.props.rowData) {
       return true;
     }
@@ -86,7 +85,8 @@ class App extends Component {
     return (
       <Fragment>
         <button
-          style={{ margin: '10px', fontSize: '12px' }}
+          style={{ margin: '10px'}}
+          className="btn btn-primary"
           onClick={() => console.log(this.props.rowData)}>Log All Row Data</button>
         <div
           className="ag-theme-balham"
