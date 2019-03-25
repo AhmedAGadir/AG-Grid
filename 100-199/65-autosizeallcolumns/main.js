@@ -6,16 +6,23 @@ var gridOptions = {
         { headerName: 'Age', field: 'age' },
         { headerName: 'Year', field: 'year' },
         { headerName: 'Date', field: 'date' },
-        { headerName: 'Gold', field: 'gold' },
-        { headerName: 'Silver', field: 'silver' },
-        { headerName: 'Bronze', field: 'bronze' },
-        { headerName: 'Total', field: 'total' }
+        { headerName: 'Gold', field: 'gold', enableValue: true, aggFunc: 'sum' },
+        { headerName: 'Silver', field: 'silver', enableValue: true, aggFunc: 'sum' },
+        { headerName: 'Bronze', field: 'bronze', enableValue: true, aggFunc: 'sum' },
+        { headerName: 'Total', field: 'total', enableValue: true, aggFunc: 'sum' }
     ],
     defaultColDef: {
         width: 150,
+        resizable: true
     },
     rowData: null,
+    sideBar: true,
+    pivotMode: true
 };
+
+function autoSize() {
+    gridOptions.columnApi.autoSizeAllColumns();
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
