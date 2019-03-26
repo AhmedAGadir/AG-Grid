@@ -95,15 +95,25 @@ class GridExample extends Component {
 			return
 		}
 
-		const updatedRows = this.state.rowData.map(row => ({
+		const updatedGroupedRows = this.state.rowData.map(row => ({
 			...row,
 			countries: [row.countries],
 			years: [row.years],
 			text: row.rowNumber === params.data.rowNumber ? params.newValue : row.text
 		}));
 
+		const updatedOriginalRows = this.state.originalRowData.map(row => ({
+			...row,
+			countries: [...row.countries],
+			years: [...row.years],
+			text: row.rowNumber === params.data.rowNumber ? params.newValue : row.text
+		}))
+
 		this.editingFromCellValueChanged = true;
-		this.setState({ rowData: updatedRows });
+		this.setState({
+			originalRowData: updatedOriginalRows,
+			rowData: updatedGroupedRows
+		});
 		setTimeout(() => this.editingFromCellValueChanged = false, 0);
 	}
 
