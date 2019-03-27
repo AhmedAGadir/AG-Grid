@@ -32,11 +32,13 @@ var gridOptions = {
     pivotMode: true
 };
 
+// note to self: read and understand: https://stackoverflow.com/questions/1761051/difference-between-n-and-r
+
 function getContextMenuItems(params) {
     var result = [
         {
             // custom item
-            name: 'Copy With Headers',
+            name: 'Copy With Headers (Custom)',
             action: function () {
                 if (params.columnApi.isPivotMode()) {
                     var pivotKeysStr = params.column.colDef.pivotKeys.join('\n');
