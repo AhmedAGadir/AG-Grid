@@ -23,7 +23,7 @@ function addGrandTotal() {
     // Add a new column definition to colDefs 
     const colDefs = gridOptions.columnApi.getAllColumns().map(col => col.colDef);
     const customColDef = {
-        headerName: 'Row Total',
+        headerName: 'Average Silver',
         field: 'row_total',
         cellRenderer: params => {
             let total = 0;
@@ -35,7 +35,7 @@ function addGrandTotal() {
                     count++
                 }
             })
-            let avg = total / count 
+            let avg = total / count
             return Math.round(avg);
         },
         cellClass: 'row-total-style',
@@ -50,7 +50,7 @@ function addGrandTotal() {
     // pin one column and hide the others
     let pinned = false;
     gridOptions.columnApi.getAllGridColumns().forEach(column => {
-        if (column.colDef.headerName === 'Row Total') {
+        if (column.colDef.headerName === 'Average Silver') {
             if (!pinned) {
                 gridOptions.columnApi.setColumnPinned(column, 'right');
                 pinned = true;
