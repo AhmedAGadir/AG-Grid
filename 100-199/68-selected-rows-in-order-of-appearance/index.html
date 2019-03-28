@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+    <script src="https://unpkg.com/ag-grid-community@20.2.0/dist/ag-grid-community.min.js"></script>    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="test-container">
+    <div class="test-header">
+        <button onclick="logSelectedRows()">Log Selected Rows</button>(in order of appearance)
+        <br>
+        <button onclick="logFilteredRows()">Log Filtered Rows</button>
+    </div>
+    <div id="myGrid" class="ag-theme-balham" style="height: calc(100% - 30px);"></div>
+</div>
+
+    <script src="main.js"></script>
+</body>
+</html>
