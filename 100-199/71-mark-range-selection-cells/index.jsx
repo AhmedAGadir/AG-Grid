@@ -23,29 +23,39 @@ class GridExample extends Component {
         { field: "total", width: 100 }
       ],
       defaultColDef: {
-        valueGetter: params => params.data[params.column.colId].val,
         cellStyle: params => {
-          if (params.value.highlighted) {
-            return { backgroundColor: 'pink', 'text-decoration': 'line-through' };
+          if (params.data.rangeSelection.includes(params.column.colId)) {
+            return { backgroundColor: 'pink', textDecoration: 'line-through' };
           }
         }
-
-
       },
       rowData: null
     };
   }
 
-  onRangeSelectionChanged(params) {
-    console.log(params)
-    console.log(params.started, params.finished)
-    if (params.started && params.finished) {
-      debugger;
-
-    }
+  getRowNodeId(data) {
+    return data.id;
   }
 
-  onGridReady = params => {
+  onRangeSelectionChanged(params) {
+    if (!params.finished) {
+      return;
+    }
+    const { start, end, columns } = params.api.getRangeSelections()[0];
+    if (start.rowIndex === end.rowIndex && columns.length === 1) {
+      return;
+    }
+    const fieldsToSelect = columns.map(col => col.colId);
+    let updatedRowData = this.state.rowData.map((row, ind) => ({
+      ...row,
+      rangeSelection: ind >= start.rowIndex && ind <= end.rowIndex ? [...new Set([...row.rangeSelection, ...fieldsToSelect])] : [...row.rangeSelection]
+    }))
+
+    this.setState({ rowData: updatedRowData });
+    this.gridApi.refreshCells({ force: true });
+  }
+
+  onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
@@ -58,18 +68,12 @@ class GridExample extends Component {
     httpRequest.send();
     httpRequest.onreadystatechange = () => {
       if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-        let data = JSON.parse(httpRequest.responseText).map(row => {
-          let updatedRow = {}
-          Object.keys(row).forEach(field => {
-            updatedRow[field] = {
-              val: row[field],
-
-              highlighted: false
-            }
-          });
-          return updatedRow
-        });
-        console.log(data);
+        let idSequence = 0;
+        let data = JSON.parse(httpRequest.responseText).map(row => ({
+          ...row,
+          rangeSelection: [],
+          id: idSequence++
+        }));
         this.setState({ rowData: data });
       }
     };
@@ -91,8 +95,10 @@ class GridExample extends Component {
             defaultColDef={this.state.defaultColDef}
             enableRangeSelection={true}
             rowData={this.state.rowData}
-            onGridReady={this.onGridReady}
-            onRangeSelectionChanged={this.onRangeSelectionChanged}
+            deltaRowDataMode={true}
+            getRowNodeId={this.getRowNodeId.bind(this)}
+            onGridReady={this.onGridReady.bind(this)}
+            onRangeSelectionChanged={this.onRangeSelectionChanged.bind(this)}
           />
         </div>
       </div>
