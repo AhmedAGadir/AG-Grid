@@ -18,147 +18,14 @@ var gridOptions = {
     allowContextMenuWithControlKey: true,
     components: {
         athleteCellRenderer: AthleteCellRenderer
-    },
-    // onCellClicked: params => {
-    //     params.api.contextMenuFactory.showMenu(params.node, params.column, params.value, params.event)
-    // },
-    // onCellContextMenu: params => {
-    //     params.api.contextMenuFactory.hideActiveMenu()
-    // }
+    }
 };
 
 function getContextMenuItems(params) {
-    console.log(params)
-    var result = [
-        {
-            // custom item
-            name: 'Alert ' + params.value,
-            action: function () {
-                window.alert('Alerting about ' + params.value);
-            },
-            cssClasses: ['redFont', 'bold']
-        },
-        {
-            // custom item
-            name: 'Always Disabled',
-            disabled: true,
-            tooltip: 'Very long tooltip, did I mention that I am very long, well I am! Long!  Very Long!'
-        },
-        {
-            name: 'Country',
-            subMenu: [
-                {
-                    name: 'Ireland',
-                    action: function () {
-                        console.log('Ireland was pressed');
-                    },
-                    icon: ('ie')
-                },
-                {
-                    name: 'UK',
-                    action: function () {
-                        console.log('UK was pressed');
-                    },
-                    icon: ('gb')
-                },
-                {
-                    name: 'France',
-                    action: function () {
-                        console.log('France was pressed');
-                    },
-                    icon: ('fr')
-                }
-            ]
-        },
-        {
-            name: 'Person',
-            subMenu: [
-                {
-                    name: 'Niall',
-                    action: function () {
-                        console.log('Niall was pressed');
-                    }
-                },
-                {
-                    name: 'Sean',
-                    action: function () {
-                        console.log('Sean was pressed');
-                    }
-                },
-                {
-                    name: 'John',
-                    action: function () {
-                        console.log('John was pressed');
-                    }
-                },
-                {
-                    name: 'Alberto',
-                    action: function () {
-                        console.log('Alberto was pressed');
-                    }
-                },
-                {
-                    name: 'Tony',
-                    action: function () {
-                        console.log('Tony was pressed');
-                    }
-                },
-                {
-                    name: 'Andrew',
-                    action: function () {
-                        console.log('Andrew was pressed');
-                    }
-                },
-                {
-                    name: 'Kev',
-                    action: function () {
-                        console.log('Kev was pressed');
-                    }
-                },
-                {
-                    name: 'Will',
-                    action: function () {
-                        console.log('Will was pressed');
-                    }
-                },
-                {
-                    name: 'Armaan',
-                    action: function () {
-                        console.log('Armaan was pressed');
-                    }
-                }
-            ]
-        }, // built in separator
-        'separator',
-        {
-            // custom item
-            name: 'Windows',
-            shortcut: 'Alt + W',
-            action: function () {
-                console.log('Windows Item Selected');
-            },
-        },
-        {
-            // custom item
-            name: 'Mac',
-            shortcut: 'Alt + M',
-            action: function () {
-                console.log('Mac Item Selected');
-            },
-        }, // built in separator
-        'separator',
-        {
-            // custom item
-            name: 'Checked',
-            checked: true,
-            action: function () {
-                console.log('Checked Selected');
-            },
-        }, // built in copy item
-        'copy'
-    ];
-
-    return result;
+    if (typeof params.value === 'object' && params.value.fromEllipses) {
+        return [{ name: 'Menu B', action: () => { console.log(params.value.val) } }, , 'separator', 'paste', 'export']
+    }
+    return [{ name: 'Menu A', action: () => { console.log(params.value) } }, 'separator', 'copy', 'copyWithHeaders']
 }
 
 // setup the grid after the page has finished loading
@@ -184,13 +51,17 @@ function AthleteCellRenderer() { }
 AthleteCellRenderer.prototype.init = function (params) {
     this.eGui = document.createElement('div');
     this.eGui.className = 'athlete-cell-renderer';
+
     let span = document.createElement('span');
     span.textContent = params.value;
     this.eGui.appendChild(span);
+
     let icon = document.createElement('icon');
     icon.addEventListener('click', event => {
         params.api.contextMenuFactory.hideActiveMenu();
-        params.api.contextMenuFactory.showMenu(params.node, params.column, params.value, event, 'hello world');
+        // params.api.contextMenuFactory.showMenu(params.node, params.column, params.value, event);
+        // pass an object instead of the value
+        params.api.contextMenuFactory.showMenu(params.node, params.column, { val: params.value, fromEllipses: true }, event);
     });
     icon.className = "fas fa-ellipsis-v";
     this.eGui.appendChild(icon);

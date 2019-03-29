@@ -1,11 +1,3 @@
-.redFont {
-    color: red;
-}
-
-.bold {
-    font-weight: bold;
-}
-
 .athlete-cell-renderer {
     display: flex;
     justify-content: space-between;

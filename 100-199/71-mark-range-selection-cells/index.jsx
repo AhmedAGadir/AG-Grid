@@ -45,12 +45,13 @@ class GridExample extends Component {
     if (start.rowIndex === end.rowIndex && columns.length === 1) {
       return;
     }
+    const startIndex = start.rowIndex < end.rowIndex ? start.rowIndex : end.rowIndex;
+    const endIndex = end.rowIndex > start.rowIndex ? end.rowIndex : start.rowIndex;
     const fieldsToSelect = columns.map(col => col.colId);
     let updatedRowData = this.state.rowData.map((row, ind) => ({
       ...row,
-      rangeSelection: ind >= start.rowIndex && ind <= end.rowIndex ? [...new Set([...row.rangeSelection, ...fieldsToSelect])] : [...row.rangeSelection]
+      rangeSelection: ind >= startIndex && ind <= endIndex ? [...new Set([...row.rangeSelection, ...fieldsToSelect])] : [...row.rangeSelection]
     }))
-
     this.setState({ rowData: updatedRowData });
     this.gridApi.refreshCells({ force: true });
   }
