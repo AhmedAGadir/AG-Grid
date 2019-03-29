@@ -21,9 +21,9 @@ var gridOptions = {
     rowData: null,
 };
 
-function EditorCellRenderer() {}
+function EditorCellRenderer() { }
 
-EditorCellRenderer.prototype.init = function(params) {
+EditorCellRenderer.prototype.init = function (params) {
     this.params = params;
     this.eGui = document.createElement('input');
     this.eGui.disabled = true;
@@ -57,11 +57,11 @@ EditorCellRenderer.prototype.init = function(params) {
     })
 };
 
-EditorCellRenderer.prototype.getGui = function() {
+EditorCellRenderer.prototype.getGui = function () {
     return this.eGui;
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
     agGrid
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             url:
                 'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json',
         })
-        .then(function(data) {
+        .then(function (data) {
             gridOptions.api.setRowData(data);
         });
 });

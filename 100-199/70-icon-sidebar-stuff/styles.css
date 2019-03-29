@@ -1,0 +1,50 @@
+.test-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.test-header {
+    padding: 4px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+}
+
+label {
+    display: block;
+    padding: 5px 30px;
+    text-align: left;
+}
+
+/* --------------------- */
+
+.ag-theme-balham .ag-icon-columns {
+    background: url('./svg/menu.svg') no-repeat;
+    height: 12px !important;
+    width: 12px !important;
+    transform: rotateZ(90deg);
+}
+
+.ag-theme-balham .ag-icon-filter {
+    background: url('./svg/filter.svg') no-repeat;
+    height: 12px !important;
+    width: 12px !important;
+}
+
+.ag-side-buttons.wide {
+    width: 45px;
+}
+
+.ag-side-button>button>div {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+icon.fas.fa-redo {
+    font-size: 12px !important;
+}
+
+icon.fas.fa-redo:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
