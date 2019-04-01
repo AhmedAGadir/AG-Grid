@@ -53,12 +53,16 @@ MyCellEditor.prototype.init = function (params) {
     this.eInput.addEventListener('keydown', event => {
         switch (event.keyCode) {
             case 38: // key up  
+                // params.api.stopEditing();
+                // params.api.setFocusedCell(params.rowIndex - 1, params.column);
                 params.api.startEditingCell({
                     rowIndex: params.rowIndex - 1,
                     colKey: params.column
                 });
                 break;
             case 40: // key down
+                // params.api.stopEditing();
+                // params.api.setFocusedCell(params.rowIndex + 1, params.column);
                 params.api.startEditingCell({
                     rowIndex: params.rowIndex + 1,
                     colKey: params.column

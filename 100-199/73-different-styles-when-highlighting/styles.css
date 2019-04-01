@@ -1,0 +1,10 @@
+/* CSS */
+
+.ag-cell-range-selected {
+    background: pink !important;
+    text-decoration: line-through
+}
+
+.ag-cell-range-selected.ag-cell-focus {
+    border-color: red !important;
+}

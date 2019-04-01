@@ -57,13 +57,13 @@ AthleteCellRenderer.prototype.init = function (params) {
     this.eGui.appendChild(span);
 
     let icon = document.createElement('icon');
+    icon.className = "fas fa-ellipsis-v";
     icon.addEventListener('click', event => {
         params.api.contextMenuFactory.hideActiveMenu();
         // params.api.contextMenuFactory.showMenu(params.node, params.column, params.value, event);
         // pass an object instead of the value
         params.api.contextMenuFactory.showMenu(params.node, params.column, { val: params.value, fromEllipses: true }, event);
     });
-    icon.className = "fas fa-ellipsis-v";
     this.eGui.appendChild(icon);
 }
 

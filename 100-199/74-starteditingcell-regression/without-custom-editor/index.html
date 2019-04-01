@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script> var __basePath = ''; </script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@18.0.0/dist/ag-grid-enterprise.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <button onclick="startEditingCell(-1)" style="margin: 10px">Start Editing Cell Above</button>
+    <button onclick="startEditingCell(+1)" style="margin: 10px">Start Editing Cell Below</button>
+    <div style="height: 100%; box-sizing: border-box;">
+        <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

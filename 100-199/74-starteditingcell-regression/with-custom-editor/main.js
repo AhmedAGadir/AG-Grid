@@ -14,12 +14,12 @@ var gridOptions = {
         editable: true,
         cellEditor: 'myCellEditor'
     },
-    editType: 'fullRow',
+    // editType: 'fullRow',
     rowData: null,
     components: {
         myCellEditor: MyCellEditor
     },
-    onRowEditingStarted: params => {
+    onCellEditingStarted: params => {
         const { rowIndex, column } = params.api.getFocusedCell();
         const focusedCellEditorParams = {
             rowNodes: [params.api.getRowNode(rowIndex)],
@@ -43,34 +43,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
+function startEditingCell(deltaY) {
+    const focusedCell = gridOptions.api.getFocusedCell();
+    if (!focusedCell) {
+        alert('Select a cell first');
+        return;
+    }
+    // comment api.setFocusedCell for testing
+    // gridOptions.api.setFocusedCell(focusedCell.rowIndex + deltaY, focusedCell.column);
+    gridOptions.api.startEditingCell({
+        rowIndex: focusedCell.rowIndex + deltaY,
+        colKey: focusedCell.column
+    });
+}
+
 function MyCellEditor() { }
 
 MyCellEditor.prototype.init = function (params) {
-    this.gridApi = params;
     this.eInput = document.createElement('input');
     this.eInput.classList.add('ag-cell-edit-input');
     this.eInput.value = params.value;
-
-    this.eInput.addEventListener('keydown', event => {
-        switch (event.keyCode) {
-            case 38: // key up  
-                // params.api.stopEditing();
-                params.api.setFocusedCell(params.rowIndex - 1, params.column);
-                params.api.startEditingCell({
-                    rowIndex: params.rowIndex - 1,
-                    colKey: params.column
-                });
-                break;
-            case 40: // key down
-                // params.api.stopEditing();
-                params.api.setFocusedCell(params.rowIndex + 1, params.column);
-                params.api.startEditingCell({
-                    rowIndex: params.rowIndex + 1,
-                    colKey: params.column
-                });
-                break;
-        }
-    })
 };
 
 MyCellEditor.prototype.getGui = function () {
