@@ -18,20 +18,33 @@ var rowData = [
             'Minta Turck',
             'Natacha Fester',
             'Tom Woodrum',
-            'Lucius Goudy',
-            'Iluminada Baehr',
-            'Sarina Kindig',
-            'Tena Ranum',
-            'Era Almeda',
-            'Dung Orvis',
-            'Andrea Delaughter',
-            'Racquel Rimer',
-            'Lindsay Pearl',
-            'Devorah Rutten'
+            'Lucius Goudy'
         ],
         jobTitle: 'Director of Operations',
         employmentType: 'Permanent',
-    }
+    },
+
+    {
+        orgHierarchy: [
+            'Erica Rogers',
+            'Malcolm Barrett',
+            'Esther Baker',
+            'Brittany Hanson',
+            'Tammy Sutton',
+        ],
+        jobTitle: 'Service Technician',
+        employmentType: 'Contract',
+    },
+    {
+        orgHierarchy: [
+            'Erica Rogers',
+            'Malcolm Barrett',
+            'Esther Baker',
+            'Derek Paul',
+        ],
+        jobTitle: 'Inventory Control',
+        employmentType: 'Permanent',
+    },
 ]
 
 var gridOptions = {
@@ -39,6 +52,11 @@ var gridOptions = {
         { field: 'jobTitle' },
         { field: 'employmentType' }
     ],
+    autoGroupColumnDef: {
+        cellRendererParams: {
+            suppressCount: true
+        }
+    },
     rowData: rowData,
     treeData: true,
     animateRows: true,
@@ -46,7 +64,8 @@ var gridOptions = {
     getDataPath: function (data) {
         return data.orgHierarchy;
     },
-    onFirstDataRendered: params => params.columnApi.autoSizeAllColumns()
+    onFirstDataRendered: params => params.columnApi.autoSizeAllColumns(),
+    onRowGroupOpened: params => params.columnApi.autoSizeColumn('ag-Grid-AutoColumn')
 };
 
 document.addEventListener("DOMContentLoaded", function () {
