@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script> var __basePath = ''; </script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@20.1.0/dist/ag-grid-enterprise.min.js"></script>
+</head>
+
+<body>
+
+    <div style="height: 100%; box-sizing: border-box;">
+        <div id="myGrid" class="ag-theme-balham" style="height: 100%;"></div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
+
+
+<!-- 
+
+    v19.0.0: 308ms, 298ms, 302ms, 300ms, 292ms | average: 300ms
+    v20.0.0: 267ms, 300ms, 296ms, 286ms, 310ms | average: 292ms
+    v20.1.0: 482ms, 409ms, 401ms, 399ms, 404ms | average: 419ms
+    v20.2.0: 459ms, 432ms, 425ms, 418ms, 440ms | average: 435ms
+
+ -->
