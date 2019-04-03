@@ -1,0 +1,12 @@
+/* CSS */
+
+.full-width-cell-renderer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.full-width-cell-renderer button {
+    margin: 0 10px;
+}
