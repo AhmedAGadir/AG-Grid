@@ -35,23 +35,19 @@ var gridOptions = {
         fullWidthCellRenderer: FullWidthCellRenderer
     },
     groupDefaultExpanded: 3,
-    // getRowStyle: params => {
-    //     if (!params.node.group) {
-    //         return;
-    //     }
-    //     switch (params.node.level) {
-    //         case 0:
-    //             return { background: 'whitesmoke', color: 'grey', fontSize: '18px', borderTop: '2px solid grey', borderBottom: '1px solid grey' }
-    //         case 2:
-    //             return { background: 'whitesmoke', color: 'grey', borderTop: '2px solid grey', borderBottom: '2px solid grey' }
-    //     }
-    // },
-    getRowHeight: params => {
-        if (params.node.group) {
-            return 45 - (5 * params.node.level)
+    getRowStyle: params => {
+        if (params.data && params.data.isHeaderRow) {
+            return { backgroundColor: '#f5f7f7', color: 'rgba(0, 0, 0, 0.54)', fontWeight: 600 }
         }
-        return 27;
+
+
     },
+    // getRowHeight: params => {
+    //     if (params.node.group) {
+    //         return 45 - (5 * params.node.level)
+    //     }
+    //     return 27;
+    // },
     onGridReady: params => params.api.sizeColumnsToFit(),
     suppressAggFuncInHeader: true
 };
@@ -91,7 +87,7 @@ function addWarning() {
     const updatedRowData = state.rowData.map(row => ({ ...row }));
     updatedRowData.unshift(
         { country: 'United States', sport: 'Swimming', text: 'This product has been denied for certain facilities and/or configurations', isFullWidthRow: true, id: state.idSequence++ },
-        { country: 'United States', sport: 'Swimming', gold: 'Gold', silver: 'Silver', bronze: 'Bronze', total: 'Total', id: state.idSequence++ }
+        { country: 'United States', sport: 'Swimming', gold: 'Gold', silver: 'Silver', bronze: 'Bronze', total: 'Total', isHeaderRow: true, id: state.idSequence++ }
     );
     state.rowData = updatedRowData;
     gridOptions.api.setRowData(state.rowData);
@@ -116,7 +112,7 @@ function FullWidthCellRenderer() { }
 
 FullWidthCellRenderer.prototype.init = function (params) {
     this.eGui = document.createElement('div');
-    this.eGui.style.cssText = 'padding: 0 15px; background: whitesmoke; height: 100%; display: flex; align-items: center'
+    this.eGui.style.cssText = 'padding: 0 15px; background: aquamarine; height: 100%; display: flex; align-items: center'
     this.eGui.innerHTML = `<p><i class="fas fa-exclamation" style="color: red"></i> ${params.data.text}</p>`;
 }
 
