@@ -13,11 +13,32 @@ var state = {
     idSequence: 0
 }
 
+const debouncedPostSort = debounce(postSort, 300);
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        var later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+function postSort(params) {
+    console.log('postSort', params);
+}
+
+
 var gridOptions = {
     columnDefs: state.columnDefs,
     defaultColDef: {
         width: 150,
-        // cellStyle: params => !params.node.group ? { backgroundColor: 'lightblue' } : null
     },
     autoGroupColumnDef: {
         width: 300,
@@ -29,7 +50,7 @@ var gridOptions = {
     deltaColumnMode: true,
     deltaRowDataMode: true,
     getRowNodeId: data => data.id,
-    isFullWidthCell: node => !node.group && node.data.isFullWidthRow,
+    isFullWidthCell: node => !node.group && node.data.isWarning,
     fullWidthCellRenderer: 'fullWidthCellRenderer',
     components: {
         fullWidthCellRenderer: FullWidthCellRenderer
@@ -39,17 +60,14 @@ var gridOptions = {
         if (params.data && params.data.isHeaderRow) {
             return { backgroundColor: '#f5f7f7', color: 'rgba(0, 0, 0, 0.54)', fontWeight: 600 }
         }
-
-
     },
-    // getRowHeight: params => {
-    //     if (params.node.group) {
-    //         return 45 - (5 * params.node.level)
-    //     }
-    //     return 27;
-    // },
-    onGridReady: params => params.api.sizeColumnsToFit(),
-    suppressAggFuncInHeader: true
+    onFirstDataRendered: params => {
+        // const customHeaderRow = { country: 'United States', sport: 'Swimming', gold: 'Gold', silver: 'Silver', bronze: 'Bronze', total: 'Total', isHeaderRow: true, id: state.idSequence++ };
+        // addSpecialRow(customHeaderRow)
+        params.api.sizeColumnsToFit();
+    },
+    suppressAggFuncInHeader: true,
+    postSort: debouncedPostSort
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -61,18 +79,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json',
         })
         .then(function (data) {
-            state.rowData = data
+            let rowData = data
                 .filter(row => row.country === 'United States' && row.sport === 'Swimming' && row.year === 2008 && (row.age === 23 || row.age === 24))
                 .map(row => ({
                     ...row,
+                    isWarning: false,
+                    isHeaderRow: false,
                     id: state.idSequence++
                 }));
+            rowData.push({ country: 'United States', sport: 'Swimming', gold: 'Gold', silver: 'Silver', bronze: 'Bronze', total: 'Total', isHeaderRow: true, id: state.idSequence++ });
+            state.rowData = rowData;
             gridOptions.api.setRowData(state.rowData);
         });
 });
 
+let warningAdded = false;
 function addWarning() {
+    if (warningAdded) {
+        alert('warning already added');
+        return;
+    }
+    const warningRow = { country: 'United States', sport: 'Swimming', text: 'This product has been denied for certain facilities and/or configurations', isWarning: true, id: state.idSequence++ };
+    // addSpecialRow(warningRow);
+    const updatedRowData = state.rowData.map(row => ({ ...row }));
+    updatedRowData.push(warningRow);
+    state.rowData = updatedRowData;
+    gridOptions.api.setRowData(state.rowData);
+    warningAdded = true;
+}
 
+function removeWarning() {
+    const updatedRowData = state.rowData.filter(row => !row.isWarning);
+    state.rowData = updatedRowData;
+    gridOptions.api.setRowData(state.rowData);
+    warningAdded = false;
+}
+
+function addSpecialRow(specialRow) {
     // there is currently no easy way to insert a row at a specified index while grouping is active
 
     // remove grouping 
@@ -83,12 +126,9 @@ function addWarning() {
     state.columnDefs = updatedColDefs;
     gridOptions.api.setColumnDefs(state.columnDefs);
 
-    // add new rows 
+    // add new rows at specified index - 0 since we want the custom rows to appear first in the grouping
     const updatedRowData = state.rowData.map(row => ({ ...row }));
-    updatedRowData.unshift(
-        { country: 'United States', sport: 'Swimming', text: 'This product has been denied for certain facilities and/or configurations', isFullWidthRow: true, id: state.idSequence++ },
-        { country: 'United States', sport: 'Swimming', gold: 'Gold', silver: 'Silver', bronze: 'Bronze', total: 'Total', isHeaderRow: true, id: state.idSequence++ }
-    );
+    updatedRowData.unshift(specialRow);
     state.rowData = updatedRowData;
     gridOptions.api.setRowData(state.rowData);
 
@@ -101,11 +141,7 @@ function addWarning() {
     gridOptions.api.setColumnDefs(state.columnDefs);
 
     // resize columns
-    gridOptions.api.sizeColumnsToFit()
-}
-
-function removeWarning() {
-
+    gridOptions.api.sizeColumnsToFit();
 }
 
 function FullWidthCellRenderer() { }
