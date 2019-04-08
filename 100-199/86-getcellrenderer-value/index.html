@@ -9,6 +9,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: Arial, Helvetica, sans-serif
         }
     </style>
     <script src="https://unpkg.com/ag-grid-enterprise@20.2.0/dist/ag-grid-enterprise.min.js"></script>
@@ -17,8 +18,9 @@
 
 <body>
 
+    <p style="margin:20px">Value Clicked: <span style="font-weight: bold" id="output"></span></p>
     <div style="height: 100%; box-sizing: border-box;">
-        <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+        <div id="myGrid" style="height: 100%;" class="ag-theme-balham-dark"></div>
     </div>
     <script src="main.js"></script>
 </body>
