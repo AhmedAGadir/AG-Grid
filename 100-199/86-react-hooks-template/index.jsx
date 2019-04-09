@@ -1,25 +1,23 @@
 "use strict";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-enterprise";
 
-const initialColDefs = [
-	{ field: "athlete" },
-	{ field: "age" },
-	{ field: "country" },
-	{ field: "year" },
-	{ field: "date" },
-	{ field: "sport" },
-	{ field: "gold" },
-	{ field: "silver" },
-	{ field: "bronze" },
-	{ field: "total" }
-]
-
 const GridExample = props => {
-	const [columnDefs, setColumnDefs] = useState(initialColDefs);
+	const [columnDefs, setColumnDefs] = useState([
+		{ field: "athlete" },
+		{ field: "age" },
+		{ field: "country" },
+		{ field: "year" },
+		{ field: "date" },
+		{ field: "sport" },
+		{ field: "gold" },
+		{ field: "silver" },
+		{ field: "bronze" },
+		{ field: "total" }
+	]);
 	const [rowData, setRowData] = useState(null);
 	const [gridApi, setGridApi] = useState(null);
 	const [columnApi, setColumnApi] = useState(null);
