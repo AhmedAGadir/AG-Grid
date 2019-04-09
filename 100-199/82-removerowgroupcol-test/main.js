@@ -8,6 +8,7 @@ var gridOptions = {
         width: 150,
     },
     rowData: null,
+    suppressMakeColumnVisibleAfterUnGroup: true
 };
 
 function setGroup() {
