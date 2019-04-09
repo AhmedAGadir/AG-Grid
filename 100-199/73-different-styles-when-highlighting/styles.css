@@ -1,10 +1,25 @@
-/* CSS */
-
 .ag-cell-range-selected {
-    background: pink !important;
+    background: rgb(216, 112, 147, 0.4) !important;
+    /* palemediumviolet */
     text-decoration: line-through
+}
+
+.ag-cell-range-selected-2 {
+    background: rgb(216, 112, 147, 0.6) !important;
+}
+
+.ag-cell-range-selected-3 {
+    background: rgb(216, 112, 147, 0.8) !important;
+}
+
+.ag-cell-range-selected-4 {
+    background: rgb(216, 112, 147, 1) !important;
 }
 
 .ag-cell-range-selected.ag-cell-focus {
     border-color: red !important;
+}
+
+.ag-theme-balham .ag-row-selected {
+    background-color: pink !important;
 }

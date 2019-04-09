@@ -15,7 +15,8 @@ var gridOptions = {
         width: 150,
     },
     rowData: null,
-    enableRangeSelection: true
+    enableRangeSelection: true,
+    rowSelection: 'multiple'
 };
 
 document.addEventListener('DOMContentLoaded', function () {

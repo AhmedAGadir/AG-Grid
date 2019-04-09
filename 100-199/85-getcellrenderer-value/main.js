@@ -14,10 +14,6 @@ var columnDefs = [
     },
 ];
 
-function currencyFormatter(params) {
-    return '£' + formatNumber(params.value);
-}
-
 function createRowData() {
     var rowData = [];
     for (var i = 0; i < 100; i++) {
