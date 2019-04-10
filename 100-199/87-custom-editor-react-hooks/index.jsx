@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-enterprise";

@@ -1,0 +1,9 @@
+- make director and cd into it
+- git clone ag-grid/ag-grid . (adding the dot clones into your current directory)
+(if you dont have lerna installed) sudo npm install -g lerna
+- lerna-bootstrap
+(if gulp is not installed) npm install -g gulp
+- npm run buildCore
+- npm run docs
+
+- use git pull to get the latest 
