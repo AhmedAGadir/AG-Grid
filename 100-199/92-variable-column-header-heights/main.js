@@ -9,17 +9,24 @@ var columnDefs = [
     },
     {
         headerName: 'Sports Results',
-        children: [
-            { headerName: 'Sport', field: 'sport', width: 110 },
-            { headerName: 'Total', columnGroupShow: 'closed', field: 'total', width: 100, filter: 'agNumberColumnFilter' },
-            { headerName: 'Gold', columnGroupShow: 'open', field: 'gold', width: 100, filter: 'agNumberColumnFilter' },
-            { headerName: 'Silver', columnGroupShow: 'open', field: 'silver', width: 100, filter: 'agNumberColumnFilter' },
-            { headerName: 'Bronze', columnGroupShow: 'open', field: 'bronze', width: 100, filter: 'agNumberColumnFilter' }
-        ]
+        groupId: 'sportsResults',
+        children: [{
+            headerName: 'Medal Groups',
+            groupId: 'medalGroups',
+            children: [
+                { headerName: 'Sport', field: 'sport', width: 110 },
+                { headerName: 'Total', columnGroupShow: 'closed', field: 'total', width: 100, filter: 'agNumberColumnFilter' },
+                { headerName: 'Gold', columnGroupShow: 'open', field: 'gold', width: 100, filter: 'agNumberColumnFilter' },
+                { headerName: 'Silver', columnGroupShow: 'open', field: 'silver', width: 100, filter: 'agNumberColumnFilter' },
+                { headerName: 'Bronze', columnGroupShow: 'open', field: 'bronze', width: 100, filter: 'agNumberColumnFilter' }
+            ]
+        }]
     }
 ];
 
 var gridOptions = {
+    groupHeaderHeight: 100,
+    // headerHeight: 50,
     defaultColDef: {
         sortable: true,
         resizable: true,

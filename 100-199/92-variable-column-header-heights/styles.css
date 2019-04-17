@@ -1,14 +1,23 @@
-/* height given by the grid */
+/*
 
-/* .ag-header {
-    height: 64px;
-} */
+ag-grid configures the following classes:
+
+.ag-header {
+    height: 232px // total header height
+}
+.ag-header-container > .ag-header-row:nth-of-type(3) {
+    top: 200px;
+    height: 32px; // column label header height
+}
+
+therefore 232 - 32 = 200px for the group headers 
+*/
 
 .ag-header-container .ag-header-row:nth-of-type(1) {
-    height: 40% !important;
+    height: 150px !important;
 }
 
 .ag-header-container .ag-header-row:nth-of-type(2) {
-    height: 60% !important;
-    top: 40% !important;
+    height: 50px !important;
+    top: 150px !important;
 }
