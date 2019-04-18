@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ag-Grid Vue Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+</head>
+<body>
+    <div id="app" style="height: 100%">
+        <my-component></my-component>
+    </div>
+    
+    <script>
+        var appLocation = '';
+        var boilerplatePath = '';
+        var systemJsMap = {"ag-grid-community":"https:\/\/unpkg.com\/ag-grid-community@20.2.0\/dist\/ag-grid-community.js","ag-grid-community\/main":"https:\/\/unpkg.com\/ag-grid-community@20.2.0\/dist\/ag-grid-community.js","ag-grid-enterprise":"https:\/\/unpkg.com\/ag-grid-enterprise@20.2.0\/","ag-grid-react":"npm:ag-grid-react@20.2.0\/","ag-grid-angular":"npm:ag-grid-angular@20.2.0\/","ag-grid-vue":"npm:ag-grid-vue@20.2.0\/"}    </script>
+
+    <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
+    <script src="systemjs.config.js"></script>
+
+    <script>
+      System.import('main.js').catch( function(err) { console.error(err); })
+    </script>
+</body>
+</html>

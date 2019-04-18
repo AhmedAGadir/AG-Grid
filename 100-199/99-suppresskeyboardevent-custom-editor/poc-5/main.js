@@ -41,7 +41,7 @@ MyCellEditor.prototype.init = function (params) {
     this.eInput = document.createElement('input');
     this.eInput.value = params.value;
 
-    // this.eInput.addEventListener('keypress', event => {
+    // this.eInput.addEventListener('keydown', event => {
     //     // has no effect as the grid panel has already captured the event
     //     event.stopPropagation();
     //     this.processKeyboardEvent(event);
