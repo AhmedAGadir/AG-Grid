@@ -29,10 +29,11 @@ var columnDefs = [
         field: 'value',
         width: 450,
         suppressKeyboardEvent: params => {
-         if (params.editing && params.event.key === 'Tab') {
-             return true
-         }
-         return false;   
+            if (params.editing && params.event.key === 'Tab') {
+                console.log('Tab suppressed while editing')
+                return true
+            }
+            return false;
         },
         editable: true,
         cellEditor: NumericCellEditor,
@@ -55,7 +56,7 @@ function isCharNumeric(charStr) {
 }
 
 // function to act as a class
-function NumericCellEditor() {}
+function NumericCellEditor() { }
 
 function isKeyPressedNumeric(event) {
     var charCode = getCharCodeFromEvent(event);
@@ -64,7 +65,7 @@ function isKeyPressedNumeric(event) {
 }
 
 // gets called once before the renderer is used
-NumericCellEditor.prototype.init = function(params) {
+NumericCellEditor.prototype.init = function (params) {
     // create the cell
     this.eInput = document.createElement('input');
 
@@ -77,7 +78,7 @@ NumericCellEditor.prototype.init = function(params) {
     }
 
     var that = this;
-    this.eInput.addEventListener('keypress', function(event) {
+    this.eInput.addEventListener('keypress', function (event) {
         if (!isKeyPressedNumeric(event)) {
             that.eInput.focus();
             if (event.preventDefault) event.preventDefault();
@@ -92,50 +93,50 @@ NumericCellEditor.prototype.init = function(params) {
     this.cancelBeforeStart = charPressIsNotANumber;
 };
 
-NumericCellEditor.prototype.isKeyPressedNavigation = function(event) {
+NumericCellEditor.prototype.isKeyPressedNavigation = function (event) {
     return event.keyCode === 39 || event.keyCode === 37;
 };
 
 // gets called once when grid ready to insert the element
-NumericCellEditor.prototype.getGui = function() {
+NumericCellEditor.prototype.getGui = function () {
     return this.eInput;
 };
 
 // focus and select can be done after the gui is attached
-NumericCellEditor.prototype.afterGuiAttached = function() {
+NumericCellEditor.prototype.afterGuiAttached = function () {
     this.eInput.focus();
 };
 
 // returns the new value after editing
-NumericCellEditor.prototype.isCancelBeforeStart = function() {
+NumericCellEditor.prototype.isCancelBeforeStart = function () {
     return this.cancelBeforeStart;
 };
 
 // example - will reject the number if it contains the value 007
 // - not very practical, but demonstrates the method.
-NumericCellEditor.prototype.isCancelAfterEnd = function() {
+NumericCellEditor.prototype.isCancelAfterEnd = function () {
     var value = this.getValue();
     return value.indexOf('007') >= 0;
 };
 
 // returns the new value after editing
-NumericCellEditor.prototype.getValue = function() {
+NumericCellEditor.prototype.getValue = function () {
     return this.eInput.value;
 };
 
 // any cleanup we need to be done here
-NumericCellEditor.prototype.destroy = function() {
+NumericCellEditor.prototype.destroy = function () {
     // but this example is simple, no cleanup, we could  even leave this method out as it's optional
 };
 
 // if true, then this editor will appear in a popup
-NumericCellEditor.prototype.isPopup = function() {
+NumericCellEditor.prototype.isPopup = function () {
     // and we could leave this method out also, false is the default
     return false;
 };
 
 // setup the grid after the page has finished loading
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 });
