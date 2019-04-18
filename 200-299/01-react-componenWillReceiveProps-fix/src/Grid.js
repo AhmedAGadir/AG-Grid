@@ -23,10 +23,10 @@ export default class Grid extends Component {
     };
 
     // componentWillReceiveProps(nextProps, nextContext) {
-    //     // cWRP receives the new rowData just moment before the grid does,
+    //     // cWRP receives the new rowData just moments before the grid does,
     //     // so whatever happens here is quickly overrun when the grid actually processes the new rows
 
-    //     // so this is whats happening:
+    //     // this is whats happening:
     //     // onLoadBtnClicked: [Host.js] setState(row: null) -> [Grid.js cWRP] showLoadingOverlay -> [AgGridReact] {rows: null} + showNoRowsOverlay etc. 
 
     //     // the better thing to do is to hook up what you would like to the grids callbacks e.g. onRowDataUpdated
