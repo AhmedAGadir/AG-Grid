@@ -22,7 +22,9 @@ var gridOptions = {
         filter: true
     },
     rowData: null,
-    onGridReady: params => params.api.sizeColumnsToFit()
+    onGridReady: params => params.api.sizeColumnsToFit(),
+    enableRangeSelection: true,
+    rowSelection: 'multiple'
 };
 
 document.addEventListener('DOMContentLoaded', function () {

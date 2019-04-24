@@ -28,4 +28,4 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (data) {
             gridOptions.api.setRowData(data);
         });
-});
+}); 
