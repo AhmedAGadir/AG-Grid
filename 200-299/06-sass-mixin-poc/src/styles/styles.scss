@@ -1,0 +1,21 @@
+// Customize the look and feel of the grid with Sass variables
+// Up-to-date list of variables is available here: http://www.ag-grid.com/javascript-grid-styling/#customizing-sass-variables
+
+$icons-path: "~ag-grid-community/src/styles/ag-theme-balham/icons/";
+
+
+
+
+
+
+
+
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
