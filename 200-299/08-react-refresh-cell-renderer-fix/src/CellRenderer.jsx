@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 
 class CellRenderer extends React.Component {
-
     state = {
         value: this.props.value
     }
