@@ -1,0 +1,13 @@
+/* CSS */
+
+.ag-cell-label-container>.ag-header-cell-label:only-child {
+    /* the grid normally gives calc(100% - 16px) width to account for the menu icon */
+    /* when the menu icon is removed we dont need this padding */
+    width: 100% !important;
+}
+
+.ag-header-cell {
+    /* padding reduced from 12px on each side to 7px */
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+}

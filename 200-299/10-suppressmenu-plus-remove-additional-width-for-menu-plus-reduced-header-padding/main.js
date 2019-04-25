@@ -1,15 +1,15 @@
 var gridOptions = {
     columnDefs: [
-        { headerName: 'Athlete', field: 'athlete', suppressToolPanel: true },
-        { headerName: 'Country', field: 'country' },
-        { headerName: 'Sport', field: 'sport' },
+        { headerName: 'Athlete', field: 'athlete', width: 75 },
+        { headerName: 'Country', field: 'country', width: 80 },
+        { headerName: 'Gold', field: 'gold', width: 45, suppressMenu: true },
+        { headerName: 'Silver', field: 'silver', width: 50, suppressMenu: true },
+        { headerName: 'Bronze', field: 'bronze', width: 60, suppressMenu: true },
     ],
     defaultColDef: {
-        width: 150,
+        width: 60
     },
     rowData: null,
-    sideBar: true
-
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -23,4 +23,4 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (data) {
             gridOptions.api.setRowData(data);
         });
-});
+}); 
