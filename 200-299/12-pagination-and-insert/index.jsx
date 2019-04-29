@@ -18,13 +18,13 @@ import axios from 'https://unpkg.com/axios@0.18.0/dist/axios.min.js';
 class GridExample extends Component {
   constructor(props) {
     super(props);
-
+    this.idSequence = 4036;
     this.state = {
       columnDefs: [{
         headerName: "ID",
         width: 50,
         valueGetter: "node.id",
-        // cellRenderer: "loadingRenderer"
+        cellRenderer: "loadingRenderer"
       }, {
         headerName: "Id",
         field: "id",
@@ -41,30 +41,40 @@ class GridExample extends Component {
       defaultColDef: {
         resizable: true
       },
-      // components: {
-      // loadingRenderer: function (params) {
-      //   if (params.value !== undefined) {
-      //     return params.value;
-      //   } else {
-      //     return '<img src="../images/loading.gif">';
-      //   }
-      // }
-      // },
+      components: {
+        loadingRenderer: function (params) {
+          if (params.value !== undefined) {
+            return params.value;
+          } else {
+            return '<img src="./images/loading.gif">';
+          }
+        }
+      },
       // rowBuffer: 0,
-      // cacheOverflowSize: 1,
-      // maxConcurrentDatasourceRequests: 1,
-      // infiniteInitialRowCount: 1000,
+
+      rowSelection: "multiple",
+      rowModelType: "infinite",
+      cacheOverflowSize: 1,
+      maxConcurrentDatasourceRequests: 10,
+      infiniteInitialRowCount: 1000,
+      maxBlocksInCache: 1,
+      paginationPageSize: 3,
+      cacheBlockSize: 3,
     };
   }
+
+  getRowNodeId = data => data.id;
 
   onGridReady = params => {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     var dataSource = {
       apiService: async (startRow, endRow) => {
-        const size = endRow - startRow;
-        const page = Math.round(startRow / size);
+        // const size = endRow - startRow;
+        // const page = Math.round(startRow / size);
+        const page = endRow / 3;
         const url = 'https://reqres.in/api/users?page=' + page;
+        console.log('sending get request to', url)
         const response = await axios.get(url, {
           validateStatus: function (status) {
             return true;
@@ -77,10 +87,11 @@ class GridExample extends Component {
         };
       },
       getRows: function (params) {
+        console.log('getRows', params)
         setTimeout(async () => {
           var response = await this.apiService(params.startRow, params.endRow);
+          console.log('response', response)
           if (response.status == 200) {
-            console.log('response', response.content.data, response.totalElements);
             params.successCallback(response.content.data, response.totalElements);
           } else {
             params.failCallback();
@@ -90,12 +101,14 @@ class GridExample extends Component {
     };
     params.api.setDatasource(dataSource);
   };
+
   handleInsert = () => {
     this.gridApi.updateRowData({
-      add: [this.getEmptyData],
+      add: [this.getEmptyData()],
       addIndex: 0
     }); //this.gridApi.getDisplayedRowCount() });
   }
+
   getEmptyData() {
     let newFormData = {};
     this.state.columnDefs.forEach(item => {
@@ -103,6 +116,8 @@ class GridExample extends Component {
         newFormData[item.field] = null;
       }
     });
+    newFormData.id = this.idSequence++;
+    console.log('newFormData', newFormData);
     return newFormData;
   }
 
@@ -127,13 +142,17 @@ class GridExample extends Component {
           <AgGridReact
             columnDefs={this.state.columnDefs}
             defaultColDef={this.state.defaultColDef}
-            rowSelection='multiple'
-            // components={this.state.components}
-            // pagination={true}
-            rowModelType='infinite'
-            // paginationPageSize={3}
-            // cacheBlockSize={3}
-            // maxBlocksInCache={1}
+            components={this.state.components}
+            pagination={true}
+            rowSelection={this.state.rowSelection}
+            rowModelType={this.state.rowModelType}
+            cacheOverflowSize={this.state.cacheOverflowSize}
+            maxConcurrentDatasourceRequests={this.state.maxConcurrentDatasourceRequests}
+            infiniteInitialRowCount={this.state.infiniteInitialRowCount}
+            maxBlocksInCache={this.state.maxBlocksInCache}
+            paginationPageSize={this.state.paginationPageSize}
+            cacheBlockSize={this.state.cacheBlockSize}
+            getRowNodeId={this.getRowNodeId}
             onFirstDataRendered={this.onFirstDataRendered.bind(this)}
             onGridReady={this.onGridReady} />
         </div >
