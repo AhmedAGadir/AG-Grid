@@ -36,13 +36,13 @@ function toggleFloatingFilter() {
     gridOptions.api.setFilterModel({});
 
     // toggle floating filter height
-    gridOptions.api.setFloatingFiltersHeight(showFloatingFilter ? 0 : 32); // default height is 32px
+    gridOptions.api.setFloatingFiltersHeight(showFloatingFilter ? -1 : 32); // default height is 32px
 
     // show/hide DOM elements 
-    let floatingInputFields = document.querySelectorAll('.ag-header-container .ag-header-row:nth-of-type(2) input')
-    for (let input of floatingInputFields) {
-        input.style.display = showFloatingFilter ? 'none' : 'block';
-    }
+    // let floatingInputFields = document.querySelectorAll('.ag-header-container .ag-header-row:nth-of-type(2) input')
+    // for (let input of floatingInputFields) {
+    //     input.style.display = showFloatingFilter ? 'none' : 'block';
+    // }
     showFloatingFilter = !showFloatingFilter;
 }
 

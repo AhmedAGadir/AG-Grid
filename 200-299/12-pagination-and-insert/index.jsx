@@ -1,164 +1,99 @@
-"use strict";
-
-import React, {
-  Component
-}
-  from "react";
-import {
-  render
-}
-  from "react-dom";
-import {
-  AgGridReact
-}
-  from "ag-grid-react";
-
+import React, { Component } from "react";
+import { render } from "react-dom";
+import { AgGridReact } from "ag-grid-react";
 import axios from 'https://unpkg.com/axios@0.18.0/dist/axios.min.js';
 
+import Form from './form.jsx';
+
 class GridExample extends Component {
-  constructor(props) {
-    super(props);
-    this.idSequence = 4036;
-    this.state = {
-      columnDefs: [{
-        headerName: "ID",
-        width: 50,
-        valueGetter: "node.id",
-        cellRenderer: "loadingRenderer"
-      }, {
-        headerName: "Id",
-        field: "id",
-        width: 50
-      }, {
-        headerName: "First Name",
-        field: "first_name",
-        width: 90
-      }, {
-        headerName: "Last Name",
-        field: "last_name",
-        width: 90
-      }],
-      defaultColDef: {
-        resizable: true
-      },
-      components: {
-        loadingRenderer: function (params) {
-          if (params.value !== undefined) {
-            return params.value;
-          } else {
-            return '<img src="./images/loading.gif">';
-          }
-        }
-      },
-      // rowBuffer: 0,
+	constructor(props) {
+		super(props);
+		this.state = {
+			columnDefs: [{ field: "athlete" }, { field: "sport" }],
+			pagination: true,
+			rowModelType: "infinite",
+			cacheOverflowSize: 1,
+			maxConcurrentDatasourceRequests: 10,
+			infiniteInitialRowCount: 1000,
+			maxBlocksInCache: 1,
+			paginationPageSize: 10,
+			cacheBlockSize: 10,
+		};
+	}
 
-      rowSelection: "multiple",
-      rowModelType: "infinite",
-      cacheOverflowSize: 1,
-      maxConcurrentDatasourceRequests: 10,
-      infiniteInitialRowCount: 1000,
-      maxBlocksInCache: 1,
-      paginationPageSize: 3,
-      cacheBlockSize: 3,
-    };
-  }
+	getRowNodeId = data => data.id;
 
-  getRowNodeId = data => data.id;
+	onGridReady = params => {
+		this.gridApi = params.api;
+		this.gridColumnApi = params.columnApi;
 
-  onGridReady = params => {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    var dataSource = {
-      apiService: async (startRow, endRow) => {
-        // const size = endRow - startRow;
-        // const page = Math.round(startRow / size);
-        const page = endRow / 3;
-        const url = 'https://reqres.in/api/users?page=' + page;
-        console.log('sending get request to', url)
-        const response = await axios.get(url, {
-          validateStatus: function (status) {
-            return true;
-          }
-        });
-        return {
-          status: response.status,
-          content: response.data,
-          totalElements: response.data.total
-        };
-      },
-      getRows: function (params) {
-        console.log('getRows', params)
-        setTimeout(async () => {
-          var response = await this.apiService(params.startRow, params.endRow);
-          console.log('response', response)
-          if (response.status == 200) {
-            params.successCallback(response.content.data, response.totalElements);
-          } else {
-            params.failCallback();
-          }
-        }, 0);
-      }
-    };
-    params.api.setDatasource(dataSource);
-  };
+		var dataSource = {
+			getRows: function (params) {
+				setTimeout(async () => {
+					var response = await this.apiService(params.startRow, params.endRow);
+					if (response.status == 200) {
+						params.successCallback(response.data, response.totalElements);
+					} else {
+						params.failCallback();
+					}
+				}, 0);
+			},
+			apiService: async (startRow, endRow) => {
+				const response = await axios.get('https://ag-grid-pagination.firebaseio.com/users.json');
 
-  handleInsert = () => {
-    this.gridApi.updateRowData({
-      add: [this.getEmptyData()],
-      addIndex: 0
-    }); //this.gridApi.getDisplayedRowCount() });
-  }
+				let allRows = Object.keys(response.data).map(key => ({
+					id: key,
+					athlete: response.data[key].athlete,
+					sport: response.data[key].sport,
+				}))
+				return {
+					status: response.status,
+					data: allRows.slice(startRow, endRow),
+					totalElements: allRows.length
+				};
+			},
+		};
 
-  getEmptyData() {
-    let newFormData = {};
-    this.state.columnDefs.forEach(item => {
-      if (item.headerName !== 'Actions') {
-        newFormData[item.field] = null;
-      }
-    });
-    newFormData.id = this.idSequence++;
-    console.log('newFormData', newFormData);
-    return newFormData;
-  }
+		params.api.setDatasource(dataSource);
+	};
 
-  onFirstDataRendered(params) {
-    params.api.sizeColumnsToFit();
-  }
+	addAthleteHandler = (athleteDetails) => {
+		axios.post('https://ag-grid-pagination.firebaseio.com/users.json', athleteDetails)
+			.then(res => {
+				console.log(res);
 
-  render() {
-    return (
-      < div style={{
-        width: "100%",
-        height: "80vh"
-      }} >
-        < div id="myGrid" style={{
-          height: "100%",
-          width: "100%"
-        }}
-          className="ag-theme-balham" >
-          <button onClick={this.handleInsert.bind(this)} className="btn btn-danger" >
-            Insert Row
-      </button>
-          <AgGridReact
-            columnDefs={this.state.columnDefs}
-            defaultColDef={this.state.defaultColDef}
-            components={this.state.components}
-            pagination={true}
-            rowSelection={this.state.rowSelection}
-            rowModelType={this.state.rowModelType}
-            cacheOverflowSize={this.state.cacheOverflowSize}
-            maxConcurrentDatasourceRequests={this.state.maxConcurrentDatasourceRequests}
-            infiniteInitialRowCount={this.state.infiniteInitialRowCount}
-            maxBlocksInCache={this.state.maxBlocksInCache}
-            paginationPageSize={this.state.paginationPageSize}
-            cacheBlockSize={this.state.cacheBlockSize}
-            getRowNodeId={this.getRowNodeId}
-            onFirstDataRendered={this.onFirstDataRendered.bind(this)}
-            onGridReady={this.onGridReady} />
-        </div >
-      </div>
-    );
-  }
+				// refresh the cache
+				this.gridApi.refreshInfiniteCache();
+				// this.gridApi.purgeInfiniteCache();
+			})
+			.catch(err => console.log(err))
+	}
+
+	render() {
+		return (
+			<div style={{ height: "100vh", paddingTop: '20px' }} >
+				<Form addAthlete={this.addAthleteHandler} />
+				<div
+					id="myGrid"
+					style={{ height: "400px" }}
+					className="ag-theme-balham">
+					<AgGridReact
+						columnDefs={this.state.columnDefs}
+						components={this.state.components}
+						pagination={this.state.pagination}
+						rowModelType={this.state.rowModelType}
+						cacheOverflowSize={this.state.cacheOverflowSize}
+						maxConcurrentDatasourceRequests={this.state.maxConcurrentDatasourceRequests}
+						infiniteInitialRowCount={this.state.infiniteInitialRowCount}
+						maxBlocksInCache={this.state.maxBlocksInCache}
+						paginationPageSize={this.state.paginationPageSize}
+						cacheBlockSize={this.state.cacheBlockSize}
+						getRowNodeId={this.getRowNodeId}
+						onGridReady={this.onGridReady} />
+				</div>
+			</div>
+		);
+	}
 }
 
-render(< GridExample />, document.querySelector("#root"));
+render(<GridExample />, document.querySelector("#root"));
