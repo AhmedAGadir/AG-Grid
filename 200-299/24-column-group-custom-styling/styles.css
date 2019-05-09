@@ -1,0 +1,19 @@
+.ag-root.ag-layout-normal, .ag-root.ag-layout-auto-height, .ag-header, .ag-pinned-left-header, .ag-pinned-right-header, .ag-header-viewport, .ag-header-group-cell-no-group, .ag-header-group-cell-with-group {
+    overflow: visible !important;
+}
+
+.ag-header-group-cell-no-group {
+    background: #f5f7f7;
+    height: calc(100% + 1px) !important;
+    z-index: 1;
+}
+
+.ag-header-cell-resize {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0 !important;
+    margin: 0 !important;
+    width: 1px !important;
+    background: #BDC3C7;
+}
