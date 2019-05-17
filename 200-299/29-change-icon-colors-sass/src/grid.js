@@ -28,6 +28,8 @@ var gridOptions = {
         menuTabs: ['filterMenuTab']
     },
     rowData: null,
+    rowSelection: 'multiple',
+    rangeSelection: true
 };
 
 document.addEventListener('DOMContentLoaded', function () {

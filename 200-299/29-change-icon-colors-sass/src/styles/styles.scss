@@ -2,22 +2,14 @@
 // Up-to-date list of variables is available here: http://www.ag-grid.com/javascript-grid-styling/#customizing-sass-variables
 
 // // Fonts from https://fontawesome.com/
-$icons-path: "~ag-grid-community/src/styles/ag-theme-balham/icons/";
 
-// changes the default icon color
-// custom
-$icon-color: rgb(216, 43, 158);
-// balham default
-// $icon-color: #909B9C;
-
-// changes the icon secondary color (checkbox background)
-// $alt-icon-color: #03a9f4;
-
-// changes the selected checkbox check mark color
-// custom 
-$accent-color: rgb(33, 190, 33);
-// balham default 
-// $accent-color: #1F9CE9;
+// $icons-path: "~ag-grid-community/src/styles/ag-theme-balham/icons/";
+$icons-path: "./icons/";
+$active: goldenrod;
+$icon-color:  lawngreen;
+$alt-icon-color: magenta;
+$accent-color: cyan;
+$icon-size: 14px;
 
 @import "~ag-grid-community/src/styles/ag-grid.scss";
 @import "~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
