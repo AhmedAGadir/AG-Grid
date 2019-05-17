@@ -5,7 +5,7 @@ import { ICellRendererAngularComp } from "ag-grid-angular";
   selector: "my-app-details",
   template: `
     <div >
-      <h1 #myH1 (load)="onH1Loaded()">This should be as high as h1 + img (&lt;- random height) is</h1>
+      <h1 #myH1>This should be as high as h1 + img (&lt;- random height) is</h1>
       <img (load)="onImageLoaded()" src="https://lorempixel.com/1000/1000/abstract/" [height]="imgHeight">
     </div>
   `,
@@ -18,7 +18,7 @@ export class DetailsComponent implements ICellRendererAngularComp {
 
   ngAfterViewInit() {
     this.h1Height = this.myH1.nativeElement.offsetHeight;
-   }
+  }
 
   public agInit(params: any) {
     this.gridApi = params.api;
