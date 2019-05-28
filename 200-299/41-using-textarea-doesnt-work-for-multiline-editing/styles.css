@@ -1,0 +1,12 @@
+/* CSS */
+
+.ag-cell {
+    white-space: pre;
+    line-height: 1.5 !important;
+    height: 100% !important;
+}
+
+.ag-cell textarea {
+    width: 100%;
+    height: 100%;
+}

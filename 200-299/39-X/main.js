@@ -2,37 +2,95 @@ var columnDefs = [
     {
         headerName: 'Athlete',
         field: 'athlete',
-        width: 150,
-        // pinnedRowCellRenderer: 'customPinnedRowRenderer',
-        // pinnedRowCellRendererParams: {
-        //     style: { color: 'blue' },
-        // },
+        width: 100,
+        colSpan: getColSpan,
+        cellStyle: getCellStyle
     },
-    { headerName: 'Country', field: 'country', width: 120 },
-    { headerName: 'Gold', field: 'gold', width: 90, valueGetter: pinnedRowValueGetter },
-    { headerName: 'Silver', field: 'silver', width: 90, valueGetter: pinnedRowValueGetter },
-    { headerName: 'Bronze', field: 'bronze', width: 90, valueGetter: pinnedRowValueGetter },
+    {
+        headerName: 'Country',
+        field: 'country',
+        width: 100
+    },
+    {
+        headerName: 'Gold',
+        field: 'gold',
+        width: 90,
+        valueGetter: pinnedRowValueGetter,
+        cellStyle: getCellStyle
+    },
+    {
+        headerName: 'Silver',
+        field: 'silver',
+        width: 90,
+        valueGetter: pinnedRowValueGetter,
+        cellStyle: getCellStyle
+    },
+    {
+        headerName: 'Bronze',
+        field: 'bronze',
+        width: 90,
+        valueGetter: pinnedRowValueGetter,
+        cellStyle: getCellStyle
+    },
 ];
+
+let allowRefresh = false;
+
+function getColSpan(params) {
+    return params.node.isRowPinned() ? 2 : 1;
+}
+
+function getCellStyle(params) {
+    let rowPinned = params.node.isRowPinned();
+    return {
+        textAlign: typeof params.value === 'number' ? 'right' : rowPinned ? 'center' : null,
+        letterSpacing: rowPinned ? '1px' : null,
+    }
+}
 
 function pinnedRowValueGetter(params) {
     if (params.node.isRowPinned()) {
+
+        if (!allowRefresh) {
+            return;
+        }
+        debugger;
+
         let result;
         switch (params.data.athlete) {
             case 'Total':
+                result = 2
                 break;
             case 'Max':
-                result = 'max';
+                result = 4;
                 break;
             case 'Min':
-                result = 'min';
+                result = 6;
                 break;
             default:
                 result = '-';
         }
-        return result
+        return result;
     } else {
         return params.data[params.column.colId];
     }
+}
+
+function refreshPinnedNodes(params) {
+    let pinnedRowIndexes = [];
+    params.api.forEachNode(node => {
+        if (node.isRowPinned()) {
+            pinnedRowIndexes.push(node.rowIndex);
+        }
+    });
+    let pinnedNodes = pinnedRowIndexes.map(index => params.api.getRowNode(index));
+    allowRefresh = true;
+    params.api.refreshCells({ rowNodes: pinnedNodes })
+    setTimeout(() => allowRefresh = false, 0)
+}
+
+function createPinnedData(title) {
+    return { athlete: title }
 }
 
 var gridOptions = {
@@ -43,26 +101,15 @@ var gridOptions = {
     },
     columnDefs: columnDefs,
     rowData: null,
-    getRowStyle: function(params) {
-        if (params.node.rowPinned) {
-            return { 'font-weight': 'bold' };
-        }
-    },
     pinnedBottomRowData: [createPinnedData('Total'), createPinnedData('Max'), createPinnedData('Min')],
-    onFirstDataRendered(params) {
-        params.api.sizeColumnsToFit();
-    },
+    onFirstDataRendered: refreshPinnedNodes,
     components: {
         customPinnedRowRenderer: CustomPinnedRowRenderer,
     },
 };
 
-function createPinnedData(title) {
-    return { athlete: title }
-}
-
 // setup the grid after the page has finished loading
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 
@@ -74,10 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
         'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json'
     );
     httpRequest.send();
-    httpRequest.onreadystatechange = function() {
+    httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === 4 && httpRequest.status === 200) {
             var httpResult = JSON.parse(httpRequest.responseText);
-            gridOptions.api.setRowData(httpResult.slice(0,30));
+            gridOptions.api.setRowData(httpResult.slice(0, 30));
         }
     };
 });

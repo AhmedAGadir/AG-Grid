@@ -1,0 +1,8 @@
+/* CSS */
+
+.ag-cell {
+    white-space: pre;
+    line-height: 1.5 !important;
+    height: 100% !important;
+    overflow: scroll !important;
+}
