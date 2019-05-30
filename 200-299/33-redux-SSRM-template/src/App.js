@@ -12,21 +12,33 @@ import uuidv4 from 'uuid';
 
 class App extends Component {
 
-  componentDidMount() {
-    fetch('https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json')
-      .then(res => res.json())
-      .then(data => {
-        data.forEach(d => d.id = uuidv4())
-        this.props.onInitRowData(data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
+  componentDidMount() { }
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+
+    const httpRequest = new XMLHttpRequest();
+    const updateData = data => {
+      var idSequence = 0;
+      data.forEach(function (item) {
+        item.id = idSequence++;
+      });
+      var server = new FakeServer(data);
+      var datasource = new ServerSideDatasource(server);
+      params.api.setServerSideDatasource(datasource);
+    };
+
+    httpRequest.open(
+      "GET",
+      "https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinners.json"
+    );
+    httpRequest.send();
+    httpRequest.onreadystatechange = () => {
+      if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+        updateData(JSON.parse(httpRequest.responseText));
+      }
+    };
   }
 
   render() {
@@ -63,16 +75,39 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
+function ServerSideDatasource(server) {
   return {
-    rowData: state.rowData
-  }
+    getRows(params) {
+      setTimeout(function () {
+        var response = server.getResponse(params.request);
+        if (response.success) {
+          params.successCallback(response.rows, response.lastRow);
+        } else {
+          params.failCallback();
+        }
+      }, 500);
+    }
+  };
+}
+function FakeServer(allData) {
+  return {
+    getResponse(request) {
+      console.log("asking for rows: " + request.startRow + " to " + request.endRow);
+      var rowsThisPage = allData.slice(request.startRow, request.endRow);
+      var lastRow = allData.length <= request.endRow ? data.length : -1;
+      return {
+        success: true,
+        rows: rowsThisPage,
+        lastRow: lastRow
+      };
+    }
+  };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onInitRowData: rowData => dispatch(actions.initRowData(rowData)),
+    // onInitRowData: rowData => dispatch(actions.initRowData(rowData)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);
