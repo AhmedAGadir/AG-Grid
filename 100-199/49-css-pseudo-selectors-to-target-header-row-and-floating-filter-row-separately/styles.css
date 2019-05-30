@@ -2,6 +2,7 @@
 
 .ag-header-row:nth-of-type(1) {
     background: blue;
+    color: white;
 }
 
 .ag-header-row:nth-of-type(2) {

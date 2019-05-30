@@ -63,6 +63,9 @@ function getPinnedBottomRows(params) {
 
             switch (pinnedRow.athlete) {
                 case 'Total':
+                    if (nodeInd === 0) {
+                        return;
+                    }
                     pinnedRow.gold += node.data.gold;
                     pinnedRow.silver += node.data.silver;
                     pinnedRow.bronze += node.data.bronze;

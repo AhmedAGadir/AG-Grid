@@ -1,0 +1,6 @@
+/* CSS */
+
+.ag-theme-balham .ag-header-cell-label .ag-header-cell-text {
+    overflow: initial;
+    text-overflow: initial;
+}
