@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style> html, body { margin: 0; padding: 0; height: 100%; } </style>
+    <script src="https://unpkg.com/ag-grid-enterprise@21.0.0/dist/ag-grid-enterprise.min.js"></script></head>
+<body>
+
+<style>
+    .groupTitle {
+        font-size: 16px; font-weight: bold;
+    }
+    .flag {
+        margin: 0 4px;
+        position: relative;
+        top: 2px;
+    }
+
+    .flag.hide {
+        display: none;
+    }
+</style>
+
+<div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+    <script src="groupRowInnerRenderer.js"></script>
+    <script src="myCellRenderer.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
