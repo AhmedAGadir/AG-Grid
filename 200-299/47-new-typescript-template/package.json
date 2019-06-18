@@ -1,5 +1,5 @@
 {
-  "name": "16-typescript-ag-grid-template",
+  "name": "47-new-typescript-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,12 +9,10 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "ag-grid-community": "^20.2.0",
-    "ag-grid-enterprise": "^20.2.0",
-    "lite-server": "^2.4.0"
-  },
   "dependencies": {
-    "typescript": "^3.5.1"
+    "ag-grid-community": "^21.0.1",
+    "ag-grid-enterprise": "^21.0.1",
+    "lite-server": "^2.5.3",
+    "systemjs": "^0.21.5"
   }
 }
