@@ -1,5 +1,5 @@
 var columnDefs = [
-    {field: "foo"},
+    { field: "foo" },
 ];
 
 var gridOptions = {
@@ -11,7 +11,7 @@ var gridOptions = {
         cellRendererParams: {
             innerRenderer: function (params) {
                 // display employeeName rather than group key (employeeId)
-                return params.data.employeeName;
+                return params.data.letter;
             }
         }
     },
@@ -24,19 +24,23 @@ var gridOptions = {
         return dataItem.group;
     },
     getServerSideGroupKey: function (dataItem) {
+        // debugger;
         // specify which group key to use
-        return dataItem.employeeId;
+        return dataItem.id;
     },
     onGridReady: function (params) {
-        // initialise with the first group arbitrarily expanded
-        setTimeout(function () {
-            params.api.getDisplayedRowAtIndex(0).setExpanded(true);
-        }, 1500);
-        setTimeout(function () {
-            // expands second node
-            params.api.getDisplayedRowAtIndex(1).setExpanded(true);
-        }, 2000);
-    }
+        // // initialise with the first group arbitrarily expanded
+
+        // setTimeout(function () {
+        //     params.api.getDisplayedRowAtIndex(0).setExpanded(true);
+        // }, 1500);
+        // setTimeout(function () {
+        //     // expands second node
+        //     params.api.getDisplayedRowAtIndex(1).setExpanded(true);
+        // }, 2000);
+    },
+    cacheBlockSize: 10,
+    maxBlocksInCache: 10
 };
 
 // setup the grid after the page has finished loading
@@ -44,11 +48,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 
-    agGrid.simpleHttpRequest({url: 'https://raw.githubusercontent.com/ag-grid/ag-grid/latest/packages/ag-grid-docs/src/javascript-grid-server-side-model-tree-data/tree-data/data/data.json'}).then(function (data) {
-        var fakeServer = createFakeServer(data);
-        var datasource = createServerSideDatasource(fakeServer);
-        gridOptions.api.setServerSideDatasource(datasource);
-    });
+    var data = createRowData();
+    var fakeServer = createFakeServer(data);
+    var datasource = createServerSideDatasource(fakeServer);
+    gridOptions.api.setServerSideDatasource(datasource);
 });
 
 function createFakeServer(fakeServerData) {
@@ -57,22 +60,22 @@ function createFakeServer(fakeServerData) {
     }
 
     FakeServer.prototype.getData = function (request) {
+        // debugger;
         function extractRowsFromData(groupKeys, data) {
             if (groupKeys.length === 0) {
                 return data.map(d => {
                     return {
                         group: !!d.children,
-                        employeeId: d.employeeId,
-                        employeeName: d.employeeName,
-                        employmentType: d.employmentType,
-                        jobTitle: d.jobTitle
+                        id: d.id,
+                        letter: d.letter,
+                        foo: d.foo
                     }
                 });
             }
 
             var key = groupKeys[0];
             for (var i = 0; i < data.length; i++) {
-                if (data[i].employeeId === key) {
+                if (data[i].id === key) {
                     return extractRowsFromData(groupKeys.slice(1), data[i].children.slice());
                 }
             }
@@ -80,7 +83,7 @@ function createFakeServer(fakeServerData) {
 
         return extractRowsFromData(request.groupKeys, this.data);
     };
-    
+
     return new FakeServer(fakeServerData)
 }
 
@@ -93,6 +96,7 @@ function createServerSideDatasource(fakeServer) {
         console.log('ServerSideDatasource.getRows: params = ', params);
 
         var rows = this.fakeServer.getData(params.request);
+        // debugger;
 
         setTimeout(function () {
             params.successCallback(rows, rows.length);
@@ -100,4 +104,38 @@ function createServerSideDatasource(fakeServer) {
     };
 
     return new ServerSideDatasource(fakeServer);
+}
+
+
+function createRowData() {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let data = [];
+
+    for (let i = 0; i < alphabet.length; i++) {
+        let grandParent = {
+            letter: alphabet[i],
+            id: alphabet[i],
+            children: [],
+            foo: 'bar'
+        };
+        data.push(grandParent);
+        for (let j = 0; j < alphabet.length; j++) {
+            let parent = {
+                letter: alphabet[j],
+                id: [alphabet[i], alphabet[j]].join(''),
+                children: [],
+                foo: 'baz'
+            };
+            data[i].children.push(parent);
+            for (let z = 0; z < alphabet.length; z++) {
+                let child = {
+                    letter: alphabet[z],
+                    id: [alphabet[i], alphabet[j], alphabet[z]].join(''),
+                    foo: 'foobar'
+                };
+                data[i].children[j].children.push(child)
+            }
+        }
+    }
+    return data;
 }
