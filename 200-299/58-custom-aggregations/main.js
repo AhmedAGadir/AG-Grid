@@ -6,6 +6,7 @@ var columnDefs = [
         hide: true,
     },
     {
+        // default avg aggFunc
         headerName: 'avg(Gold)',
         field: 'gold',
         width: 120,
@@ -14,6 +15,7 @@ var columnDefs = [
         valueFormatter: numberFormatter
     },
     {
+        // custom aggFunc which ignores zero values in average calculations
         headerName: 'myAvg(Gold)',
         field: 'gold',
         width: 120,
@@ -49,11 +51,11 @@ function myAggFunc(values) {
             count++;
         }
     });
-    return count === 0 ? 0 : total/count;
+    return count === 0 ? 0 : total / count;
 }
 
 // setup the grid after the page has finished loading
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 
@@ -65,10 +67,10 @@ document.addEventListener('DOMContentLoaded', function() {
         'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json'
     );
     httpRequest.send();
-    httpRequest.onreadystatechange = function() {
+    httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === 4 && httpRequest.status === 200) {
             var httpResult = JSON.parse(httpRequest.responseText);
-            gridOptions.api.setRowData(httpResult.slice(0,100));
+            gridOptions.api.setRowData(httpResult.slice(0, 100));
         }
     };
 });

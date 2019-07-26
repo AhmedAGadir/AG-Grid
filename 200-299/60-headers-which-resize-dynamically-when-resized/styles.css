@@ -1,0 +1,9 @@
+.ag-header-row .ag-header-cell-text {
+  white-space: normal !important;
+}
+
+.ag-header-cell {}
+
+.customHeader {
+  white-space: normal;
+}
