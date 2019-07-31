@@ -72,7 +72,7 @@ class GridExample extends Component {
             className="ag-theme-balham"
           >
             <AgGridReact
-              reactNext={true}
+              reactNext={false}
               columnDefs={this.state.columnDefs}
               rowData={this.state.rowData}
               deltaRowDataMode={true}

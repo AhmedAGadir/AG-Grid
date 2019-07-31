@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 export default class GroupRowInnerRenderer extends Component {
     constructor(props) {
@@ -45,13 +45,13 @@ export default class GroupRowInnerRenderer extends Component {
 
     render() {
         let img = '';
-        if(this.state.flagCode) {
-            img = <img className="flag" border="0" width="20" height="15" src={this.state.flagCodeImg}/>
+        if (this.state.flagCode) {
+            img = <img className="flag" border="0" width="20" height="15" src={this.state.flagCodeImg} />
         }
 
         return (
-            <div style={{display: "inline-block"}}>
-                { img }
+            <div style={{ display: "inline-block" }}>
+                {img}
                 <span className="groupTitle"> {this.state.countryName}</span>
                 <span className="medal gold"> Gold: {this.state.goldCount}</span>
                 <span className="medal silver"> Silver: {this.state.silverCount}</span>
