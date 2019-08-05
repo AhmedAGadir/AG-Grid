@@ -1,0 +1,35 @@
+
+.full-width-panel {
+    position: relative;
+    background: #EDF6FF;
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+}
+
+.call-record-cell {
+    text-align: right;
+}
+
+[class^="full-width-grid"] {
+    display: block;
+    height: 200px;
+    margin: 5px;
+}
+
+.full-width-grid-toolbar {
+    top: 4px;
+    left: 30px;
+    margin-left: 150px;
+    display: block;
+    position: absolute;
+}
+
+.full-width-phone-icon {
+    padding-right: 10px;
+}
+
+.full-width-search {
+    border: 1px solid #eee;
+    margin-left: 10px;
+}

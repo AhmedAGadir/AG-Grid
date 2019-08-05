@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ag-Grid React Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html, body, #root {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+    }
+    html {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0;
+        overflow: auto;
+    }
+    body {
+        padding: 1rem;
+        overflow: auto;
+    }
+    </style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="mockServerSimple.js"></script>
+</head>
+<body>
+    <div id="root">Loading ag-Grid React example&hellip;</div>
+    
+    <script>
+        var appLocation = '';
+        var boilerplatePath = '';
+        var systemJsMap = {"ag-grid-community":"https:\/\/unpkg.com\/ag-grid-community@21.1.0\/dist\/ag-grid-community.js","ag-grid-community\/main":"https:\/\/unpkg.com\/ag-grid-community@21.1.0\/dist\/ag-grid-community.js","ag-grid-enterprise":"https:\/\/unpkg.com\/ag-grid-enterprise@21.1.0\/","ag-grid-react":"npm:ag-grid-react@21.1.0\/","ag-grid-angular":"npm:ag-grid-angular@21.1.0\/","ag-grid-vue":"npm:ag-grid-vue@21.1.0\/"}    </script>
+
+    <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
+    <script src="systemjs.config.js"></script>
+
+    <script>
+      System.import('index.jsx').catch( function(err) { console.error(err); })
+    </script>
+</body>
+</html>

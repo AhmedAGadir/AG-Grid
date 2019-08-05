@@ -29,6 +29,7 @@ export class AppComponent {
   private rowData: [];
 
   constructor(private http: HttpClient) {
+    CD
     this.columnDefs = [
       {
         headerName: "Gold",
