@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .simpleHttpRequest({
             url:
                 'https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/custom-detail-with-grid/data/data.json',
-        })
+    })
         .then(function (data) {
             let textRecordIdSequence = 0;
             let rowData = data.map(row => ({
