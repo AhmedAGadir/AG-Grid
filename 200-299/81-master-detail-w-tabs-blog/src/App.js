@@ -30,10 +30,6 @@ class App extends Component {
 
 
 		const httpRequest = new XMLHttpRequest();
-		const updateData = data => {
-			this.setState({ rowData: data });
-		};
-
 		httpRequest.open(
 			"GET",
 			"https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/custom-detail-with-grid/data/data.json"
@@ -74,7 +70,7 @@ class App extends Component {
 					columnDefs={this.state.columnDefs}
 					rowData={this.state.rowData}
 					masterDetail={true}
-					// detailCellRendererFramework={MyDetailCellRenderer}
+					detailCellRendererFramework={MyDetailCellRenderer}
 					// detailCellRendererParams={{}}
 					onGridReady={this.onGridReady.bind(this)}
 					deltaRowDataMode={true}
