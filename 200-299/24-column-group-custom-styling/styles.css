@@ -1,10 +1,14 @@
-.ag-root.ag-layout-normal, .ag-root.ag-layout-auto-height, .ag-header, .ag-pinned-left-header, .ag-pinned-right-header, .ag-header-viewport, .ag-header-group-cell-no-group, .ag-header-group-cell-with-group {
+/* .ag-root.ag-layout-normal, .ag-root.ag-layout-auto-height, .ag-header, .ag-pinned-left-header, .ag-pinned-right-header, .ag-header-viewport, .ag-header-group-cell-no-group, .ag-header-group-cell-with-group {
+    overflow: visible !important;
+} */
+
+.ag-header-group-cell-label, .ag-header-row {
     overflow: visible !important;
 }
 
 .ag-header-group-cell-no-group {
     background: #f5f7f7;
-    height: calc(100% + 1px) !important;
+    height: calc(100% + 2px) !important;
     z-index: 1;
 }
 
