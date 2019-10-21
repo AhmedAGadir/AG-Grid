@@ -86,6 +86,29 @@ class App extends Component {
     this.gridApi.sizeColumnsToFit();
   }
 
+  onRowGroupOpened(params) {
+    if (params.node.expanded) {
+      console.log('attempting to redraw detail node / refresh')
+      // 1) ***************  
+      this.gridApi.redrawRows({
+        rowNodes: [params.node.detailNode],
+      });
+      // 2) *************** 
+      this.gridApi.refreshCells({
+        rowNodes: [params.node.detailNode],
+        force: true
+      });
+      // 3) *************** 
+      this.gridApi.dispatchEvent({
+        type: 'refreshDetailNode',
+        id: params.node.detailNode.id
+      });
+      // 4) *************** 
+      let detailCellRendererInstance = this.gridApi.rowRenderer.rowCompsByIndex[params.node.detailNode.rowIndex].fullWidthRowComponent.componentInstance
+      // console.log('detailCellRendererInstance', detailCellRendererInstance);
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -109,8 +132,8 @@ class App extends Component {
               { headerName: 'Main Col2', field: 'mainCol2' },
             ]}
             masterDetail={true}
-            keepDetailRows
             detailCellRendererFramework={MyDetailCellRenderer}
+            keepDetailRows
             detailCellRendererParams={{
               suppressRefresh: true,
               rowData: this.props.rowData,
@@ -121,7 +144,8 @@ class App extends Component {
             defaultColDef={{ width: 150 }}
             onGridReady={this.onGridReady.bind(this)}
             deltaRowDataMode={true}
-            getRowNodeId={data => data.id}>
+            getRowNodeId={data => data.id}
+            onRowGroupOpened={this.onRowGroupOpened.bind(this)}>
           </AgGridReact>
         </div >
       </Fragment>

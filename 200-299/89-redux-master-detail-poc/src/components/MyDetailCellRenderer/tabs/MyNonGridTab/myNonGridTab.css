@@ -1,0 +1,15 @@
+.non-grid-tab-container {
+    display: flex;
+}
+
+.non-grid-tab-container > div {
+    padding: 10px;
+}
+
+.non-grid-tab-container img {
+    max-height: 300px;
+}
+
+.non-grid-tab-container p {
+    white-space: normal !important
+}
