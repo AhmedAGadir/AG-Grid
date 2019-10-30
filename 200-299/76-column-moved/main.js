@@ -26,7 +26,7 @@ var gridOptions = {
             console.log('A column has been moved');
             // execute logic
             columnOrder = newColumnOrder;
-        } 
+        }
 
     },
 };
