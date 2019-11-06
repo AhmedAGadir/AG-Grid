@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script>
+			var __basePath = '';
+		</script>
+		<style>
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+			
+			.ag-header-cell.ag-header-cell-sortable.custom-header {
+				top: -33px;
+    		height: 64px;
+			}
+
+			.ag-theme-balham .ag-header-cell::after, .ag-theme-balham .ag-header-group-cell::after {
+				height: 100% !important;
+				margin-top: 0 !important;
+			}
+
+			.ag-header-viewport,
+			.ag-header-row {
+				overflow: visible !important;
+			}
+		</style>
+		<script src="https://unpkg.com/ag-grid-community@21.2.2/dist/ag-grid-community.min.js"></script>
+	</head>
+
+	<body>
+		<div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+
+		<script src="main.js"></script>
+	</body>
+</html>
