@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+    }
+    html {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0;
+        overflow: auto;
+    }
+    body {
+        padding: 1rem;
+        overflow: auto;
+    }
+        
+    .ag-row-drag {
+        position: absolute;
+        padding-right: 100%;
+    }
+
+   /* [col-id="athlete"] .ag-row-drag {
+        background: blue; 
+    } */
+    
+    [col-id="athlete"] .ag-cell-value {
+        margin-left: 28px;
+    }
+
+    .ag-cell:not([col-id="athlete"]) .ag-row-drag .ag-icon {
+        opacity: 0;
+    }
+</style>
+    <script src="https://unpkg.com/ag-grid-community@21.2.1/dist/ag-grid-community.min.js"></script></head>
+<body>
+
+<div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>
