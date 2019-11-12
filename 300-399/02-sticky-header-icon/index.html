@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script> var __basePath = ''; </script>
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+    }
+    html {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0;
+        overflow: auto;
+    }
+    body {
+        padding: 1rem;
+        overflow: auto;
+    }
+</style>
+    <script src="https://unpkg.com/ag-grid-community@20.2.0/dist/ag-grid-community.min.js"></script>    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="test-container">
+    <div class="test-header">
+        <div style="padding: 4px;">
+            <button onclick="clearPinned()">Clear Pinned</button>
+            <button onclick="resetPinned()">Left = #, Athlete, Age; Right = Total</button>
+            <button onclick="pinCountry()">Left = Country</button>
+        </div>
+    
+        <div style="padding: 4px;">
+            Jump to:
+            <input placeholder="row" type="text" style="width: 40px" id="row" oninput="jumpToRow()" />
+            <input placeholder="col" type="text" style="width: 40px" id="col" oninput="jumpToCol()" />
+        </div>
+    </div>
+    <div id="myGrid" style="height: calc(100% - 60px);" class="ag-theme-balham"></div>
+</div>
+
+    <script src="main.js"></script>
+</body>
+</html>
