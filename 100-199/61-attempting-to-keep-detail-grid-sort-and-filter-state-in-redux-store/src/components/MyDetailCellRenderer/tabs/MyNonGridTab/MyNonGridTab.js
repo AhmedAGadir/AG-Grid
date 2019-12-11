@@ -11,7 +11,7 @@ const myNonGridTab = props => {
 
     return (
         <div className="non-grid-tab-container">
-            <img src={props.imgUrl} onLoad={e => onImgLoad(e, props)} alt="grid-product"/>
+            <img src={props.imgUrl} onLoad={e => onImgLoad(e, props)} alt="grid-product" />
             <div>
                 <h3>{props.imgTitle}</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi illo velit explicabo quia magni numquam quas. Iste a dolorum quasi provident in blanditiis quia corrupti illum non expedita? Placeat, praesentium!</p>

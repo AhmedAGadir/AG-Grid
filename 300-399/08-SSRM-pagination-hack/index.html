@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script>
+            var __basePath = '';
+        </script>
+        <style media="only screen">
+            html,
+            body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                box-sizing: border-box;
+                -webkit-overflow-scrolling: touch;
+            }
+            html {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0;
+                overflow: auto;
+            }
+            body {
+                padding: 1rem;
+                overflow: auto;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+        <script src="https://unpkg.com/@ag-grid-enterprise/all-modules@22.0.0/dist/ag-grid-enterprise.min.js"></script>
+    </head>
+    <body>
+        <div>
+            Show:
+            <select onchange="onPageSizeChanged()" id="pageSizeSelection">
+                <option value="10" selected="">10</option>
+                <option value="25">25</option>
+            </select>
+            entries
+        </div>
+        <div
+            style="height: 60%; width: 950px; padding-top: 26px; box-sizing: border-box;"
+        >
+            <div
+                id="myGrid"
+                style="height: 100%;"
+                class="ag-theme-balham-dark"
+            ></div>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>

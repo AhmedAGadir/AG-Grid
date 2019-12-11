@@ -29,9 +29,10 @@ class App extends Component {
     return (
       <Fragment>
         <button
-          style={{ margin: '10px'}}
+          style={{ margin: '10px' }}
           className="btn btn-primary"
           onClick={() => console.log(this.props.rowData)}>Log All Row Data</button>
+        {JSON.stringify(this.props.rowData)}
         <div
           className="ag-theme-balham"
           style={{
