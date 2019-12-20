@@ -1,0 +1,12 @@
+{
+  "name": "ag-grid-javascript-npm-example",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@ag-grid-community/client-side-row-model": "22.1.0",
+    "@ag-grid-community/core": "^22.1.0",
+    "@ag-grid-enterprise/all-modules": "^22.1.0",
+    "@ag-grid-enterprise/column-tool-panel": "22.1.0",
+    "@ag-grid-enterprise/core": "^22.1.0"
+  }
+}

@@ -93,7 +93,6 @@ class App extends Component {
           style={{ margin: '10px' }}
           className="btn btn-primary"
           onClick={() => console.log(this.props.rowData)}>Log All Row Data</button>
-        hello{JSON.stringify(this.props.rowData)}
         <div
           className="ag-theme-balham"
           style={{
