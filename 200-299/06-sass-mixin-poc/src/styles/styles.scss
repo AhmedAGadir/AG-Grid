@@ -4,9 +4,9 @@
 $icons-path: "~ag-grid-community/src/styles/ag-theme-balham/icons/";
 
 // $active: transparent;
-$border-color: transparent;
+// $border-color: transparent;
 
-
+// $ag-font-size: 30px;
 
 
 
@@ -17,6 +17,10 @@ $border-color: transparent;
 html,
 body {
   margin: 0;
-  padding: 0;
+  padding: 20px;
   height: 100%;
+}
+
+.button-bar {
+  margin: 10px;
 }
