@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+ <html lang="en">
+<head>
+    <title>Angular 2 ag-Grid starter</title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style media="only screen">
+        html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+    }
+    html {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0;
+        overflow: auto;
+    }
+    body {
+        padding: 1rem;
+        overflow: auto;
+    }
+    </style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <!-- Polyfills -->
+    <script src="https://unpkg.com/core-js@2.6.5/client/shim.min.js"></script>
+    <script src="https://unpkg.com/zone.js@0.8.17/dist/zone.js"></script>
+    <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
+
+    <script>
+        var appLocation = '';
+        var boilerplatePath = '';
+        var systemJsMap = {"@ag-grid-community\/core\/dist\/styles\/ag-grid.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-grid.css","@ag-grid-community\/core\/dist\/styles\/ag-theme-balham.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-balham.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-grid.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-grid.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-balham-dark.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-balham-dark.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-balham.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-balham.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-blue.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-blue.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-bootstrap.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-bootstrap.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-dark.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-dark.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-fresh.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-fresh.css","@ag-grid-community\/all-modules\/dist\/styles\/ag-theme-material.css":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/styles\/ag-theme-material.css","@ag-grid-community\/react":"npm:@ag-grid-community\/react@22.1.2\/","@ag-grid-community\/angular":"npm:@ag-grid-community\/angular@22.1.1\/","@ag-grid-community\/vue":"npm:@ag-grid-community\/vue@22.1.2\/"};
+        var systemJsPaths = {"@ag-grid-community\/all-modules":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/ag-grid-community.cjs.js","@ag-grid-community\/client-side-row-model":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/ag-grid-community.cjs.js","@ag-grid-community\/core":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/ag-grid-community.cjs.js","@ag-grid-community\/csv-export":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/ag-grid-community.cjs.js","@ag-grid-community\/infinite-row-model":"https:\/\/unpkg.com\/@ag-grid-community\/all-modules@22.1.1\/dist\/ag-grid-community.cjs.js"};
+    </script>
+
+    <!-- leave the next line as is - is replaced when deploying to archives or production -->
+    <script src="systemjs.config.js"></script>
+
+    <script>
+    System.import('main.ts').catch(function(err){ console.error(err); });
+    </script>
+
+</head>
+<body>
+    <my-app>Loading ag-Grid example&hellip;</my-app>
+</body>
+</html>
