@@ -97,7 +97,7 @@ MyCustomCellRenderer.prototype.init = function (params) {
             ...params.value,
             expanded: !params.value.expanded
         });
-        params.api.resetRowHeights();
+        params.api.Heights();
     })
 
     // styling and appending

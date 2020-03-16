@@ -1,5 +1,4 @@
-function TotalAndFilteredRowCountComponent() {
-}
+function TotalAndFilteredRowCountComponent() { }
 
 TotalAndFilteredRowCountComponent.prototype.init = function (params) {
     this.params = params;
@@ -15,26 +14,14 @@ TotalAndFilteredRowCountComponent.prototype.init = function (params) {
     this.eCount.className = 'ag-name-value-value';
 
     this.eGui.appendChild(this.eCount);
-
-    // params.api.addEventListener('firstDataRendered', this.onGridReady.bind(this));
-
-    params.api.addEventListener('hack', params => {
-        this.eCount.innerText =  params.response.totalRows + ' total rows';
-        // this.eGui.innerHTML = params.response.totalRows + ' total rows';
-    });
 };
 
 TotalAndFilteredRowCountComponent.prototype.getGui = function () {
     return this.eGui;
 };
 
-TotalAndFilteredRowCountComponent.prototype.destroy = function () {
-    this.params.removeEventListener("firstDataRendered", this.onGridReady);
+TotalAndFilteredRowCountComponent.prototype.destroy = function () { };
+
+TotalAndFilteredRowCountComponent.prototype.updateTotals = function (total) {
+    this.eCount.innerText = total;
 };
-
-TotalAndFilteredRowCountComponent.prototype.onGridReady = function () {
-    
-
-//   this.eCount.innerText = this.params.api.getModel().rowNodeBlockLoader.blocks[0].rowNodes.length
-
- };

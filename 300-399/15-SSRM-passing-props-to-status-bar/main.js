@@ -21,6 +21,7 @@ var gridOptions = {
   components: {
     totalAndFilteredRowCountComponent: TotalAndFilteredRowCountComponent,
   },
+  onFirstDataRendered: function (params) { },
   statusBar: {
     statusPanels: [
       {
@@ -42,7 +43,7 @@ var gridOptions = {
 };
 
 // setup the grid after the page has finished loading
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, gridOptions);
 
@@ -51,10 +52,10 @@ document.addEventListener('DOMContentLoaded', function() {
       url:
         'https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinners.json',
     })
-    .then(function(data) {
+    .then(function (data) {
       // add id to data
       var idSequence = 0;
-      data.forEach(function(item) {
+      data.forEach(function (item) {
         item.id = idSequence++;
       });
 
@@ -66,22 +67,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function ServerSideDatasource(server) {
   return {
-    getRows: function(params) {
+    getRows: function (params) {
       // adding delay to simulate real sever call
-      setTimeout(function() {
+      setTimeout(function () {
         var response = server.getResponse(params.request);
 
-        gridOptions.api.dispatchEvent({
-          type: 'hack',
-          response: response
-        });
+        var statusBar = gridOptions.api.getStatusPanel(
+          'totalAndFilteredRowCountComponent'
+        );
+        statusBar.updateTotals(response.totalRows);
 
         if (response.success) {
-          // call the success callback
-
           params.successCallback(response.rows, response.lastRow);
         } else {
-          // inform the grid request failed
           params.failCallback();
         }
       }, 500);
@@ -91,22 +89,20 @@ function ServerSideDatasource(server) {
 
 function FakeServer(allData) {
   return {
-    getResponse: function(request) {
+    getResponse: function (request) {
       console.log(
         'asking for rows: ' + request.startRow + ' to ' + request.endRow
       );
 
-      // take a slice of the total rows
       var rowsThisPage = allData.slice(request.startRow, request.endRow);
 
-      // if on or after the last page, work out the last row.
       var lastRow = allData.length <= request.endRow ? data.length : -1;
 
       return {
         success: true,
         rows: rowsThisPage,
         lastRow: lastRow,
-        totalRows: allData.length
+        totalRows: allData.length,
       };
     },
   };
