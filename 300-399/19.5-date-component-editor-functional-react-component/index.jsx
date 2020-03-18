@@ -1,6 +1,13 @@
 'use strict';
 
-import React, { Component, useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  Component,
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import { render } from 'react-dom';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
@@ -15,48 +22,33 @@ const datePicker = forwardRef((props, ref) => {
     $(inputRef.current).datepicker({ dateFormat: 'dd/mm/yy' });
   }, []);
 
-  useImperativeHandle(ref, () => {
-    return {
-      afterGuiAttached() {
-        setTimeout(() => {
-          inputRef.current.focus();
-          inputRef.current.select();
-        }, 500);
-      },
-      getValue() {
-        return inputRef.current.value;
-      }
-    }
-  }, [inputRef])
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        afterGuiAttached() {
+          setTimeout(() => {
+            inputRef.current.focus();
+            inputRef.current.select();
+          }, 500);
+        },
+        getValue() {
+          return inputRef.current.value;
+        },
+      };
+    },
+    [inputRef]
+  );
 
   return (
-    <input ref={inputRef} className="ag-input-field-input ag-text-field-input" style={{ height: '100%' }} type="text" />
-  )
-})
-
-
-
-// function DatePicker() {}
-
-// DatePicker.prototype.init = function(params) {
-//   this.eInput = document.createElement('input');
-//   this.eInput.value = params.value;
-//   $(this.eInput).datepicker({ dateFormat: 'dd/mm/yy' });
-// };
-// DatePicker.prototype.getGui = function() {
-//   return this.eInput;
-// };
-// DatePicker.prototype.afterGuiAttached = function() {
-//   this.eInput.focus();
-//   // this.eInput.select();
-// };
-// DatePicker.prototype.getValue = function() {
-//   return this.eInput.value;
-// };
-// // DatePicker.prototype.destroy = function() {};
-// // DatePicker.prototype.isPopup = function() {
-// //   return false;
-// // };
+    <input
+      ref={inputRef}
+      className="ag-input-field-input ag-text-field-input"
+      style={{ height: '100%' }}
+      type="text"
+    />
+  );
+});
 
 class GridExample extends Component {
   constructor(props) {
@@ -68,7 +60,6 @@ class GridExample extends Component {
         {
           field: 'date',
           editable: true,
-          // cellEditor: DatePicker,
           cellEditorFramework: datePicker,
         },
         {
