@@ -7,56 +7,56 @@ import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-  const datePicker = forwardRef((props,ref) => {
-    const inputRef = useRef(props.value);
+const datePicker = forwardRef((props, ref) => {
+  const inputRef = useRef(null);
 
-    useEffect(() => {
-      inputRef.current.value = props.value;
-        $(inputRef.current).datepicker({ dateFormat: 'dd/mm/yy' });
-    }, []);
+  useEffect(() => {
+    inputRef.current.value = props.value;
+    $(inputRef.current).datepicker({ dateFormat: 'dd/mm/yy' });
+  }, []);
 
-    useImperativeHandle(ref, () => {
-      return {
-        afterGuiAttached() {
-          setTimeout(() => {
-            inputRef.current.focus();
-            inputRef.current.select();
-          }, 500);
-        },
-        getValue() {
-          return inputRef.current.value;
-        }
+  useImperativeHandle(ref, () => {
+    return {
+      afterGuiAttached() {
+        setTimeout(() => {
+          inputRef.current.focus();
+          inputRef.current.select();
+        }, 500);
+      },
+      getValue() {
+        return inputRef.current.value;
       }
-    }, [inputRef])
+    }
+  }, [inputRef])
 
-    return (
-      <input ref={inputRef} className="ag-input-field-input ag-text-field-input" style={{height: '100%'}} type="text"/>
-    )
-  })
-  
-  
+  return (
+    <input ref={inputRef} className="ag-input-field-input ag-text-field-input" style={{ height: '100%' }} type="text" />
+  )
+})
 
-  // function DatePicker() {}
 
-  // DatePicker.prototype.init = function(params) {
-  //   this.eInput = document.createElement('input');
-  //   this.eInput.value = params.value;
-  //   $(this.eInput).datepicker({ dateFormat: 'dd/mm/yy' });
-  // };
-  // DatePicker.prototype.getGui = function() {
-  //   return this.eInput;
-  // };
-  // DatePicker.prototype.afterGuiAttached = function() {
-  //   this.eInput.focus();
-  //   // this.eInput.select();
-  // };
-  // DatePicker.prototype.getValue = function() {
-  //   return this.eInput.value;
-  // };
-  // // DatePicker.prototype.destroy = function() {};
-  // // DatePicker.prototype.isPopup = function() {
-  // //   return false;
-  // // };
+
+// function DatePicker() {}
+
+// DatePicker.prototype.init = function(params) {
+//   this.eInput = document.createElement('input');
+//   this.eInput.value = params.value;
+//   $(this.eInput).datepicker({ dateFormat: 'dd/mm/yy' });
+// };
+// DatePicker.prototype.getGui = function() {
+//   return this.eInput;
+// };
+// DatePicker.prototype.afterGuiAttached = function() {
+//   this.eInput.focus();
+//   // this.eInput.select();
+// };
+// DatePicker.prototype.getValue = function() {
+//   return this.eInput.value;
+// };
+// // DatePicker.prototype.destroy = function() {};
+// // DatePicker.prototype.isPopup = function() {
+// //   return false;
+// // };
 
 class GridExample extends Component {
   constructor(props) {
