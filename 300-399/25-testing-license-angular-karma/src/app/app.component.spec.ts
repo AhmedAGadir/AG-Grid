@@ -4,11 +4,25 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 
+import { LicenseManager } from 'ag-grid-enterprise';
+
 describe('Component AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
-  let componentInstance;
 
-  beforeEach(done => {
+  const LICENSE_KEY = 'YOUR_KEY';
+
+  const INVALID_LICENSE_ERROR_MESSAGES = [
+    '****************************************************************************************************************',
+    '***************************************** ag-Grid Enterprise License *******************************************',
+    '****************************************** License Key Not Found ***********************************************',
+    '* All ag-Grid Enterprise features are unlocked.                                                                *',
+    '* This is an evaluation only version, it is not licensed for development projects intended for production.     *',
+    '* If you want to hide the watermark, please email info@ag-grid.com for a trial license.                        *',
+    '****************************************************************************************************************',
+    '****************************************************************************************************************'
+  ];
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
@@ -19,46 +33,28 @@ describe('Component AppComponent', () => {
       providers: []
     });
 
+    spyOn(window.console, 'error');
+
+  });
+
+  it('should print error messages to console', () => {
+    LicenseManager.setLicenseKey(null);
+
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
-    componentInstance = fixture.componentInstance;
-
-    spyOn(window.console, 'error');
-
-    componentInstance.rowData.toPromise().then(() => {
-      fixture.detectChanges();
-      done();
+    INVALID_LICENSE_ERROR_MESSAGES.forEach(errorMessage => {
+      expect(window.console.error).toHaveBeenCalledWith(errorMessage);
     });
   });
 
-  it('should display ag grid', () => {
-    const gridEl = fixture.nativeElement.querySelector('.ag-theme-alpine');
-    const rootWrapper = gridEl.querySelector('.ag-root-wrapper');
-    expect(rootWrapper).toBeTruthy();
+  it('should NOT print error messages to the console', () => {
+    LicenseManager.setLicenseKey(LICENSE_KEY);
+
+    fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    expect(window.console.error).not.toHaveBeenCalled();
   });
 
-  it('should print error message to console', () => {
-    console.log('TEST OUTPUT.');
-    expect(window.console.error).toHaveBeenCalled();
-  });
-
-  it('should have a Make column', () => {
-    const priceColumnDiv = document.querySelector('[col-id="make"]');
-    expect(priceColumnDiv).toBeTruthy();
-  });
-
-  it('should have a Model column', () => {
-    const modelColumnDiv = document.querySelector('[col-id="model"]');
-    expect(modelColumnDiv).toBeTruthy();
-  });
-
-  it('should have a Price column', () => {
-    const priceColumnDiv = document.querySelector('[col-id="price"]');
-    expect(priceColumnDiv).toBeTruthy();
-  });
-
-  it('should contain rowData', () => {
-    expect(componentInstance.gridOptions.rowData).toBeTruthy();
-  });
 });
