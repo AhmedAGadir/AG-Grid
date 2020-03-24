@@ -10,16 +10,16 @@ import { LICENSE_KEY } from './license-key.js';
 describe('Component AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
 
-  const INVALID_LICENSE_ERROR_MESSAGES = [
-    '****************************************************************************************************************',
-    '***************************************** ag-Grid Enterprise License *******************************************',
-    '****************************************** License Key Not Found ***********************************************',
-    '* All ag-Grid Enterprise features are unlocked.                                                                *',
-    '* This is an evaluation only version, it is not licensed for development projects intended for production.     *',
-    '* If you want to hide the watermark, please email info@ag-grid.com for a trial license.                        *',
-    '****************************************************************************************************************',
-    '****************************************************************************************************************'
-  ];
+  // const INVALID_LICENSE_ERROR_MESSAGES = [
+  //   '****************************************************************************************************************',
+  //   '***************************************** ag-Grid Enterprise License *******************************************',
+  //   '****************************************** License Key Not Found ***********************************************',
+  //   '* All ag-Grid Enterprise features are unlocked.                                                                *',
+  //   '* This is an evaluation only version, it is not licensed for development projects intended for production.     *',
+  //   '* If you want to hide the watermark, please email info@ag-grid.com for a trial license.                        *',
+  //   '****************************************************************************************************************',
+  //   '****************************************************************************************************************'
+  // ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
