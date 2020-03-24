@@ -33,7 +33,7 @@ describe('Component AppComponent', () => {
     });
   });
 
-  it('AppComponent should set the license key', () => {
+  it('should set the license key', () => {
     spyOn(LicenseManager, 'setLicenseKey');
 
     fixture = TestBed.createComponent(AppComponent);
@@ -42,15 +42,13 @@ describe('Component AppComponent', () => {
     expect(LicenseManager.setLicenseKey).toHaveBeenCalledWith(LICENSE_KEY);
   });
 
-  it('AppComponent should NOT print error messages to the console', () => {
+  it('should NOT print error messages to the console', () => {
     spyOn(window.console, 'error');
 
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
-    INVALID_LICENSE_ERROR_MESSAGES.forEach(errorMessage => {
-      expect(window.console.error).not.toHaveBeenCalledWith(errorMessage);
-    });
+    expect(window.console.error).not.toHaveBeenCalled();
   });
 
 });
