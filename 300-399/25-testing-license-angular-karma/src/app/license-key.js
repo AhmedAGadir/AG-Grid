@@ -1,0 +1,1 @@
+export const LICENSE_KEY = 'YOUR_KEY'

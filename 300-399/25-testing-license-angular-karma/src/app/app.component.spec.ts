@@ -5,11 +5,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 
 import { LicenseManager } from 'ag-grid-enterprise';
+import { LICENSE_KEY } from './license-key.js';
 
 describe('Component AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
-
-  const LICENSE_KEY = 'YOUR_KEY';
 
   const INVALID_LICENSE_ERROR_MESSAGES = [
     '****************************************************************************************************************',
@@ -32,29 +31,26 @@ describe('Component AppComponent', () => {
       ],
       providers: []
     });
-
-    spyOn(window.console, 'error');
-
   });
 
-  it('should print error messages to console', () => {
-    LicenseManager.setLicenseKey(null);
+  it('AppComponent should set the license key', () => {
+    spyOn(LicenseManager, 'setLicenseKey');
+
+    fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    expect(LicenseManager.setLicenseKey).toHaveBeenCalledWith(LICENSE_KEY);
+  });
+
+  it('AppComponent should NOT print error messages to the console', () => {
+    spyOn(window.console, 'error');
 
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
     INVALID_LICENSE_ERROR_MESSAGES.forEach(errorMessage => {
-      expect(window.console.error).toHaveBeenCalledWith(errorMessage);
+      expect(window.console.error).not.toHaveBeenCalledWith(errorMessage);
     });
-  });
-
-  it('should NOT print error messages to the console', () => {
-    LicenseManager.setLicenseKey(LICENSE_KEY);
-
-    fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-
-    expect(window.console.error).not.toHaveBeenCalled();
   });
 
 });

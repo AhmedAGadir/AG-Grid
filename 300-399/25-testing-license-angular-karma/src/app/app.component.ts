@@ -3,6 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { GridOptions } from "ag-grid-community";
 
 import 'ag-grid-enterprise';
+import { LicenseManager } from 'ag-grid-enterprise';
+import { LICENSE_KEY } from './license-key.js';
 
 @Component({
   selector: "app-root",
@@ -26,7 +28,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    LicenseManager.setLicenseKey(LICENSE_KEY);
     this.rowData = this.http.get("https://api.myjson.com/bins/15psn9");
-
   }
 }
