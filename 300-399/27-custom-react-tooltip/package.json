@@ -1,0 +1,22 @@
+{
+  "name": "react",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "ag-grid-community": "^23.0.2",
+    "ag-grid-enterprise": "^23.0.2",
+    "ag-grid-react": "^23.0.2",
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
+    "react-tooltip": "^4.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-scripts": "latest"
+  }
+}
