@@ -1,0 +1,15 @@
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+$cellColor: #F06D06;
+
+.ag-theme-alpine {
+  @include ag-theme-alpine((
+    odd-row-background-color: #BFC8DC
+  ));
+
+  .ag-cell {
+    color: $cellColor;
+  }
+}
+

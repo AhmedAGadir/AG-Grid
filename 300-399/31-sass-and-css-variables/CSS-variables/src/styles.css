@@ -1,0 +1,12 @@
+:root {
+  --cellColor: #f06d06;
+  --oddBkgColor: #bfc8dc;
+}
+
+.ag-row:nth-of-type(even) {
+  background-color: var(--oddBkgColor);
+}
+
+.ag-cell {
+  color: var(--cellColor);
+}
