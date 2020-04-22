@@ -1,0 +1,20 @@
+.ag-theme-balham .ag-root-wrapper {
+  border-top-width: 0px !important;
+}
+
+.ag-header-group-cell-no-group {
+  background: white !important;
+}
+
+.ag-header-group-cell-no-group .ag-header-cell-resize {
+    display: none;
+}
+
+.ag-header-group-cell.ag-header-group-cell-no-group:after {
+    display: none !important;
+}
+
+.ag-header-group-cell.ag-header-group-cell-with-group {
+  border: 1px solid #BDC3C7 !important;
+  border-bottom-width: 0px !important;
+}
