@@ -81,10 +81,10 @@ function getDetailRowData(params) {
 
 function ServerSideDatasource(server) {
   return {
-    getRows: function(params) {
+    getRows: function (params) {
       console.log('[Datasource] - rows requested by grid: ', params.request);
       var response = server.getData(params.request);
-      setTimeout(function() {
+      setTimeout(function () {
         if (response.success) {
           params.successCallback(response.rows, response.lastRow);
         } else {
@@ -95,7 +95,7 @@ function ServerSideDatasource(server) {
   };
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, gridOptions);
 
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
       url:
         'https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/callData.json',
     })
-    .then(function(data) {
+    .then(function (data) {
       fakeServer = new FakeServer(data);
       datasource = new ServerSideDatasource(fakeServer);
       gridOptions.api.setServerSideDatasource(datasource);
@@ -118,9 +118,10 @@ function onGridReady(params) {
 function expandNodes(...args) {
   args.forEach((id, pos) => {
     let timer = (pos + 1) * 1000;
-    setTimeout(function() {
+    setTimeout(function () {
       var someRow = gridOptions.api.getRowNode(id);
       someRow.setExpanded(true);
     }, timer);
   });
 }
+
