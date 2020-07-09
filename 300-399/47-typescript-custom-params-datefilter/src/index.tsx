@@ -8,7 +8,6 @@ import {
   ColumnApi,
   GridReadyEvent,
   FirstDataRenderedEvent,
-  IFilterParams
 } from "ag-grid-community";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -16,7 +15,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 import MyDateComponent from "./DateComponent";
 
-import { Loggable, Athlete } from "./interfaces";
+import { MyDateFilterParams, Athlete } from "./interfaces";
 
 interface AppProps { }
 
@@ -62,7 +61,8 @@ class App extends React.Component<AppProps, AppState> {
                   return 1;
                 }
               }
-            } as IFilterParams & Loggable
+            } as MyDateFilterParams
+
           },
           { field: "athlete" },
           { field: "country" },

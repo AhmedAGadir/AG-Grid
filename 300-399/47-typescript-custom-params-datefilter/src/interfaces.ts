@@ -1,5 +1,7 @@
-export interface Loggable {
-  logger: () => void
+import { IDateFilterParams } from "ag-grid-community";
+
+export interface MyDateFilterParams extends IDateFilterParams {
+  logger: () => void,
 }
 
 export interface Athlete {
