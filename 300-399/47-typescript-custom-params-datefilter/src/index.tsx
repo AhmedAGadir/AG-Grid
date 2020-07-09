@@ -10,7 +10,6 @@ import {
   GridReadyEvent,
   FirstDataRenderedEvent,
   IFilterParams,
-  IFilter
 } from "ag-grid-community";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -20,7 +19,7 @@ import MyDateComponent from "./DateComponent";
 
 import { Loggable, Athlete } from "./interfaces";
 
-interface AppProps {}
+interface AppProps { }
 
 interface AppState {
   rowData: Athlete[];
@@ -44,7 +43,7 @@ class App extends React.Component<AppProps, AppState> {
             filter: "agDateColumnFilter",
             filterParams: {
               logger: () => console.log("paramater passed"),
-              comparator: function(filterLocalDateAtMidnight, cellValue) {
+              comparator: function (filterLocalDateAtMidnight, cellValue) {
                 var dateAsString = cellValue;
                 var dateParts = dateAsString.split("/");
                 var cellDate = new Date(
@@ -115,10 +114,11 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   public render(): React.ReactElement {
+    let styles: React.CSSProperties = { width: "100%", height: "100vh" };
     return (
       <div
         className="ag-theme-alpine"
-        style={{ width: "100%", height: "100vh" }}
+        style={styles}
       >
         <AgGridReact
           rowData={this.state.rowData}
