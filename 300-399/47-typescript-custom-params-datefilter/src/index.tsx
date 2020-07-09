@@ -4,12 +4,11 @@ import { render } from "react-dom";
 
 import {
   GridOptions,
-  Grid,
   GridApi,
   ColumnApi,
   GridReadyEvent,
   FirstDataRenderedEvent,
-  IFilterParams,
+  IFilterParams
 } from "ag-grid-community";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
