@@ -1,13 +1,9 @@
 import React from 'react';
 import { IDate, IDateParams, IFilterParams } from 'ag-grid-community';
-
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 
-interface Loggable {
-  logger: () => void
-}
+import {Loggable} from './interfaces';
 
 interface DateComponentProps extends IDateParams { 
   filterParams: IFilterParams & Loggable

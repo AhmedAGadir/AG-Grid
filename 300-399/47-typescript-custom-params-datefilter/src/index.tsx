@@ -2,30 +2,29 @@ import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import { render } from "react-dom";
 
-import { GridOptions, Grid, GridApi, ColumnApi, GridReadyEvent, FirstDataRenderedEvent } from 'ag-grid-community';
+import {
+  GridOptions,
+  Grid,
+  GridApi,
+  ColumnApi,
+  GridReadyEvent,
+  FirstDataRenderedEvent,
+  IFilterParams,
+  IFilter
+} from "ag-grid-community";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-import MyDateComponent from './DateComponent';
+import MyDateComponent from "./DateComponent";
 
-interface Athlete {
-  athele: string,
-  age: number,
-  country: string,
-  year: number,
-  date: string,
-  sport: string,
-  gold: number,
-  silver: number,
-  total: number
-}
+import { Loggable, Athlete } from "./interfaces";
 
-interface AppProps { }
+interface AppProps {}
 
 interface AppState {
-  rowData: Athlete[],
-  gridOptions: GridOptions
+  rowData: Athlete[];
+  gridOptions: GridOptions;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -40,20 +39,22 @@ class App extends React.Component<AppProps, AppState> {
       gridOptions: {
         columnDefs: [
           {
-            field: 'date',
+            field: "date",
             minWidth: 220,
-            filter: 'agDateColumnFilter',
+            filter: "agDateColumnFilter",
             filterParams: {
-              logger: () => console.log('paramater passed'),
-              comparator: function (filterLocalDateAtMidnight, cellValue) {
+              logger: () => console.log("paramater passed"),
+              comparator: function(filterLocalDateAtMidnight, cellValue) {
                 var dateAsString = cellValue;
-                var dateParts = dateAsString.split('/');
+                var dateParts = dateAsString.split("/");
                 var cellDate = new Date(
                   Number(dateParts[2]),
                   Number(dateParts[1]) - 1,
                   Number(dateParts[0])
                 );
-                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+                if (
+                  filterLocalDateAtMidnight.getTime() === cellDate.getTime()
+                ) {
                   return 0;
                 }
                 if (cellDate < filterLocalDateAtMidnight) {
@@ -62,14 +63,14 @@ class App extends React.Component<AppProps, AppState> {
                 if (cellDate > filterLocalDateAtMidnight) {
                   return 1;
                 }
-              },
-            },
+              }
+            } as IFilterParams & Loggable
           },
-          { field: 'athlete' },
-          { field: 'country' },
-          { field: 'year' },
-          { field: 'sport' },
-          { field: 'total' },
+          { field: "athlete" },
+          { field: "country" },
+          { field: "year" },
+          { field: "sport" },
+          { field: "total" }
         ],
         defaultColDef: {
           editable: true,
@@ -78,11 +79,11 @@ class App extends React.Component<AppProps, AppState> {
           minWidth: 100,
           filter: true,
           floatingFilter: true,
-          resizable: true,
+          resizable: true
         },
         frameworkComponents: {
           agDateInput: MyDateComponent
-        },
+        }
       }
     };
   }
@@ -97,8 +98,8 @@ class App extends React.Component<AppProps, AppState> {
     };
 
     httpRequest.open(
-      'GET',
-      'https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json'
+      "GET",
+      "https://raw.githubusercontent.com/ag-grid/ag-grid/master/grid-packages/ag-grid-docs/src/olympicWinners.json"
     );
     httpRequest.send();
     httpRequest.onreadystatechange = () => {
@@ -107,7 +108,7 @@ class App extends React.Component<AppProps, AppState> {
         updateData(data);
       }
     };
-  }
+  };
 
   private onFirstDataRendered = (params: FirstDataRenderedEvent): void => {
     params.columnApi.autoSizeAllColumns();
@@ -117,7 +118,7 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div
         className="ag-theme-alpine"
-        style={{ width: '100%', height: '100vh' }}
+        style={{ width: "100%", height: "100vh" }}
       >
         <AgGridReact
           rowData={this.state.rowData}
