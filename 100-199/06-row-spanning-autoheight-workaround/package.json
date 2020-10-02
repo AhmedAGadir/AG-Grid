@@ -11,7 +11,7 @@
     "ag-grid-community": "20.0.0",
     "ag-grid-react": "20.0.0",
     "react-beautiful-dnd": "10.0.4",
-    "lodash": "4.17.4",
+    "lodash": "4.17.20",
     "immutability-helper": "3.0.0"
   },
   "devDependencies": {},
