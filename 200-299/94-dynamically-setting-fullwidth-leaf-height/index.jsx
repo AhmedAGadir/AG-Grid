@@ -95,7 +95,7 @@ class GridExample extends Component {
 class FullWidthCellRenderer extends Component {
   constructor(props) {
     super(props);
-    this.myRef = React.createRef();
+    this.myRef = React.();
     this.onMyCustomEvent = this.onMyCustomEvent.bind(this);
   }
   componentDidMount() {
