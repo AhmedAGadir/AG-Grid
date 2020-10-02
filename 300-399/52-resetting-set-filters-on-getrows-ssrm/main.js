@@ -1,21 +1,3 @@
-// button click handler
-async function setCountryFilters() {
-  console.log('setting country filter values');
-  var instance = gridOptions.api.getFilterInstance('country');
-  let values = await getCountryValuesAsync();
-  instance.setFilterValues(values);
-  gridOptions.api.onFilterChanged();
-}
-
-// button click handler
-async function setSportFilters() {
-  console.log('setting sport filter values');
-  var instance = gridOptions.api.getFilterInstance('sport');
-  let values = await getSportValuesAsync();
-  instance.setFilterValues(values);
-  gridOptions.api.onFilterChanged();
-}
-
 var columnDefs = [
   { cellRenderer: params => params.node.rowIndex, maxWidth: 60 },
   {
@@ -94,14 +76,14 @@ var selectedCountries = null;
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 // for getting country filter values
-async function getCountryValuesAsync(params) {
+async function getCountryValuesAsync() {
   var countries = fakeServer.getCountries();
   await delay(500);
   return countries;
 }
 
 // for getting sport filter values
-async function getSportValuesAsync(params) {
+async function getSportValuesAsync() {
   var sports = fakeServer.getSports(selectedCountries);
   await delay(500);
   return sports;
@@ -136,7 +118,6 @@ ServerSideDatasource.prototype.getRows = function (params) {
       this.resetFilterValues();
     }
   }, 500);
-
 };
 
 ServerSideDatasource.prototype.resetFilterValues = async function () {
@@ -163,7 +144,6 @@ ServerSideDatasource.prototype.resetFilterValues = async function () {
   // console.log('resetting scroll position')
   //   gridOptions.api.ensureIndexVisible(topIndex === 0 ? topIndex : topIndex + 10, 'top');
   // }, 1000);
-
 };
 
 // setup the grid after the page has finished loading
