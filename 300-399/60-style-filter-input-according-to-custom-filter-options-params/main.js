@@ -39,21 +39,22 @@ var gridOptions = {
   },
   enableRangeSelection: true,
   onFilterModified: params => {
+    console.log('onFilterModified');
     const filterOptions = params.column.colDef.filterParams.filterOptions;
     const dropDownOption = params.filterInstance.eGui.firstElementChild.firstElementChild.innerText
     const inputEl = params.filterInstance.eCondition1Body.querySelector('input');
-    
+
     const appliedFilterOptionIndex = filterOptions.findIndex(fO => fO.displayName === dropDownOption);
 
-    if (appliedFilterOptionIndex === -1)  {
+    if (appliedFilterOptionIndex === -1) {
       inputEl.style.backgroundColor = 'white';
       return;
     }
 
     const stylesToApply = filterOptions[appliedFilterOptionIndex].styles;
 
-    Object.keys(stylesToApply).forEach(key => {
-      inputEl.style[key] = stylesToApply[key];
+    Object.entries(stylesToApply).forEach(([key, value]) => {
+      inputEl.style[key] = value;
     });
 
   }

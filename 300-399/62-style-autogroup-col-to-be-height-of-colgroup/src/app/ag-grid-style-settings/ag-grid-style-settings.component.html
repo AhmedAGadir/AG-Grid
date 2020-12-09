@@ -1,0 +1,21 @@
+<button class="pointer btn btn-primary" (click)="openHeaderSettings()">Header Styles</button>
+
+
+<div class="card my-3 p-2 w-100" *ngIf="isHeaderSettings">
+  <div class="row">
+    <label class="col-6">background-color</label>:
+    <div class="col-4 mt-1"><input type="color" [(ngModel)]="headerSettings.bgColor" class="form-control" style="width:30px;height:30px;padding:0 !important;"></div>
+  </div>
+  <div class="row">
+    <label class="col-6">color</label>:
+    <div class="col-4 mt-1"><input type="color" [(ngModel)]="headerSettings.color" class="form-control" style="width:30px;height:30px;padding:0 !important;;"></div>
+  </div>
+  <div class="row">
+    <label class="col-6">font-size</label>:
+    <div class="col-4 mt-1"><input  class="form-control" [(ngModel)]="headerSettings.fontSize" style="width:50px;height:20px;padding:none;"></div>
+  </div>
+  <div class="w-100 mt-2 d-flex justify-content-end">
+    <button class="btn btn-danger mr-1" style="width:120px;height:30px; line-height:0" (click)="clearHeaderSettings()" >Clear</button>
+    <button class="btn btn-success" style="width:120px;height:30px; line-height:0" (click)="applyHeaderSettings()" >Apply</button>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="ml-2 my-2">
+  <app-ag-grid-style-settings 
+      [columnDefs]="gridOptions.columnDefs"
+      (onHeaderSettingsApply)="onHeaderSettingsApply($event)"
+      (onClearHeaderSettings)="onClearHeaderSettings($event)" >
+  </app-ag-grid-style-settings>
+</div>
+<div style="width: 100%; height:450px;" class="card">
+    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" class="ag-theme-fresh" [gridOptions]="gridOptions" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>

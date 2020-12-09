@@ -1,0 +1,34 @@
+.pointer {
+  cursor: pointer;
+}
+
+.ag-header-cell,
+.ag-header-group-cell {
+  padding: 0 !important;
+}
+
+.empty-column-group {
+  border-bottom: none !important;
+}
+
+/* ***** AUTOGROUP COLUMN STYLES ***** */
+
+.ag-header-row,
+.ag-header-cell {
+  overflow-y: visible !important;
+}
+
+.ag-header-cell[col-id="ag-Grid-AutoColumn"] {
+  bottom: 0;
+  height: 50px;
+}
+
+[col-id="ag-Grid-AutoColumn"] div.pl-2 {
+  height: 100%;
+  position: relative;
+}
+
+[col-id="ag-Grid-AutoColumn"] div.pl-2 span {
+  position: absolute;
+  bottom: 0;
+}
