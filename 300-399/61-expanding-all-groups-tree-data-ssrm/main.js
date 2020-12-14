@@ -57,12 +57,17 @@ var gridOptions = {
   getServerSideGroupKey: function (dataItem) {
     return dataItem.employeeId;
   },
-  onGridReady: function (params) {},
+  onGridReady: function (params) { },
   pagination: true,
-  paginationPageSize: 10,
-  cacheBlockSize: 10,
-  paginationAutoPageSize: true,
-  paginateChildRows: true
+  paginationPageSize: 5,
+  cacheBlockSize: 5,
+  // paginationAutoPageSize: true,
+  paginateChildRows: true,
+  onPaginationChanged: params => {
+    if (params.newPage) {
+      expandAll();
+    }
+  }
 };
 
 document.addEventListener('DOMContentLoaded', function () {
