@@ -1,0 +1,12 @@
+.redFont {
+  color: red;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+[col-id="xyz"].ag-cell-inline-editing {
+  padding: 0 17px !important;
+  background: limegreen !important;
+}
