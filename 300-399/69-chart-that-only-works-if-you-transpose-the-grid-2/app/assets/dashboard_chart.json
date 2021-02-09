@@ -1,0 +1,193 @@
+{
+    "status": "200 OK",
+    "errorMessage": "",
+    "data": [
+        {
+          "cId": "30",
+          "cdesc": "save my comparision",
+          "cDate": "2021-01-26 10:56:32.0",
+          "c Table": [
+        {
+          "file_id": 131,
+          "PName": "B1",
+          "PVersion": "Ok2Ship (Final)",
+          "Stage 1": {
+            "pId": 1,
+            "p Num": 1,
+            "price": "15",
+            "r price": "328",
+            "notes": null,
+            "new price 2": 38.53333333333333,
+            "new rprice": 21.866666666666667,
+            "primaryPhase": "Y",
+            "price 2": "150"
+          },
+          "Stage 2": {
+            "pId": 2,
+            "p Num": 1,
+            "price": "25",
+            "r price": "1328",
+            "notes": null,
+            "new price 2": 63.12,
+            "new rprice": 53.12,
+            "primaryPhase": "Y",
+            "price 2": "2000"
+          },
+          "Stage 3": {
+            "pId": 3,
+            "p Num": 1,
+            "price": "64",
+            "r price": "2328",
+            "notes": null,
+            "new price 2": 40.28125,
+            "new rprice": 36.375,
+            "primaryPhase": "Y",
+            "price 2": "257"
+          },
+          "Stage 4": {
+            "pId": 4,
+            "p Num": 1,
+            "price": "25",
+            "r price": "3328",
+            "notes": null,
+            "new price 2": 143.12,
+            "new rprice": 133.12,
+            "primaryPhase": "Y",
+            "price 2": "3578"
+          },
+          "Stage 5": {
+            "pId": 5,
+            "p Num": 1,
+            "price": "35",
+            "r price": "4328",
+            "notes": null,
+            "new price 2": 130.8,
+            "new rprice": 123.65714285714286,
+            "primaryPhase": "Y",
+            "price 2": "4578"
+          }
+        },
+        {
+          "file_id": 132,
+          "PName": "B2",
+          "Stage 1": {
+            "pId": 1,
+            "p Num": 1,
+            "price": "15",
+            "r price": "328",
+            "notes": null,
+            "new price 2": 38.53333333333333,
+            "new rprice": 21.866666666666667,
+            "primaryPhase": "Y",
+            "price 2": "1000"
+          },
+          "Stage 2": {
+            "pId": 2,
+            "p Num": 1,
+            "price": "25",
+            "r price": "1328",
+            "notes": null,
+            "new price 2": 63.12,
+            "new rprice": 53.12,
+            "primaryPhase": "Y",
+            "price 2": "4000"
+          },
+          "Stage 3": {
+            "pId": 3,
+            "p Num": 1,
+            "price": "64",
+            "r price": "2328",
+            "notes": null,
+            "new price 2": 40.28125,
+            "new rprice": 36.375,
+            "primaryPhase": "Y",
+            "price 2": "2576"
+          },
+          "Stage 4": {
+            "pId": 4,
+            "p Num": 1,
+            "price": "25",
+            "r price": "3328",
+            "notes": null,
+            "new price 2": 143.12,
+            "new rprice": 133.12,
+            "primaryPhase": "Y",
+            "price 2": "3578"
+          },
+          "Stage 5": {
+            "pId": 5,
+            "p Num": 1,
+            "price": "35",
+            "r price": "4328",
+            "notes": null,
+            "new price 2": 130.8,
+            "new rprice": 123.65714285714286,
+            "primaryPhase": "Y",
+            "price 2": "4578"
+          }
+        },
+        {
+          "file_id": 133,
+          "PName": "B3",
+          "PVersion": "OK2Scale (Post EVT)",
+          "Stage 1": {
+            "pId": 1,
+            "p Num": 1,
+            "price": "15",
+            "r price": "328",
+            "notes": null,
+            "new price 2": 38.53333333333333,
+            "new rprice": 21.866666666666667,
+            "primaryPhase": "Y",
+            "price 2": "1000"
+          },
+          "Stage 2": {
+            "pId": 2,
+            "p Num": 1,
+            "price": "25",
+            "r price": "1328",
+            "notes": null,
+            "new price 2": 63.12,
+            "new rprice": 53.12,
+            "primaryPhase": "Y",
+            "price 2": "50"
+          },
+          "Stage 3": {
+            "pId": 3,
+            "p Num": 1,
+            "price": "64",
+            "r price": "2328",
+            "notes": null,
+            "new price 2": 40.28125,
+            "new rprice": 36.375,
+            "primaryPhase": "Y",
+            "price 2": "2000"
+          },
+          "Stage 4": {
+            "pId": 4,
+            "p Num": 1,
+            "price": "25",
+            "r price": "3328",
+            "notes": null,
+            "new price 2": 143.12,
+            "new rprice": 133.12,
+            "primaryPhase": "Y",
+            "price 2": "3578"
+          },
+          "Stage 5": {
+            "pId": 5,
+            "p Num": 1,
+            "price": "35",
+            "r price": "4328",
+            "notes": null,
+            "new price 2": 130.8,
+            "new rprice": 123.65714285714286,
+            "primaryPhase": "Y",
+            "price 2": "4578"
+          }
+        }
+      ]
+        }
+      ]
+    }
+  
