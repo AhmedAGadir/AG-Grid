@@ -1,0 +1,15 @@
+.ag-header-row .ag-header-cell-text {
+  white-space: normal !important;
+}
+
+.customHeader {
+  white-space: normal;
+}
+
+.ag-header-cell-resize {
+  border-left: 1px solid #bdc3c7;
+}
+
+.ag-header-cell::after {
+  right: 3px !important;
+}
