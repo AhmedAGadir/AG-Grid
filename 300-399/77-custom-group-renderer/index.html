@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>JavaScript example</title>
+		<meta charSet="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<style media="only screen">
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                box-sizing: border-box;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            html {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0;
+                overflow: auto;
+            }
+
+            body {
+                padding: 1rem;
+                overflow: auto;
+            }
+            .my-renderer-open.hide {
+                display: none;
+            }
+            .my-renderer-close.hide {
+                display: none;
+            }
+        </style>
+	</head>
+	<body>
+        <p>In this example group nodes are aligned to the right if they have less than 5 children</p>
+		<div id="myGrid" class="ag-theme-alpine" style="height: 100%;">
+		</div>
+		<script>var __basePath = './';</script>
+		<script src="https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.min.js">
+		</script>
+		<script src="main.js">
+		</script>
+	</body>
+</html>

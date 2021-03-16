@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>React example</title>
+		<meta charSet="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<style media="only screen">
+            html, body, #root {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                box-sizing: border-box;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            html {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0;
+                overflow: auto;
+            }
+
+            body {
+                padding: 1rem;
+                overflow: auto;
+            }
+        </style>
+	</head>
+	<body>
+		<div id="root">Loading React example…</div>
+		<script>
+            var appLocation = './';
+            var boilerplatePath = '';
+            var systemJsMap = {
+                "@ag-grid-community/all-modules/dist/styles/ag-grid.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-grid.css",
+                "@ag-grid-community/core/dist/styles/ag-grid.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-grid.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-alpine-dark.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-alpine-dark.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-alpine-dark.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-alpine-dark.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-alpine.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-alpine.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-alpine.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-alpine.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-balham-dark.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-balham-dark.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-balham-dark.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-balham-dark.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-balham.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-balham.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-balham.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-blue.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-blue.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-blue.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-blue.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-bootstrap.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-bootstrap.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-bootstrap.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-bootstrap.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-dark.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-dark.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-dark.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-dark.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-fresh.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-fresh.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-fresh.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-fresh.css",
+                "@ag-grid-community/all-modules/dist/styles/ag-theme-material.css": "https://unpkg.com/@ag-grid-community/all-modules@25.1.0/dist/styles/ag-theme-material.css",
+                "@ag-grid-community/core/dist/styles/ag-theme-material.css": "https://unpkg.com/@ag-grid-community/core@25.1.0/dist/styles/ag-theme-material.css",
+                "@ag-grid-community/react": "https://unpkg.com/@ag-grid-community/react@25.1.0/",
+                "@ag-grid-community/angular": "https://unpkg.com/@ag-grid-community/angular@25.1.0/",
+                "@ag-grid-community/vue": "https://unpkg.com/@ag-grid-community/vue@25.1.0/",
+                "ag-grid-community": "https://unpkg.com/ag-grid-community@25.1.0/",
+                "ag-grid-enterprise": "https://unpkg.com/ag-grid-enterprise@25.1.0/",
+                "ag-grid-angular": "https://unpkg.com/ag-grid-angular@25.1.0/",
+                "ag-grid-react": "https://unpkg.com/ag-grid-react@25.1.0/",
+                "ag-grid-vue": "https://unpkg.com/ag-grid-vue@25.1.0/"
+            };
+            var systemJsPaths = {
+                "@ag-grid-community/all-modules": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-community/client-side-row-model": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-community/core": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-community/csv-export": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-community/infinite-row-model": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/all-modules": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/charts": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/clipboard": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/column-tool-panel": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/core": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/date-time-cell-editor": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/excel-export": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/filter-tool-panel": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/master-detail": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/menu": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/multi-filter": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/range-selection": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/rich-select": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/row-grouping": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/server-side-row-model": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/set-filter": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/side-bar": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/status-bar": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js",
+                "@ag-grid-enterprise/viewport-row-model": "https://unpkg.com/@ag-grid-enterprise/all-modules@25.1.0/dist/ag-grid-enterprise.cjs.js"
+            };
+        </script>
+		<script src="https://unpkg.com/systemjs@0.19.47/dist/system.js">
+		</script>
+		<script src="systemjs.config.js">
+		</script>
+		<script>System.import('./index.jsx').catch(function(err) { console.error(err); });</script>
+	</body>
+</html>
