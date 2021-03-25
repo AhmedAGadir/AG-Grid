@@ -1,0 +1,9 @@
+{
+  "name": "js-ag-grid",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "ag-grid-community": "^24.0.0",
+    "ag-grid-enterprise": "^24.0.0"
+  }
+}
