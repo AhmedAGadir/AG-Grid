@@ -1,22 +1,16 @@
 var gridOptions = {
   columnDefs: [
-    { field: 'age', maxWidth: 90 },
-    { field: 'country', minWidth: 150 },
-    { field: 'year', maxWidth: 90 },
-    { field: 'date', minWidth: 150 },
-    { field: 'sport', rowGroup: true, minWidth: 150 },
-    { field: 'gold' },
-    { field: 'silver' },
-    { field: 'bronze' },
-    { field: 'total' },
+    { field: 'country', cellRenderer: 'myRenderer', },
+    { field: 'sport', rowGroup: true, hide: true },
+    { field: 'athlete' },
+    { field: 'country' },
   ],
   autoGroupColumnDef: {
-    minWidth: 200,
+    // minWidth: 200,
     field: 'athlete',
     cellRenderer: 'myRenderer',
   },
   defaultColDef: {
-    // cellRenderer: 'myRenderer',
     resizable: true,
     flex: 1,
     minWidth: 100,
@@ -42,10 +36,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function MyRenderer() {}
+function MyRenderer() { }
 
 MyRenderer.prototype.init = function (params) {
   this.params = params;
+
+  if (params.value === null || params.value === undefined) {
+    this.eGui = document.createElement('div');
+    return;
+  }
   if (params.node.group) {
     let container = document.createElement('div');
     container.innerHTML = `
@@ -101,7 +100,7 @@ MyRenderer.prototype.updateGroupIcons = function () {
 
 MyRenderer.prototype.createInput = function () {
   let input = document.createElement('input');
-  input.value = this.params.value ? this.params.value : '';
+  input.value = this.params.value;
   input.addEventListener('input', (e) => {
     this.params.node.setDataValue(this.params.column.colId, e.target.value);
     console.log(this.params.node.data);
@@ -109,6 +108,6 @@ MyRenderer.prototype.createInput = function () {
   return input;
 };
 
-MyRenderer.prototype.toggleExpanded = function() {
+MyRenderer.prototype.toggleExpanded = function () {
   this.params.node.setExpanded(!this.params.node.expanded);
 }
