@@ -1,0 +1,4 @@
+export const types = {
+  ROW_SELECTED: 'ROW_SELECTED',
+  ROW_DESELECTED: 'ROW_DESELECTED',
+};
