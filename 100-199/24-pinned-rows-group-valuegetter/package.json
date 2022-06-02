@@ -6,7 +6,7 @@
     "@angular/common": "7.2.4",
     "@angular/compiler": "7.2.4",
     "@angular/compiler-cli": ">=2.1.x",
-    "@angular/core": "7.2.4",
+    "@angular/core": "11.0.5",
     "@angular/forms": "7.2.4",
     "@angular/platform-browser": "7.2.4",
     "@angular/platform-browser-dynamic": "7.2.4",
